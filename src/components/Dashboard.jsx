@@ -243,7 +243,7 @@ export default function Dashboard({ token, onLogout }) {
               <Crown className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: colors.verdePrimario }} />
             </div>
             <div>
-              <h2 className="text-white font-bold text-base sm:text-lg">AKAHL CLUB</h2>
+              <h2 className="text-white font-bold text-base sm:text-lg">Akahl Club</h2>
               <p className="text-[10px] sm:text-xs uppercase tracking-wider" style={{ color: colors.mostazaPrimario }}>{t('dashboard.memberPortal')}</p>
             </div>
           </div>

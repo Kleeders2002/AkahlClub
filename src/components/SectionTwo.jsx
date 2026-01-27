@@ -102,7 +102,7 @@ export default function SectionTwo() {
               {/* Descripción elegante - Responsive */}
               <p 
                 className="text-base md:text-lg text-[#233c33]/80 leading-relaxed max-w-xl font-light"
-                dangerouslySetInnerHTML={{ __html: t('section2.description') || "AKAHL CLUB no es una tienda. Es un <strong class='font-medium text-[#233c33]'>ecosistema exclusivo</strong> que transforma tu relación con la moda en una expresión auténtica, refinada y duradera." }}
+                dangerouslySetInnerHTML={{ __html: t('section2.description') || "Akahl Club no es una tienda. Es un <strong class='font-medium text-[#233c33]'>ecosistema exclusivo</strong> que transforma tu relación con la moda en una expresión auténtica, refinada y duradera." }}
               />
 
               {/* Línea divisoria sutil */}

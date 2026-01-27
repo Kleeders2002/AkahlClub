@@ -31,7 +31,7 @@ const PrivacyModal = ({ isOpen, onClose }) => {
                 1. {t('privacy.section1.title', 'Información que Recopilamos')}
               </h4>
               <p className="font-montserrat text-sm leading-relaxed mb-3">
-                {t('privacy.section1.content', 'Recopilamos información personal que nos proporcionas voluntariamente cuando te registras en AKAHL CLUB:')}
+                {t('privacy.section1.content', 'Recopilamos información personal que nos proporcionas voluntariamente cuando te registras en Akahl Club:')}
               </p>
               <ul className="font-montserrat text-sm space-y-2 list-disc pl-5">
                 <li>{t('privacy.section1.item1', 'Nombre completo y apellido')}</li>

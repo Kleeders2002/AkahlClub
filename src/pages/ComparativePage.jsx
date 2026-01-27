@@ -505,7 +505,7 @@ const ComparativePage = () => {
 
             {/* Descripción */}
             <p className="text-base md:text-lg text-[#152821]/80 leading-relaxed max-w-2xl mx-auto font-light mb-12">
-              {t('comparative.highlight_section.description', 'En AKAHL CLUB no solo te ofrecemos beneficios, te guiamos en un viaje de transformación personal donde el estilo se convierte en tu firma distintiva.')}
+              {t('comparative.highlight_section.description', 'En Akahl Club no solo te ofrecemos beneficios, te guiamos en un viaje de transformación personal donde el estilo se convierte en tu firma distintiva.')}
             </p>
 
             {/* Línea divisoria */}

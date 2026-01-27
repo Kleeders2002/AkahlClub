@@ -48,7 +48,7 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
       alreadyRegisteredMessage: "This email is already part of our exclusive circle. You're receiving all our updates and special benefits.",
       alreadyRegisteredNote: "Check your inbox for our latest exclusive content.",
       redirecting: "Redirecting to main content...",
-      title: "AKAHL CLUB",
+      title: "Akahl Club",
       subtitle: "Exclusive VIP Access",
       description: "Join the private circle and get exclusive benefits before anyone else",
       benefits: [
@@ -63,7 +63,7 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
         phoneCode: "Code",
         phone: "Phone (optional)"
       },
-      privacyCheckbox: "By registering, you accept our Privacy Policy and receive exclusive communications from AKAHL CLUB. You can unsubscribe at any time.",
+      privacyCheckbox: "By registering, you accept our Privacy Policy and receive exclusive communications from Akahl Club. You can unsubscribe at any time.",
       submitButton: "Join the VIP Club",
       cancelButton: "Continue without registering now",
       privacyNote: "Your information is safe with us. We will not share your data with third parties.",
@@ -82,7 +82,7 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
       alreadyRegisteredMessage: "Este correo ya forma parte de nuestro círculo exclusivo. Estás recibiendo todas nuestras actualizaciones y beneficios especiales.",
       alreadyRegisteredNote: "Revisa tu bandeja de entrada para ver nuestro último contenido exclusivo.",
       redirecting: "Redirigiendo al contenido principal...",
-      title: "AKAHL CLUB",
+      title: "Akahl Club",
       subtitle: "Acceso Exclusivo VIP",
       description: "Únete al círculo privado y obtén beneficios exclusivos antes que nadie",
       benefits: [
@@ -97,7 +97,7 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
         phoneCode: "Código",
         phone: "Teléfono (opcional)"
       },
-      privacyCheckbox: "Al registrarte, aceptas nuestra Política de Privacidad y recibir comunicaciones exclusivas de AKAHL CLUB. Puedes darte de baja en cualquier momento.",
+      privacyCheckbox: "Al registrarte, aceptas nuestra Política de Privacidad y recibir comunicaciones exclusivas de Akahl Club. Puedes darte de baja en cualquier momento.",
       submitButton: "Unirme al Club VIP",
       cancelButton: "Continuar sin registrarme ahora",
       privacyNote: "Tu información está segura con nosotros. No compartiremos tus datos con terceros.",
@@ -510,7 +510,7 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
                 />
                 <img 
                   src="https://i.ibb.co/mFRJ8DWJ/Brutalist-Webzine-Blog-Post-Bold-Instagram-Post-Renaissance-CD-Cover-Art-2.png" 
-                  alt="AKAHL CLUB"
+                  alt="Akahl Club"
                   className="h-16 mx-auto object-contain"
                 />
               </div>

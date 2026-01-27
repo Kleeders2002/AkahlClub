@@ -14,7 +14,7 @@ const Footer = () => {
             <div className="mb-6">
               <img 
                 src="https://i.ibb.co/mFRJ8DWJ/Brutalist-Webzine-Blog-Post-Bold-Instagram-Post-Renaissance-CD-Cover-Art-2.png" 
-                alt="AKAHL CLUB" 
+                alt="Akahl Club" 
                 className="h-12 w-auto transition-opacity duration-300 hover:opacity-80"
               />
             </div>
@@ -85,7 +85,7 @@ const Footer = () => {
         {/* Copyright y redes sociales */}
         <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="font-montserrat text-light-cream/50 text-xs tracking-wide">
-            © {new Date().getFullYear()} AKAHL CLUB · {t('footer.copyright', 'Todos los derechos reservados.')}
+            © {new Date().getFullYear()} Akahl Club · {t('footer.copyright', 'Todos los derechos reservados.')}
           </p>
           
           <div className="flex items-center gap-5">

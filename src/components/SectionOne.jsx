@@ -55,7 +55,7 @@
 //           }}
 //           frameBorder="0"
 //           allow="autoplay; fullscreen; picture-in-picture"
-//           title="AKAHL CLUB"
+//           title="Akahl Club"
 //         />
 //       </div>
 
@@ -261,7 +261,7 @@ const SectionOne = () => {
           }}
           frameBorder="0"
           allow="autoplay; fullscreen; picture-in-picture"
-          title="AKAHL CLUB"
+          title="Akahl Club"
           allowFullScreen
         />
       </div>

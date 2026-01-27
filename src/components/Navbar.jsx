@@ -163,7 +163,7 @@ export default function Navbar() {
               />
               <img
                 src="https://i.ibb.co/mFRJ8DWJ/Brutalist-Webzine-Blog-Post-Bold-Instagram-Post-Renaissance-CD-Cover-Art-2.png"
-                alt="AKAHL CLUB"
+                alt="Akahl Club"
                 className="h-12 md:h-14 w-auto transition-all duration-400 hover:scale-110 hover:-translate-y-0.5"
                 style={{
                   filter: 'drop-shadow(0 4px 20px rgba(193, 173, 72, 0.4)) brightness(1.1)',

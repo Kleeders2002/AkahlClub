@@ -17,7 +17,7 @@ const resources = {
       'hero.title_line1': 'Where',
       'hero.title_highlight': 'Timeless Style',
       'hero.title_line2': 'Meets Modern Living',
-      'hero.description': 'Discover AKAHL CLUB: an exclusive sanctuary where fashion transcends trends. Master the art of sophisticated dressing with personalized guidance, finely curated content, and a community that values enduring elegance.',
+      'hero.description': 'Discover Akahl Club: an exclusive sanctuary where fashion transcends trends. Master the art of sophisticated dressing with personalized guidance, finely curated content, and a community that values enduring elegance.',
       'hero.button_discover': 'Discover Your Style',
       'hero.button_explore': 'Explore Memberships',
       'hero.scroll_text': 'Scroll',
@@ -26,7 +26,7 @@ const resources = {
       'section2.subtitle': 'The Style Revolution',
       'section2.title_line1': 'More than fashion,',
       'section2.title_highlight': 'a conscious identity',
-      'section2.description': 'AKAHL CLUB is not a store. It is an <strong>exclusive ecosystem</strong> that transforms your relationship with fashion into an authentic, refined, and lasting expression.',
+      'section2.description': 'Akahl Club is not a store. It is an <strong>exclusive ecosystem</strong> that transforms your relationship with fashion into an authentic, refined, and lasting expression.',
       
       // Section 2 - Benefit 1
       'section2.benefit1.title': 'Private and Exclusive Club',
@@ -48,7 +48,7 @@ const resources = {
       // SECTION THREE (Benefits)
       'benefits.label': 'EXCLUSIVE VALUE',
       'benefits.title.line1': 'What you receive as',
-      'benefits.title.line2': 'an AKAHL CLUB member',
+      'benefits.title.line2': 'an Akahl Club member',
       'benefits.subtitle': 'Access to an ecosystem designed to transform your relationship with personal style and conscious fashion.',
       
       'benefits.education.title': 'Style Education',
@@ -58,7 +58,7 @@ const resources = {
       'benefits.wardrobe.description': 'Personalized recommendations to combine your garments and reflect your unique style.',
       
       'benefits.community.title': 'Exclusive Community',
-      'benefits.community.description': 'Access to AKAHL CLUB private WhatsApp group, where we share style tips, exclusive launches, product news and inspiring content.',
+      'benefits.community.description': 'Access to Akahl Club private WhatsApp group, where we share style tips, exclusive launches, product news and inspiring content.',
       
       'benefits.experiences.title': 'VIP Experiences',
       'benefits.experiences.description': 'Early access to new collections, exclusive discounts on specific garments.',
@@ -66,7 +66,7 @@ const resources = {
       'benefits.access.label': 'EXCLUSIVE ACCESS',
       'benefits.access.title.line1': 'Transform your style into',
       'benefits.access.title.line2': 'your competitive advantage',
-      'benefits.access.subtitle': 'At AKAHL CLUB you not only improve your wardrobe, you develop a strategic skill that impacts your confidence, presence and professional results.',
+      'benefits.access.subtitle': 'At Akahl Club you not only improve your wardrobe, you develop a strategic skill that impacts your confidence, presence and professional results.',
       
       'benefits.features.consultation': 'Initial style consultation',
       'benefits.features.plan': 'Personalized plan by season',
@@ -83,7 +83,7 @@ const resources = {
       
       // Plan Silver
       'membership.silver.badge': 'ENTRY',
-      'membership.silver.name': 'AKAHL CLUB Silver',
+      'membership.silver.name': 'Akahl Club Silver',
       'membership.silver.price': '9.99',
       'membership.silver.period': 'Per month (cancel anytime)',
       'membership.silver.description': 'Ideal to start your journey towards timeless style and get to know our community.',
@@ -97,7 +97,7 @@ const resources = {
       
       // Plan Gold
       'membership.gold.badge': 'RECOMMENDED',
-      'membership.gold.name': 'AKAHL CLUB Gold',
+      'membership.gold.name': 'Akahl Club Gold',
       'membership.gold.price': '19.99',
       'membership.gold.period': 'Per month (cancel anytime)',
       'membership.gold.description': 'Full access to the premium community and exclusive resources to improve your style.',
@@ -130,7 +130,7 @@ const resources = {
       'footer.copyright': 'All rights reserved.',
 
       // FORM TRANSLATIONS
-      'form.title': 'Join AKAHL CLUB',
+      'form.title': 'Join Akahl Club',
       'form.subtitle': 'Complete the form to access your exclusive membership. You will receive immediate confirmation and access to the member portal.',
       
       'form.labels.firstName': 'First Name',
@@ -162,7 +162,7 @@ const resources = {
       'form.terms.terms': 'Terms of Service',
       'form.terms.and': ' and the ',
       'form.terms.privacy': 'Privacy Policy',
-      'form.terms.suffix': ' of AKAHL CLUB.',
+      'form.terms.suffix': ' of Akahl Club.',
       
       'form.errors.firstName': 'Please enter your first name',
       'form.errors.lastName': 'Please enter your last name',
@@ -197,23 +197,23 @@ const resources = {
       'terms.title': 'Terms and Conditions',
       'terms.accept_button': 'Understood',
       'terms.section1.title': 'Acceptance of Terms',
-      'terms.section1.content': 'By joining AKAHL CLUB, you accept these terms and conditions in full. These terms constitute a legal agreement between you and AKAHL CLUB.',
+      'terms.section1.content': 'By joining Akahl Club, you accept these terms and conditions in full. These terms constitute a legal agreement between you and Akahl Club.',
       'terms.section2.title': 'Membership and Subscription',
       'terms.section2.item1': 'The Silver plan costs $9.99/month and payment is required at signup.',
       'terms.section2.item2': 'The Gold plan is a monthly subscription that can be cancelled at any time.',
       'terms.section2.item3': 'Payments are securely processed through our payment provider.',
       'terms.section3.title': 'Content Use',
-      'terms.section3.content': 'All content provided on AKAHL CLUB is intellectual property and protected by copyright. Distribution, modification or sale of content without authorization is not permitted.',
+      'terms.section3.content': 'All content provided on Akahl Club is intellectual property and protected by copyright. Distribution, modification or sale of content without authorization is not permitted.',
       'terms.section4.title': 'Privacy and Data',
       'terms.section4.content': 'We protect your personal information according to our Privacy Policy. Your data is only used to manage your membership and send relevant content.',
       'terms.section5.title': 'Liability Limitation',
-      'terms.section5.content': 'AKAHL CLUB is not responsible for personal style decisions made by members. Recommendations are suggestions and should be adapted to each individual\'s personal judgment.',
+      'terms.section5.content': 'Akahl Club is not responsible for personal style decisions made by members. Recommendations are suggestions and should be adapted to each individual\'s personal judgment.',
       
       // PRIVACY MODAL
       'privacy.title': 'Privacy Policy',
       'privacy.accept_button': 'Understood',
       'privacy.section1.title': 'Information We Collect',
-      'privacy.section1.content': 'We collect personal information that you voluntarily provide when registering for AKAHL CLUB:',
+      'privacy.section1.content': 'We collect personal information that you voluntarily provide when registering for Akahl Club:',
       'privacy.section1.item1': 'Full name and surname',
       'privacy.section1.item2': 'Email address',
       'privacy.section1.item3': 'Phone number (optional)',
@@ -342,7 +342,7 @@ const resources = {
       'comparative.highlight_section.badge': 'WHY CHOOSE US',
       'comparative.highlight_section.title': 'More than a membership,',
       'comparative.highlight_section.highlight': 'a transformative experience',
-      'comparative.highlight_section.description': 'At AKAHL CLUB we don\'t just offer you benefits, we guide you on a personal transformation journey where style becomes your distinctive signature.',
+      'comparative.highlight_section.description': 'At Akahl Club we don\'t just offer you benefits, we guide you on a personal transformation journey where style becomes your distinctive signature.',
       'comparative.highlight_section.card1_title': 'Style Experts',
       'comparative.highlight_section.card1_desc': 'Over 10 years transforming wardrobes and elevating personal styles.',
       'comparative.highlight_section.card2_title': 'Active Community',
@@ -426,7 +426,7 @@ const resources = {
       'hero.title_line1': 'Donde el',
       'hero.title_highlight': 'Estilo Atemporal',
       'hero.title_line2': 'Se encuentra con la vida moderna',
-      'hero.description': 'Descubre AKAHL CLUB: un refugio exclusivo donde la moda trasciende las tendencias. Aprende a dominar el arte del vestir sofisticado con guías personalizadas, contenido finamente seleccionado y una comunidad que valora la elegancia duradera.',
+      'hero.description': 'Descubre Akahl Club: un refugio exclusivo donde la moda trasciende las tendencias. Aprende a dominar el arte del vestir sofisticado con guías personalizadas, contenido finamente seleccionado y una comunidad que valora la elegancia duradera.',
       'hero.button_discover': 'Descubre Tu Estilo',
       'hero.button_explore': 'Explorar Membresías',
       'hero.scroll_text': 'Desplazar',
@@ -435,7 +435,7 @@ const resources = {
       'section2.subtitle': 'La Revolución del Estilo',
       'section2.title_line1': 'Más que moda,',
       'section2.title_highlight': 'una identidad consciente',
-      'section2.description': 'AKAHL CLUB no es una tienda. Es un <strong>ecosistema exclusivo</strong> que transforma tu relación con la moda en una expresión auténtica, refinada y duradera.',
+      'section2.description': 'Akahl Club no es una tienda. Es un <strong>ecosistema exclusivo</strong> que transforma tu relación con la moda en una expresión auténtica, refinada y duradera.',
       
       // Section 2 - Benefit 1
       'section2.benefit1.title': 'Club Privado y Exclusivo',
@@ -457,7 +457,7 @@ const resources = {
       // SECTION THREE (Benefits)
       'benefits.label': 'VALOR EXCLUSIVO',
       'benefits.title.line1': 'Lo que recibes como',
-      'benefits.title.line2': 'miembro AKAHL CLUB',
+      'benefits.title.line2': 'miembro Akahl Club',
       'benefits.subtitle': 'Acceso a un ecosistema diseñado para transformar tu relación con el estilo personal y la moda consciente.',
       
       'benefits.education.title': 'Educación de Estilo',
@@ -467,7 +467,7 @@ const resources = {
       'benefits.wardrobe.description': 'Recomendaciones personalizadas para combinar tus prendas y reflejar tu estilo único.',
       
       'benefits.community.title': 'Comunidad Exclusiva',
-      'benefits.community.description': 'Acceso al grupo privado de WhatsApp de AKAHL CLUB, donde compartimos tips de estilo, lanzamientos exclusivos, novedades de productos y contenido inspirador.',
+      'benefits.community.description': 'Acceso al grupo privado de WhatsApp de Akahl Club, donde compartimos tips de estilo, lanzamientos exclusivos, novedades de productos y contenido inspirador.',
       
       'benefits.experiences.title': 'Experiencias VIP',
       'benefits.experiences.description': 'Acceso anticipado a nuevas colecciones, descuentos exclusivos en prendas especificas.',
@@ -475,7 +475,7 @@ const resources = {
       'benefits.access.label': 'ACCESO EXCLUSIVO',
       'benefits.access.title.line1': 'Transforma tu estilo en',
       'benefits.access.title.line2': 'tu ventaja competitiva',
-      'benefits.access.subtitle': 'En AKAHL CLUB no solo mejoras tu vestuario, desarrollas una habilidad estratégica que impacta en tu confianza, presencia y resultados profesionales.',
+      'benefits.access.subtitle': 'En Akahl Club no solo mejoras tu vestuario, desarrollas una habilidad estratégica que impacta en tu confianza, presencia y resultados profesionales.',
       
       'benefits.features.consultation': 'Consulta inicial de estilo',
       'benefits.features.plan': 'Plan personalizado por temporada',
@@ -492,7 +492,7 @@ const resources = {
       
       // Plan Plata
       'membership.silver.badge': 'ENTRADA',
-      'membership.silver.name': 'AKAHL CLUB Plata',
+      'membership.silver.name': 'Akahl Club Plata',
       'membership.silver.price': '9.99',
       'membership.silver.period': 'Por mes (cancelas cuando quieras)',
       'membership.silver.description': 'Ideal para iniciar tu camino hacia el estilo atemporal y conocer nuestra comunidad.',
@@ -506,7 +506,7 @@ const resources = {
       
       // Plan Oro
       'membership.gold.badge': 'RECOMENDADO',
-      'membership.gold.name': 'AKAHL CLUB Oro',
+      'membership.gold.name': 'Akahl Club Oro',
       'membership.gold.price': '19.99',
       'membership.gold.period': 'Por mes (cancelas cuando quieras)',
       'membership.gold.description': 'Acceso completo a la comunidad premium y recursos exclusivos para mejorar tu estilo.',
@@ -539,7 +539,7 @@ const resources = {
       'footer.copyright': 'Todos los derechos reservados.',
 
       // FORM TRANSLATIONS
-      'form.title': 'Unirse a AKAHL CLUB',
+      'form.title': 'Unirse a Akahl Club',
       'form.subtitle': 'Completa el formulario para acceder a tu membresía exclusiva. Recibirás confirmación inmediata y acceso al portal de miembros.',
       
       'form.labels.firstName': 'Nombre',
@@ -571,7 +571,7 @@ const resources = {
       'form.terms.terms': 'Términos de Servicio',
       'form.terms.and': ' y la ',
       'form.terms.privacy': 'Política de Privacidad',
-      'form.terms.suffix': ' de AKAHL CLUB.',
+      'form.terms.suffix': ' de Akahl Club.',
       
       'form.errors.firstName': 'Por favor, ingresa tu nombre',
       'form.errors.lastName': 'Por favor, ingresa tu apellido',
@@ -606,23 +606,23 @@ const resources = {
       'terms.title': 'Términos y Condiciones',
       'terms.accept_button': 'Entendido',
       'terms.section1.title': 'Aceptación de Términos',
-      'terms.section1.content': 'Al unirte a AKAHL CLUB, aceptas estos términos y condiciones en su totalidad. Estos términos constituyen un acuerdo legal entre tú y AKAHL CLUB.',
+      'terms.section1.content': 'Al unirte a Akahl Club, aceptas estos términos y condiciones en su totalidad. Estos términos constituyen un acuerdo legal entre tú y Akahl Club.',
       'terms.section2.title': 'Membresía y Suscripción',
       'terms.section2.item1': 'El plan Plata cuesta $9.99/mes y requiere pago al registrarse.',
       'terms.section2.item2': 'El plan Oro es una suscripción mensual que puede cancelarse en cualquier momento.',
       'terms.section2.item3': 'Los pagos se procesan de forma segura a través de nuestro proveedor de pagos.',
       'terms.section3.title': 'Uso de Contenido',
-      'terms.section3.content': 'Todo el contenido proporcionado en AKAHL CLUB es propiedad intelectual y está protegido por derechos de autor. No se permite la distribución, modificación o venta del contenido sin autorización.',
+      'terms.section3.content': 'Todo el contenido proporcionado en Akahl Club es propiedad intelectual y está protegido por derechos de autor. No se permite la distribución, modificación o venta del contenido sin autorización.',
       'terms.section4.title': 'Privacidad y Datos',
       'terms.section4.content': 'Protegemos tu información personal de acuerdo con nuestra Política de Privacidad. Tus datos se utilizan únicamente para gestionar tu membresía y enviar contenido relevante.',
       'terms.section5.title': 'Limitación de Responsabilidad',
-      'terms.section5.content': 'AKAHL CLUB no se hace responsable por decisiones de estilo personal tomadas por los miembros. Las recomendaciones son sugerencias y deben adaptarse al criterio personal de cada individuo.',
+      'terms.section5.content': 'Akahl Club no se hace responsable por decisiones de estilo personal tomadas por los miembros. Las recomendaciones son sugerencias y deben adaptarse al criterio personal de cada individuo.',
       
       // PRIVACY MODAL
       'privacy.title': 'Política de Privacidad',
       'privacy.accept_button': 'Entendido',
       'privacy.section1.title': 'Información que Recopilamos',
-      'privacy.section1.content': 'Recopilamos información personal que nos proporcionas voluntariamente cuando te registras en AKAHL CLUB:',
+      'privacy.section1.content': 'Recopilamos información personal que nos proporcionas voluntariamente cuando te registras en Akahl Club:',
       'privacy.section1.item1': 'Nombre completo y apellido',
       'privacy.section1.item2': 'Dirección de correo electrónico',
       'privacy.section1.item3': 'Número de teléfono (opcional)',
@@ -751,7 +751,7 @@ const resources = {
       'comparative.highlight_section.badge': 'POR QUÉ ELEGIRNOS',
       'comparative.highlight_section.title': 'Más que una membresía,',
       'comparative.highlight_section.highlight': 'una experiencia transformadora',
-      'comparative.highlight_section.description': 'En AKAHL CLUB no solo te ofrecemos beneficios, te guiamos en un viaje de transformación personal donde el estilo se convierte en tu firma distintiva.',
+      'comparative.highlight_section.description': 'En Akahl Club no solo te ofrecemos beneficios, te guiamos en un viaje de transformación personal donde el estilo se convierte en tu firma distintiva.',
       'comparative.highlight_section.card1_title': 'Expertos en Estilo',
       'comparative.highlight_section.card1_desc': 'Más de 10 años transformando armarios y elevando estilos personales.',
       'comparative.highlight_section.card2_title': 'Comunidad Activa',

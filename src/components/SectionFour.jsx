@@ -53,7 +53,7 @@ const SectionFour = () => {
               </div>
               
               <h3 className="font-stanford text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-600 mb-4 lg:mb-6 leading-tight">
-                {t('membership.silver.name', 'AKAHL CLUB Plata')}
+                {t('membership.silver.name', 'Akahl Club Plata')}
               </h3>
               
               <div className="flex items-baseline justify-center gap-2 lg:gap-3 mt-6 lg:mt-8 mb-2">
@@ -123,7 +123,7 @@ const SectionFour = () => {
               </div>
               
               <h3 className="font-stanford text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-br from-dark-green to-[#2c463c] bg-clip-text text-transparent mb-4 lg:mb-6 leading-tight">
-                {t('membership.gold.name', 'AKAHL CLUB Oro')}
+                {t('membership.gold.name', 'Akahl Club Oro')}
               </h3>
               
               <div className="flex items-baseline justify-center gap-2 lg:gap-3 mt-6 lg:mt-8 mb-2">
