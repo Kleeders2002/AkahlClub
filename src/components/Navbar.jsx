@@ -67,14 +67,6 @@ export default function Navbar() {
             borderBottom: '1px solid rgba(193, 173, 72, 0.15)',
           }}
         >
-          {/* Línea de oro superior */}
-          <div
-            className="absolute top-0 left-0 right-0"
-            style={{
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.3), transparent)',
-            }}
-          />
 
           {/* Izquierda: Iconos sociales (solo desktop) */}
           <div className="hidden md:flex items-center gap-5 relative z-10">
@@ -602,12 +594,12 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* Línea de oro inferior */}
+          {/* Línea de oro inferior - muy sutil */}
           <div
             className="absolute bottom-0 left-0 right-0"
             style={{
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.25), transparent)',
+              height: '0.5px',
+              background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.15), transparent)',
             }}
           />
         </nav>
