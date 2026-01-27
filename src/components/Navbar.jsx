@@ -69,10 +69,10 @@ export default function Navbar() {
         >
           {/* Línea de oro superior */}
           <div
-            className="absolute top-0 left-0 right-0 h-0.5 opacity-60"
+            className="absolute top-0 left-0 right-0 h-0.5"
             style={{
               background: 'linear-gradient(90deg, transparent, #c1ad48, transparent)',
-              animation: 'shimmer 3s ease-in-out infinite',
+              opacity: 0.6,
             }}
           />
 
@@ -501,11 +501,15 @@ export default function Navbar() {
                         handleLanguageChange('es');
                         setMobileMenuOpen(false);
                       }}
-                      className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                      className={`px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 ${
                         currentLanguage === 'es'
-                          ? 'bg-[#c1ad48] text-[#152821]'
-                          : 'bg-[#c1ad48]/20 text-[#c1ad48] border border-[#c1ad48]/30'
+                          ? 'bg-[#c1ad48] text-[#152821] shadow-lg scale-105'
+                          : 'bg-transparent text-[#c1ad48] border-2 border-[#c1ad48]/50 hover:border-[#c1ad48] hover:bg-[#c1ad48]/10 shadow-md'
                       }`}
+                      style={{
+                        minWidth: '140px',
+                        fontFamily: "'Inter', sans-serif",
+                      }}
                     >
                       Español
                     </button>
@@ -514,11 +518,15 @@ export default function Navbar() {
                         handleLanguageChange('en');
                         setMobileMenuOpen(false);
                       }}
-                      className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                      className={`px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 ${
                         currentLanguage === 'en'
-                          ? 'bg-[#c1ad48] text-[#152821]'
-                          : 'bg-[#c1ad48]/20 text-[#c1ad48] border border-[#c1ad48]/30'
+                          ? 'bg-[#c1ad48] text-[#152821] shadow-lg scale-105'
+                          : 'bg-transparent text-[#c1ad48] border-2 border-[#c1ad48]/50 hover:border-[#c1ad48] hover:bg-[#c1ad48]/10 shadow-md'
                       }`}
+                      style={{
+                        minWidth: '140px',
+                        fontFamily: "'Inter', sans-serif",
+                      }}
                     >
                       English
                     </button>
@@ -599,7 +607,6 @@ export default function Navbar() {
             className="absolute bottom-0 left-0 right-0 h-px"
             style={{
               background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.5), transparent)',
-              animation: 'shimmer 3s ease-in-out infinite reverse',
             }}
           />
         </nav>
