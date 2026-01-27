@@ -73,25 +73,25 @@ export default function SectionTwo() {
               </div>
 
               {/* Título principal - Responsive */}
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] font-light text-[#233c33]">
+              <h2 className="font-stanford text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] font-light text-[#233c33]">
                 {t('section2.title_line1') || "Más que moda,"}
                 <br />
-                <span 
-                  className="font-serif italic text-[#ceb652] relative inline-block"
+                <span
+                  className="font-stanford italic text-[#ceb652] relative inline-block"
                   style={{
                     textShadow: '0 0 40px rgba(206, 182, 82, 0.15)'
                   }}
                 >
                   {t('section2.title_highlight') || "una identidad consciente"}
-                  <svg 
-                    className="absolute -bottom-1 md:-bottom-2 left-0 w-full" 
-                    viewBox="0 0 300 12" 
+                  <svg
+                    className="absolute -bottom-1 md:-bottom-2 left-0 w-full"
+                    viewBox="0 0 300 12"
                     fill="none"
                   >
-                    <path 
-                      d="M2 10C50 5 100 2 150 5C200 8 250 10 298 8" 
-                      stroke="#ceb652" 
-                      strokeWidth="2" 
+                    <path
+                      d="M2 10C50 5 100 2 150 5C200 8 250 10 298 8"
+                      stroke="#ceb652"
+                      strokeWidth="2"
                       strokeLinecap="round"
                       opacity="0.4"
                     />

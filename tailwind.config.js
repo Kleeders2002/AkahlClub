@@ -46,6 +46,7 @@ export default {
         'inter': ['Inter', 'sans-serif'],
         'marcellus': ['Marcellus', 'serif'],
         'oldstandard': ['"Old Standard TT"', 'serif'],
+        'stanford': ['"Stanford Breath"', 'serif'],
       },
       keyframes: {
         fadeUp: {

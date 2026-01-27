@@ -115,7 +115,7 @@ const SectionThree = () => {
             </span>
           </div>
           
-          <h2 className="font-cormorant font-semibold text-3xl md:text-4xl lg:text-5xl text-[#152821] leading-tight mb-6">
+          <h2 className="font-stanford font-semibold text-3xl md:text-4xl lg:text-5xl text-[#152821] leading-tight mb-6">
             {t('benefits.title.line1')}
             <br />
             {t('benefits.title.line2')}
@@ -162,7 +162,7 @@ const SectionThree = () => {
                   
                   {/* Contenido */}
                   <div className="relative z-10 flex-1 flex flex-col">
-                    <h3 className="font-cormorant font-semibold text-2xl md:text-3xl text-[#152821] mb-4 md:mb-6 min-h-[72px]">
+                    <h3 className="font-stanford font-semibold text-2xl md:text-3xl text-[#152821] mb-4 md:mb-6 min-h-[72px]">
                       {benefit.title}
                     </h3>
                     
