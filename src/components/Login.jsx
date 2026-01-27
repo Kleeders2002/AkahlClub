@@ -7,6 +7,8 @@ export default function Login({ onLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -14,7 +16,7 @@ export default function Login({ onLogin }) {
     console.log("🔄 Enviando datos:", { email, password });
 
     try {
-      const res = await fetch("http://localhost:4000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +36,7 @@ export default function Login({ onLogin }) {
       }
     } catch (err) {
       console.error("❌ Error completo:", err);
-      alert("Error al iniciar sesión. Verifica que el backend esté corriendo en http://localhost:4000");
+      alert(`Error al iniciar sesión. Verifica que el backend esté corriendo en ${API_URL}`);
     } finally {
       setIsLoading(false);
     }

@@ -8,12 +8,14 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
     phoneCode: '+1',
     phone: ''
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [language, setLanguage] = useState('en'); // 'en' o 'es'
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
   // Códigos de teléfono por país
   const phoneCodes = [
@@ -144,11 +146,11 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
   
     try {
       // Combinar código + teléfono si existe teléfono
-      const fullPhone = formData.phone 
-        ? `${formData.phoneCode} ${formData.phone}` 
+      const fullPhone = formData.phone
+        ? `${formData.phoneCode} ${formData.phone}`
         : null;
 
-      const response = await fetch('http://localhost:4000/api/leads', {
+      const response = await fetch(`${API_URL}/api/leads`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

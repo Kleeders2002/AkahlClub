@@ -36,6 +36,8 @@ export default function Dashboard({ token, onLogout }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
   const tabs = [
     { id: 'bienvenida', label: t('dashboard.controlPanel', 'Panel de Control'), icon: Home },
     { id: 'guias', label: t('dashboard.guides', 'Guías de Estilo'), icon: BookOpen },
@@ -143,12 +145,12 @@ export default function Dashboard({ token, onLogout }) {
       try {
         const idioma = i18n.language || 'es'; // 🌍 Obtener idioma actual con fallback
         console.log('🌍 Idioma actual:', idioma);
-        console.log('🌍 URL:', `http://localhost:4000/api/contenido?idioma=${idioma}&tipo=GUIA`);
+        console.log('🌍 URL:', `${API_URL}/api/contenido?idioma=${idioma}&tipo=GUIA`);
 
         const tipos = ['GUIA', 'EBOOK', 'VIDEO', 'TIP'];
         const resultados = await Promise.all(
           tipos.map(tipo =>
-            fetch(`http://localhost:4000/api/contenido?idioma=${idioma}&tipo=${tipo}`, {
+            fetch(`${API_URL}/api/contenido?idioma=${idioma}&tipo=${tipo}`, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }
@@ -181,7 +183,7 @@ export default function Dashboard({ token, onLogout }) {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:4000/api/auth/logout', {
+      await fetch(`${API_URL}/api/auth/logout`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
