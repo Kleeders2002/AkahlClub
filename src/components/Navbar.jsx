@@ -69,10 +69,10 @@ export default function Navbar() {
         >
           {/* Línea de oro superior */}
           <div
-            className="absolute top-0 left-0 right-0 h-0.5"
+            className="absolute top-0 left-0 right-0"
             style={{
-              background: 'linear-gradient(90deg, transparent, #c1ad48, transparent)',
-              opacity: 0.6,
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.3), transparent)',
             }}
           />
 
@@ -604,9 +604,10 @@ export default function Navbar() {
 
           {/* Línea de oro inferior */}
           <div
-            className="absolute bottom-0 left-0 right-0 h-px"
+            className="absolute bottom-0 left-0 right-0"
             style={{
-              background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.5), transparent)',
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(193, 173, 72, 0.25), transparent)',
             }}
           />
         </nav>
