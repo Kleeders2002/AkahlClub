@@ -255,7 +255,7 @@ const SectionOne = () => {
       <div className="absolute inset-0 z-0 overflow-hidden">
         <iframe
           src="https://player.vimeo.com/video/1152368755?background=1&autoplay=1&loop=1&muted=1&controls=0"
-          className="absolute top-1/2 left-1/2 w-[300%] h-[300%] min-w-[300%] min-h-[300%] -translate-x-1/2 -translate-y-1/2 object-cover transition-transform duration-1000"
+          className="absolute top-1/2 left-1/2 w-[140%] h-[140%] min-w-[140%] min-h-[140%] -translate-x-1/2 -translate-y-1/2 object-cover transition-transform duration-1000"
           style={{
             transform: `translate(-50%, -50%) translateX(${mousePosition.x * 0.3}px) translateY(${mousePosition.y * 0.3}px) scale(1.1)`,
           }}
@@ -368,7 +368,7 @@ const SectionOne = () => {
           }
         }
 
-        /* Video responsivo - aún más grande en móvil para cubrir todo */
+        /* Video responsivo - más grande en móvil y tablet para cubrir todo */
         @media (max-width: 640px) {
           iframe {
             width: 300% !important;
@@ -380,10 +380,19 @@ const SectionOne = () => {
 
         @media (min-width: 641px) and (max-width: 1024px) {
           iframe {
-            width: 200% !important;
-            height: 200% !important;
-            min-width: 200% !important;
-            min-height: 200% !important;
+            width: 180% !important;
+            height: 180% !important;
+            min-width: 180% !important;
+            min-height: 180% !important;
+          }
+        }
+
+        @media (min-width: 1025px) {
+          iframe {
+            width: 140% !important;
+            height: 140% !important;
+            min-width: 140% !important;
+            min-height: 140% !important;
           }
         }
       `}</style>
