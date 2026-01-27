@@ -1,0 +1,916 @@
+// src/i18n.js
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+// Traducciones centralizadas para toda la aplicación
+const resources = {
+  en: {
+    translation: {
+      // NAVBAR
+      'nav.membership': 'Exclusive Membership',
+      'nav.login': 'Login',
+      'nav.language.es': 'Spanish',
+      'nav.language.en': 'English',
+      
+      // SECTION ONE (Hero)
+      'hero.subtitle': 'Exclusive Style Community for Members',
+      'hero.title_line1': 'Where',
+      'hero.title_highlight': 'Timeless Style',
+      'hero.title_line2': 'Meets Modern Living',
+      'hero.description': 'Discover AKAHL CLUB: an exclusive sanctuary where fashion transcends trends. Master the art of sophisticated dressing with personalized guidance, finely curated content, and a community that values enduring elegance.',
+      'hero.button_discover': 'Discover Your Style',
+      'hero.button_explore': 'Explore Memberships',
+      'hero.scroll_text': 'Scroll',
+      
+      // SECTION TWO (Features)
+      'section2.subtitle': 'The Style Revolution',
+      'section2.title_line1': 'More than fashion,',
+      'section2.title_highlight': 'a conscious identity',
+      'section2.description': 'AKAHL CLUB is not a store. It is an <strong>exclusive ecosystem</strong> that transforms your relationship with fashion into an authentic, refined, and lasting expression.',
+      
+      // Section 2 - Benefit 1
+      'section2.benefit1.title': 'Private and Exclusive Club',
+      'section2.benefit1.description': 'Limited access for those seeking timeless style and distinction.',
+      
+      // Section 2 - Benefit 2
+      'section2.benefit2.title': 'Personalized Education',
+      'section2.benefit2.description': 'Guides and support to master combinations and patterns.',
+      
+      // Section 2 - Benefit 3
+      'section2.benefit3.title': 'Unique Personalization',
+      'section2.benefit3.description': 'Garments that reflect your essence, not passing trends.',
+      
+      // Carousel controls
+      'section2.carousel.prev': 'Previous',
+      'section2.carousel.next': 'Next',
+      'section2.carousel.of': 'of',
+
+      // SECTION THREE (Benefits)
+      'benefits.label': 'EXCLUSIVE VALUE',
+      'benefits.title.line1': 'What you receive as',
+      'benefits.title.line2': 'an AKAHL CLUB member',
+      'benefits.subtitle': 'Access to an ecosystem designed to transform your relationship with personal style and conscious fashion.',
+      
+      'benefits.education.title': 'Style Education',
+      'benefits.education.description': 'Monthly guides and tutorials on patterns and visual combination. Access to digital library with exclusive timeless fashion resources.',
+      
+      'benefits.wardrobe.title': 'Personalized Wardrobe',
+      'benefits.wardrobe.description': 'Personalized recommendations to combine your garments and reflect your unique style.',
+      
+      'benefits.community.title': 'Exclusive Community',
+      'benefits.community.description': 'Access to AKAHL CLUB private WhatsApp group, where we share style tips, exclusive launches, product news and inspiring content.',
+      
+      'benefits.experiences.title': 'VIP Experiences',
+      'benefits.experiences.description': 'Early access to new collections, exclusive discounts on specific garments.',
+      
+      'benefits.access.label': 'EXCLUSIVE ACCESS',
+      'benefits.access.title.line1': 'Transform your style into',
+      'benefits.access.title.line2': 'your competitive advantage',
+      'benefits.access.subtitle': 'At AKAHL CLUB you not only improve your wardrobe, you develop a strategic skill that impacts your confidence, presence and professional results.',
+      
+      'benefits.features.consultation': 'Initial style consultation',
+      'benefits.features.plan': 'Personalized plan by season',
+      'benefits.features.support': 'Quick responses to your style and clothing questions',
+      
+      'carousel.prev': 'Previous',
+      'carousel.next': 'Next',
+
+      // SECTION FOUR (Membership)
+      'membership.label': 'YOUR PATH TO STYLE',
+      'membership.title_line1': 'Choose your ideal',
+      'membership.title_line2': 'membership level',
+      'membership.subtitle': 'From a free introduction to full access to our premium community, we have the perfect plan for your style journey.',
+      
+      // Plan Silver
+      'membership.silver.badge': 'ENTRY',
+      'membership.silver.name': 'AKAHL CLUB Silver',
+      'membership.silver.price': '9.99',
+      'membership.silver.period': 'Per month (cancel anytime)',
+      'membership.silver.description': 'Ideal to start your journey towards timeless style and get to know our community.',
+      'membership.silver.benefits_title': 'What it includes:',
+      'membership.silver.benefit1': 'Access to the community WhatsApp group',
+      'membership.silver.benefit2': 'Weekly style tips and combinations',
+      'membership.silver.benefit3': 'Monthly newsletter with fashion and style tips',
+      'membership.silver.benefit4': 'Access to occasional free events',
+      'membership.silver.benefit5': 'Special discounts on first purchase',
+      'membership.silver.button': 'Start with Silver',
+      
+      // Plan Gold
+      'membership.gold.badge': 'RECOMMENDED',
+      'membership.gold.name': 'AKAHL CLUB Gold',
+      'membership.gold.price': '19.99',
+      'membership.gold.period': 'Per month (cancel anytime)',
+      'membership.gold.description': 'Full access to the premium community and exclusive resources to improve your style.',
+      'membership.gold.benefits_title': 'Everything in Silver, plus:',
+      'membership.gold.benefit1': 'Access to the digital library:',
+      'membership.gold.benefit1_sublist1': 'Pattern combination e-books',
+      'membership.gold.benefit1_sublist2': 'Fabric and texture guides',
+      'membership.gold.benefit1_sublist3': 'Timeless style manual',
+      'membership.gold.benefit1_sublist4': 'PDFs with conscious trend tips',
+      'membership.gold.benefit2': 'Monthly exclusive tutorials and resources',
+      'membership.gold.benefit3': 'Exclusive access to the VIP WhatsApp community',
+      'membership.gold.benefit4': 'Special discounts on personalized garments',
+      'membership.gold.benefit5': 'Early access to launches and collections',
+      'membership.gold.button': 'Start Gold Membership',
+      
+      // Comparison Section
+      'membership.comparison.badge': 'EXPERT RECOMMENDATION',
+      'membership.comparison.title': 'Not sure which one to choose?',
+      'membership.comparison.text_line1': 'Start with the Silver plan at $9.99/month',
+      'membership.comparison.text_line2': 'and join our community. If you decide to access more exclusive resources and benefits, you can upgrade to the Gold plan at any time and keep all your privileges.',
+      'membership.comparison.button': 'Compare complete plans',
+
+      // FOOTER
+      'footer.description': 'An exclusive community where timeless style meets modern life. We transform your relationship with fashion into an authentic and lasting expression.',
+      'footer.quick_links': 'Quick Links',
+      'footer.home': 'Home',
+      'footer.comparative': 'Compare Plans',
+      'footer.contact': 'Contact',
+      'footer.location': 'Doral, Florida',
+      'footer.copyright': 'All rights reserved.',
+
+      // FORM TRANSLATIONS
+      'form.title': 'Join AKAHL CLUB',
+      'form.subtitle': 'Complete the form to access your exclusive membership. You will receive immediate confirmation and access to the member portal.',
+      
+      'form.labels.firstName': 'First Name',
+      'form.labels.lastName': 'Last Name',
+      'form.labels.email': 'Email Address',
+      'form.labels.phone': 'Phone / WhatsApp',
+      'form.labels.membership': 'Membership Plan',
+      'form.labels.comments': 'Comments (optional)',
+      
+      'form.placeholders.firstName': 'Your first name',
+      'form.placeholders.lastName': 'Your last name',
+      'form.placeholders.email': 'your@email.com',
+      'form.placeholders.phone': '+1 (123) 456-7890',
+      'form.placeholders.comments': 'Tell us a little about what you expect from Akahl...',
+      
+      'form.plans.silver.title': 'Silver',
+      'form.plans.silver.price': 'Premium',
+      'form.plans.silver.feature1': 'Basic portal access',
+      'form.plans.silver.feature2': 'Weekly newsletter',
+      'form.plans.silver.feature3': 'Basic style e-book',
+      
+      'form.plans.gold.title': 'Gold',
+      'form.plans.gold.price': 'Premium +',
+      'form.plans.gold.feature1': 'All Silver benefits',
+      'form.plans.gold.feature2': 'Advanced style guides',
+      'form.plans.gold.feature3': 'Personal consultations',
+      
+      'form.terms.text': 'I accept the ',
+      'form.terms.terms': 'Terms of Service',
+      'form.terms.and': ' and the ',
+      'form.terms.privacy': 'Privacy Policy',
+      'form.terms.suffix': ' of AKAHL CLUB.',
+      
+      'form.errors.firstName': 'Please enter your first name',
+      'form.errors.lastName': 'Please enter your last name',
+      'form.errors.emailRequired': 'Please enter your email address',
+      'form.errors.emailInvalid': 'Please enter a valid email address',
+      'form.errors.phoneRequired': 'Please enter your phone number',
+      'form.errors.phoneInvalid': 'Please enter a valid phone number',
+      'form.errors.termsRequired': 'You must accept the terms and conditions',
+      'form.errors.submissionFailed': 'Registration processing error',
+      'form.errors.connectionFailed': 'Connection error. Please try again.',
+      
+      'form.buttons.processing': 'Processing...',
+      'form.buttons.submit': 'Complete Registration',
+      
+      'form.success.message': 'Registration successful! Check your email to access the portal.',
+
+      'form.labels.stylePreference': 'Your Style Preference (Optional)',
+      'form.stylePreference.oldMoney': 'Old Money',
+      'form.stylePreference.oldMoneyDesc': 'Elegant, conservative and timeless',
+      'form.stylePreference.classic': 'Classic',
+      'form.stylePreference.classicDesc': 'Traditional and sophisticated',
+      'form.stylePreference.modern': 'Modern',
+      'form.stylePreference.modernDesc': 'Contemporary and current',
+      'form.stylePreference.description': 'Select the style that best identifies with you. This information helps us personalize your experience.',
+      'form.phoneSearch': 'Search country...',
+      'form.noCountries': 'No countries found',
+      'form.phoneFormat': 'Complete number:',
+
+      'form.stylePreference.hint': 'Click again to deselect',
+      
+      // TERMS MODAL
+      'terms.title': 'Terms and Conditions',
+      'terms.accept_button': 'Understood',
+      'terms.section1.title': 'Acceptance of Terms',
+      'terms.section1.content': 'By joining AKAHL CLUB, you accept these terms and conditions in full. These terms constitute a legal agreement between you and AKAHL CLUB.',
+      'terms.section2.title': 'Membership and Subscription',
+      'terms.section2.item1': 'The Silver plan costs $9.99/month and payment is required at signup.',
+      'terms.section2.item2': 'The Gold plan is a monthly subscription that can be cancelled at any time.',
+      'terms.section2.item3': 'Payments are securely processed through our payment provider.',
+      'terms.section3.title': 'Content Use',
+      'terms.section3.content': 'All content provided on AKAHL CLUB is intellectual property and protected by copyright. Distribution, modification or sale of content without authorization is not permitted.',
+      'terms.section4.title': 'Privacy and Data',
+      'terms.section4.content': 'We protect your personal information according to our Privacy Policy. Your data is only used to manage your membership and send relevant content.',
+      'terms.section5.title': 'Liability Limitation',
+      'terms.section5.content': 'AKAHL CLUB is not responsible for personal style decisions made by members. Recommendations are suggestions and should be adapted to each individual\'s personal judgment.',
+      
+      // PRIVACY MODAL
+      'privacy.title': 'Privacy Policy',
+      'privacy.accept_button': 'Understood',
+      'privacy.section1.title': 'Information We Collect',
+      'privacy.section1.content': 'We collect personal information that you voluntarily provide when registering for AKAHL CLUB:',
+      'privacy.section1.item1': 'Full name and surname',
+      'privacy.section1.item2': 'Email address',
+      'privacy.section1.item3': 'Phone number (optional)',
+      'privacy.section1.item4': 'Style preferences (optional)',
+      'privacy.section2.title': 'Use of Information',
+      'privacy.section2.item1': 'Provide access to the platform and exclusive content',
+      'privacy.section2.item2': 'Send communications about new content and updates',
+      'privacy.section2.item3': 'Personalize experience according to your preferences',
+      'privacy.section2.item4': 'Process premium membership payments',
+      'privacy.section3.title': 'Data Protection',
+      'privacy.section3.content': 'We implement technical and organizational security measures to protect your personal information against unauthorized access, loss or alteration. We use SSL encryption for all data transmissions.',
+      'privacy.section4.title': 'Information Sharing',
+      'privacy.section4.content': 'We do not sell, rent or share your personal information with third parties for commercial purposes. We only share information when necessary for:',
+      'privacy.section4.item1': 'Compliance with legal requirements',
+      'privacy.section4.item2': 'Processing payments through certified providers',
+      'privacy.section4.item3': 'Providing essential technical services',
+      'privacy.section5.title': 'Your Rights',
+      'privacy.section5.item1': 'Access your personal information',
+      'privacy.section5.item2': 'Correct inaccurate data',
+      'privacy.section5.item3': 'Request deletion of your data',
+      'privacy.section5.item4': 'Withdraw your consent at any time',
+
+       // COMPARATIVE PAGE
+      'comparative.badge': 'DETAILED COMPARISON',
+      'comparative.title': 'Complete Plan Comparison',
+      'comparative.subtitle': 'Explore each benefit in detail, download our spring guide and choose the perfect plan for your style evolution.',
+      
+      // Ebook Section
+      'comparative.ebook.title': 'Free Spring Guide',
+      'comparative.ebook.subtitle': 'Download our complete guide for dressing with style during spring',
+      'comparative.ebook.chapter1': 'Chapter 1: Season Transition',
+      'comparative.ebook.chapter1_desc': 'How to adapt your wardrobe from winter to spring',
+      'comparative.ebook.chapter2': 'Chapter 2: Spring Color Palette',
+      'comparative.ebook.chapter2_desc': 'Colors that shine in spring and how to combine them',
+      'comparative.ebook.chapter3': 'Chapter 3: Essential Garments',
+      'comparative.ebook.chapter3_desc': 'The 10 essential garments for this season',
+      'comparative.ebook.exercises': 'Practical Exercises',
+      'comparative.ebook.exercises_desc': 'Activities to renew your style this spring',
+      'comparative.ebook.format': 'PDF • 4.1 MB',
+      'comparative.ebook.reading_time': '60 minutes reading',
+      'comparative.ebook.level': 'Level: Beginner/Intermediate',
+      'comparative.ebook.name': 'Spring Style Guide',
+      'comparative.ebook.edition': 'Special seasonal edition',
+      'comparative.ebook.download': 'Download Free Guide',
+      
+      // Comparison Table
+      'comparative.table_title': 'Side-by-Side Comparison',
+      'comparative.table_subtitle': 'Review each feature in detail to make the best decision',
+      'comparative.features': 'Features',
+      'comparative.plan_silver': 'Silver Plan',
+      'comparative.plan_gold': 'Gold Plan',
+      
+      // Table Categories
+      'comparative.category_community': 'Community & Groups',
+      'comparative.category_content': 'Exclusive Content',
+      'comparative.category_benefits': 'Exclusive Benefits',
+      'comparative.category_events': 'Events & Experiences',
+      'comparative.category_support': 'Support & Advice',
+      
+      // Table Features
+      'comparative.feature_whatsapp': 'WhatsApp Group',
+      'comparative.feature_ebooks': 'Digital E-books',
+      'comparative.feature_tutorials': 'Video Tutorials',
+      'comparative.feature_discounts': 'Garment Discounts',
+      'comparative.feature_certificate': 'Digital Certificate',
+      'comparative.feature_virtual_events': 'Virtual Events',
+      'comparative.feature_presential_events': 'Presential Events',
+      'comparative.feature_consultation': 'Personal Advice',
+      'comparative.feature_support': 'Support & Responses',
+      
+      // Plan Silver Features
+      'comparative.silver_whatsapp': 'Access to Silver group',
+      'comparative.silver_ebooks': 'Limited access',
+      'comparative.silver_tutorials': 'Basic selected content',
+      'comparative.silver_discounts': '5% first purchase',
+      'comparative.silver_virtual_events': 'Some selected events',
+      'comparative.silver_support': 'Responses during business hours',
+      
+      // Plan Gold Features
+      'comparative.gold_whatsapp': 'Exclusive access to Gold group',
+      'comparative.gold_ebooks': 'Complete access to entire library',
+      'comparative.gold_tutorials': 'Advanced exclusive tutorials',
+      'comparative.gold_discounts': '15% permanent on specific garments',
+      'comparative.gold_certificate': 'Premium membership certificate',
+      'comparative.gold_virtual_events': 'All online events',
+      'comparative.gold_presential_events': 'Invitations to selected events',
+      'comparative.gold_consultation': 'Occasional style consultations',
+      'comparative.gold_support': 'Priority attention',
+      
+      // Complete Features Lists
+      'comparative.features.silver1': 'Access to main WhatsApp group (Silver Group)',
+      'comparative.features.silver2': 'Monthly newsletter with style tips',
+      'comparative.features.silver3': 'Weekly combination advice',
+      'comparative.features.silver4': 'Access to some selected virtual events',
+      'comparative.features.silver5': '5% discount on first purchase',
+      'comparative.features.silver6': 'Basic personal style guide',
+      'comparative.features.silver7': 'Basic support and networking community',
+      'comparative.features.silver8': 'Exclusive content on social media',
+      
+      'comparative.features.gold1': 'Everything from Silver plan',
+      'comparative.features.gold2': 'Exclusive access to VIP WhatsApp group (Gold Group)',
+      'comparative.features.gold3': 'Complete digital library: access to all ebooks',
+      'comparative.features.gold4': 'Exclusive video tutorials (advanced content)',
+      'comparative.features.gold5': 'Occasional personalized style consultations',
+      'comparative.features.gold6': '15% permanent discount on specific garments',
+      'comparative.features.gold7': 'Early access to new collections',
+      'comparative.features.gold8': 'Invitations to selected presential events',
+      'comparative.features.gold9': 'Investment guide for quality garments',
+      'comparative.features.gold10': 'Personalized combination advice',
+      'comparative.features.gold11': 'Digital premium membership certificate',
+      
+      // CTA Section
+      'comparative.plan_silver_complete': 'Complete Silver Plan',
+      'comparative.plan_gold_complete': 'Complete Gold Plan',
+      'comparative.show_all': 'See all features',
+      'comparative.show_less': 'Show less',
+      'comparative.cta_title': 'Ready to Transform Your Style?',
+      'comparative.cta_subtitle': 'Join thousands of people who are already improving their lifestyle with Akahl Club. Choose the plan that best fits your needs.',
+      'comparative.cta_button_silver': 'Start Silver Plan',
+      'comparative.cta_button_gold': 'Try Gold Plan',
+      'comparative.cta_help': 'Still have questions?',
+      'comparative.contact_us': 'Contact us',
+      'comparative.cta_help_suffix': 'for personalized advice',
+
+      // Highlight Section (New cream-colored section)
+      'comparative.highlight_section.badge': 'WHY CHOOSE US',
+      'comparative.highlight_section.title': 'More than a membership,',
+      'comparative.highlight_section.highlight': 'a transformative experience',
+      'comparative.highlight_section.description': 'At AKAHL CLUB we don\'t just offer you benefits, we guide you on a personal transformation journey where style becomes your distinctive signature.',
+      'comparative.highlight_section.card1_title': 'Style Experts',
+      'comparative.highlight_section.card1_desc': 'Over 10 years transforming wardrobes and elevating personal styles.',
+      'comparative.highlight_section.card2_title': 'Active Community',
+      'comparative.highlight_section.card2_desc': 'Thousands of members sharing tips, combinations and experiences.',
+      'comparative.highlight_section.card3_title': 'Real Benefits',
+      'comparative.highlight_section.card3_desc': 'Discounts, exclusive events and content that transforms your day to day.',
+
+      // Membership prices (updated)
+      'membership.silver.price': '9.99',
+      'membership.gold.price': '19.99',
+
+      // Language detection for content filtering
+      'current_language': 'en',
+
+      // Dashboard translations
+      'dashboard.loading': 'Loading your premium experience',
+      'dashboard.preparing': 'Preparing exclusive content...',
+      'dashboard.memberPortal': 'Member Portal',
+      'dashboard.contents': 'Contents',
+      'dashboard.logout': 'Logout',
+      'dashboard.controlPanel': 'Control Panel',
+      'dashboard.guides': 'Style Guides',
+      'dashboard.ebooks': 'E-Books',
+      'dashboard.videos': 'Videos',
+      'dashboard.tips': 'Tips',
+      'dashboard.controlPanelTitle': 'Control Panel',
+      'dashboard.guidesTitle': 'Guides Library',
+      'dashboard.guidesDesc': 'Specialized resources to master your style',
+      'dashboard.ebooksTitle': 'E-Books Collection',
+      'dashboard.ebooksDesc': 'Complete manuals for detailed reference',
+      'dashboard.videosTitle': 'Video Gallery',
+      'dashboard.videosDesc': 'Step-by-step visual tutorials',
+      'dashboard.tipsTitle': 'Exclusive Tips',
+      'dashboard.tipsDesc': 'Practical tips from style experts',
+      'dashboard.searchPlaceholder': 'Search...',
+      'dashboard.allCategories': 'All categories',
+      'dashboard.goldOnly': 'Gold Only',
+      'dashboard.added': 'Added',
+      'dashboard.of': 'of',
+      'dashboard.noResults': 'No results found',
+      'dashboard.noResultsDesc': 'Try other search terms',
+      'dashboard.searchGuides': 'Search guides...',
+      'dashboard.searchEbooks': 'Search e-books...',
+      'dashboard.searchVideos': 'Search videos...',
+      'dashboard.searchTips': 'Search tips...',
+      'dashboard.noGuides': 'No guides found',
+      'dashboard.noEbooks': 'No e-books found',
+      'dashboard.noVideos': 'No videos found',
+      'dashboard.noTips': 'No tips found',
+      'dashboard.welcomeBack': 'WELCOME BACK',
+      'dashboard.hello': 'Hello',
+      'dashboard.readyMessage': 'Your premium style experience is ready. Discover exclusive content designed to elevate your presence.',
+      'dashboard.explore': 'Explore Content',
+      'dashboard.recentActivity': 'Recent Activity',
+      'dashboard.lastAccess': 'Your last access',
+      'dashboard.sessionStarted': 'Session started successfully',
+      'dashboard.momentsAgo': 'A few moments ago',
+      'dashboard.activeMembership': 'Active',
+      'dashboard.active': 'Membership',
+      'dashboard.fullAccess': 'Full access guaranteed',
+      'dashboard.benefits': 'Benefits',
+      'dashboard.exclusivePerks': 'Exclusive perks',
+      'dashboard.unlimitedAccess': 'Unlimited access to all content',
+      'dashboard.weeklyUpdates': 'Exclusive weekly updates',
+      'dashboard.prioritySupport': 'Personalized priority support',
+      'dashboard.exclusiveEvents': 'Exclusive events and workshops',
+
+
+    }
+  },
+  es: {
+    translation: {
+      // NAVBAR
+      'nav.membership': 'Membresía Exclusiva',
+      'nav.login': 'Iniciar Sesión',
+      'nav.language.es': 'Español',
+      'nav.language.en': 'Inglés',
+      
+      // SECTION ONE (Hero)
+      'hero.subtitle': 'Comunidad de Estilo Exclusiva para Miembros',
+      'hero.title_line1': 'Donde el',
+      'hero.title_highlight': 'Estilo Atemporal',
+      'hero.title_line2': 'Se encuentra con la vida moderna',
+      'hero.description': 'Descubre AKAHL CLUB: un refugio exclusivo donde la moda trasciende las tendencias. Aprende a dominar el arte del vestir sofisticado con guías personalizadas, contenido finamente seleccionado y una comunidad que valora la elegancia duradera.',
+      'hero.button_discover': 'Descubre Tu Estilo',
+      'hero.button_explore': 'Explorar Membresías',
+      'hero.scroll_text': 'Desplazar',
+      
+      // SECTION TWO (Features)
+      'section2.subtitle': 'La Revolución del Estilo',
+      'section2.title_line1': 'Más que moda,',
+      'section2.title_highlight': 'una identidad consciente',
+      'section2.description': 'AKAHL CLUB no es una tienda. Es un <strong>ecosistema exclusivo</strong> que transforma tu relación con la moda en una expresión auténtica, refinada y duradera.',
+      
+      // Section 2 - Benefit 1
+      'section2.benefit1.title': 'Club Privado y Exclusivo',
+      'section2.benefit1.description': 'Acceso limitado para quienes buscan estilo atemporal y distinción.',
+      
+      // Section 2 - Benefit 2
+      'section2.benefit2.title': 'Educación Personalizada',
+      'section2.benefit2.description': 'Guías y acompañamiento para dominar combinaciones y patrones.',
+      
+      // Section 2 - Benefit 3
+      'section2.benefit3.title': 'Personalización Única',
+      'section2.benefit3.description': 'Prendas que reflejan tu esencia, no tendencias pasajeras.',
+      
+      // Carousel controls
+      'section2.carousel.prev': 'Anterior',
+      'section2.carousel.next': 'Siguiente',
+      'section2.carousel.of': 'de',
+
+      // SECTION THREE (Benefits)
+      'benefits.label': 'VALOR EXCLUSIVO',
+      'benefits.title.line1': 'Lo que recibes como',
+      'benefits.title.line2': 'miembro AKAHL CLUB',
+      'benefits.subtitle': 'Acceso a un ecosistema diseñado para transformar tu relación con el estilo personal y la moda consciente.',
+      
+      'benefits.education.title': 'Educación de Estilo',
+      'benefits.education.description': 'Guías y tutoriales mensuales sobre patrones y combinación visual. Acceso a biblioteca digital con recursos exclusivos de moda atemporal.',
+      
+      'benefits.wardrobe.title': 'Wardrobe Personalizado',
+      'benefits.wardrobe.description': 'Recomendaciones personalizadas para combinar tus prendas y reflejar tu estilo único.',
+      
+      'benefits.community.title': 'Comunidad Exclusiva',
+      'benefits.community.description': 'Acceso al grupo privado de WhatsApp de AKAHL CLUB, donde compartimos tips de estilo, lanzamientos exclusivos, novedades de productos y contenido inspirador.',
+      
+      'benefits.experiences.title': 'Experiencias VIP',
+      'benefits.experiences.description': 'Acceso anticipado a nuevas colecciones, descuentos exclusivos en prendas especificas.',
+      
+      'benefits.access.label': 'ACCESO EXCLUSIVO',
+      'benefits.access.title.line1': 'Transforma tu estilo en',
+      'benefits.access.title.line2': 'tu ventaja competitiva',
+      'benefits.access.subtitle': 'En AKAHL CLUB no solo mejoras tu vestuario, desarrollas una habilidad estratégica que impacta en tu confianza, presencia y resultados profesionales.',
+      
+      'benefits.features.consultation': 'Consulta inicial de estilo',
+      'benefits.features.plan': 'Plan personalizado por temporada',
+      'benefits.features.support': 'Respuestas rápidas a dudas sobre tu estilo y prendas',
+      
+      'carousel.prev': 'Anterior',
+      'carousel.next': 'Siguiente',       
+
+      // SECCIÓN CUATRO (Membresía)
+      'membership.label': 'TU CAMINO AL ESTILO',
+      'membership.title_line1': 'Elige tu nivel de',
+      'membership.title_line2': 'membresía ideal',
+      'membership.subtitle': 'Desde una introducción gratuita hasta acceso completo a nuestra comunidad premium, tenemos el plan perfecto para tu viaje de estilo.',
+      
+      // Plan Plata
+      'membership.silver.badge': 'ENTRADA',
+      'membership.silver.name': 'AKAHL CLUB Plata',
+      'membership.silver.price': '9.99',
+      'membership.silver.period': 'Por mes (cancelas cuando quieras)',
+      'membership.silver.description': 'Ideal para iniciar tu camino hacia el estilo atemporal y conocer nuestra comunidad.',
+      'membership.silver.benefits_title': 'Lo que incluye:',
+      'membership.silver.benefit1': 'Acceso al grupo de WhatsApp de la comunidad',
+      'membership.silver.benefit2': 'Consejos semanales de estilo y combinaciones',
+      'membership.silver.benefit3': 'Newsletter mensual con tips de moda y estilo',
+      'membership.silver.benefit4': 'Acceso a eventos gratuitos ocasionales',
+      'membership.silver.benefit5': 'Descuentos especiales en primera compra',
+      'membership.silver.button': 'Comenzar con Plata',
+      
+      // Plan Oro
+      'membership.gold.badge': 'RECOMENDADO',
+      'membership.gold.name': 'AKAHL CLUB Oro',
+      'membership.gold.price': '19.99',
+      'membership.gold.period': 'Por mes (cancelas cuando quieras)',
+      'membership.gold.description': 'Acceso completo a la comunidad premium y recursos exclusivos para mejorar tu estilo.',
+      'membership.gold.benefits_title': 'Todo lo de Plata, más:',
+      'membership.gold.benefit1': 'Acceso a la biblioteca digital:',
+      'membership.gold.benefit1_sublist1': 'E-books de combinación de patrones',
+      'membership.gold.benefit1_sublist2': 'Guías de tejidos y texturas',
+      'membership.gold.benefit1_sublist3': 'Manual de estilo atemporal',
+      'membership.gold.benefit1_sublist4': 'PDFs con consejos de tendencias conscientes',
+      'membership.gold.benefit2': 'Tutoriales y recursos exclusivos mensuales',
+      'membership.gold.benefit3': 'Acceso exclusivo a la comunidad VIP de WhatsApp',
+      'membership.gold.benefit4': 'Descuentos especiales en prendas personalizadas',
+      'membership.gold.benefit5': 'Acceso anticipado a lanzamientos y colecciones',
+      'membership.gold.button': 'Comenzar Membresía Oro',
+      
+      // Sección de Comparación
+      'membership.comparison.badge': 'RECOMENDACIÓN EXPERTA',
+      'membership.comparison.title': '¿No estás seguro de cuál elegir?',
+      'membership.comparison.text_line1': 'Comienza con el plan Plata por $9.99/mes',
+      'membership.comparison.text_line2': 'y únete a nuestra comunidad. Si decides acceder a más recursos y beneficios exclusivos, puedes actualizar al plan Oro en cualquier momento y mantener todos tus privilegios.',
+      'membership.comparison.button': 'Comparar planes completos',
+
+      // FOOTER
+      'footer.description': 'Una comunidad exclusiva donde el estilo atemporal se encuentra con la vida moderna. Transformamos tu relación con la moda en una expresión auténtica y duradera.',
+      'footer.quick_links': 'Enlaces Rápidos',
+      'footer.home': 'Inicio',
+      'footer.comparative': 'Comparar Planes',
+      'footer.contact': 'Contacto',
+      'footer.location': 'Doral, Florida',
+      'footer.copyright': 'Todos los derechos reservados.',
+
+      // FORM TRANSLATIONS
+      'form.title': 'Unirse a AKAHL CLUB',
+      'form.subtitle': 'Completa el formulario para acceder a tu membresía exclusiva. Recibirás confirmación inmediata y acceso al portal de miembros.',
+      
+      'form.labels.firstName': 'Nombre',
+      'form.labels.lastName': 'Apellido',
+      'form.labels.email': 'Correo electrónico',
+      'form.labels.phone': 'Teléfono / WhatsApp',
+      'form.labels.membership': 'Plan de membresía',
+      'form.labels.comments': 'Comentarios (opcional)',
+      
+      'form.placeholders.firstName': 'Tu nombre',
+      'form.placeholders.lastName': 'Tu apellido',
+      'form.placeholders.email': 'tu@email.com',
+      'form.placeholders.phone': '+54 9 11 1234 5678',
+      'form.placeholders.comments': 'Cuéntanos un poco qué esperas de Akahl...',
+      
+      'form.plans.silver.title': 'Plata',
+      'form.plans.silver.price': 'Premium',
+      'form.plans.silver.feature1': 'Acceso básico al portal',
+      'form.plans.silver.feature2': 'Newsletter semanal',
+      'form.plans.silver.feature3': 'E-book de estilo básico',
+      
+      'form.plans.gold.title': 'Oro',
+      'form.plans.gold.price': 'Premium +',
+      'form.plans.gold.feature1': 'Todos los beneficios Plata',
+      'form.plans.gold.feature2': 'Guías de estilo avanzadas',
+      'form.plans.gold.feature3': 'Consultas personalizadas',
+      
+      'form.terms.text': 'Acepto los ',
+      'form.terms.terms': 'Términos de Servicio',
+      'form.terms.and': ' y la ',
+      'form.terms.privacy': 'Política de Privacidad',
+      'form.terms.suffix': ' de AKAHL CLUB.',
+      
+      'form.errors.firstName': 'Por favor, ingresa tu nombre',
+      'form.errors.lastName': 'Por favor, ingresa tu apellido',
+      'form.errors.emailRequired': 'Por favor, ingresa tu correo electrónico',
+      'form.errors.emailInvalid': 'Por favor, ingresa un correo electrónico válido',
+      'form.errors.phoneRequired': 'Por favor, ingresa tu número de teléfono',
+      'form.errors.phoneInvalid': 'Por favor, ingresa un número de teléfono válido',
+      'form.errors.termsRequired': 'Debes aceptar los términos y condiciones',
+      'form.errors.submissionFailed': 'Error al procesar el registro',
+      'form.errors.connectionFailed': 'Error de conexión. Intenta nuevamente.',
+      
+      'form.buttons.processing': 'Procesando...',
+      'form.buttons.submit': 'Completar Registro',
+      
+      'form.success.message': '¡Registro exitoso! Revisa tu correo para acceder al portal.',
+
+      'form.labels.stylePreference': 'Tu preferencia de estilo (Opcional)',
+      'form.stylePreference.oldMoney': 'Old Money',
+      'form.stylePreference.oldMoneyDesc': 'Elegante, conservador y atemporal',
+      'form.stylePreference.classic': 'Classic',
+      'form.stylePreference.classicDesc': 'Tradicional y sofisticado',
+      'form.stylePreference.modern': 'Modern',
+      'form.stylePreference.modernDesc': 'Contemporáneo y actual',
+      'form.stylePreference.description': 'Selecciona el estilo que más se identifica contigo. Esta información nos ayuda a personalizar tu experiencia.',
+      'form.phoneSearch': 'Buscar país...',
+      'form.noCountries': 'No se encontraron países',
+      'form.phoneFormat': 'Número completo:',
+
+      'form.stylePreference.hint': 'Haz click nuevamente para seleccionar',
+      
+      // TERMS MODAL
+      'terms.title': 'Términos y Condiciones',
+      'terms.accept_button': 'Entendido',
+      'terms.section1.title': 'Aceptación de Términos',
+      'terms.section1.content': 'Al unirte a AKAHL CLUB, aceptas estos términos y condiciones en su totalidad. Estos términos constituyen un acuerdo legal entre tú y AKAHL CLUB.',
+      'terms.section2.title': 'Membresía y Suscripción',
+      'terms.section2.item1': 'El plan Plata cuesta $9.99/mes y requiere pago al registrarse.',
+      'terms.section2.item2': 'El plan Oro es una suscripción mensual que puede cancelarse en cualquier momento.',
+      'terms.section2.item3': 'Los pagos se procesan de forma segura a través de nuestro proveedor de pagos.',
+      'terms.section3.title': 'Uso de Contenido',
+      'terms.section3.content': 'Todo el contenido proporcionado en AKAHL CLUB es propiedad intelectual y está protegido por derechos de autor. No se permite la distribución, modificación o venta del contenido sin autorización.',
+      'terms.section4.title': 'Privacidad y Datos',
+      'terms.section4.content': 'Protegemos tu información personal de acuerdo con nuestra Política de Privacidad. Tus datos se utilizan únicamente para gestionar tu membresía y enviar contenido relevante.',
+      'terms.section5.title': 'Limitación de Responsabilidad',
+      'terms.section5.content': 'AKAHL CLUB no se hace responsable por decisiones de estilo personal tomadas por los miembros. Las recomendaciones son sugerencias y deben adaptarse al criterio personal de cada individuo.',
+      
+      // PRIVACY MODAL
+      'privacy.title': 'Política de Privacidad',
+      'privacy.accept_button': 'Entendido',
+      'privacy.section1.title': 'Información que Recopilamos',
+      'privacy.section1.content': 'Recopilamos información personal que nos proporcionas voluntariamente cuando te registras en AKAHL CLUB:',
+      'privacy.section1.item1': 'Nombre completo y apellido',
+      'privacy.section1.item2': 'Dirección de correo electrónico',
+      'privacy.section1.item3': 'Número de teléfono (opcional)',
+      'privacy.section1.item4': 'Preferencias de estilo (opcional)',
+      'privacy.section2.title': 'Uso de la Información',
+      'privacy.section2.item1': 'Proporcionar acceso a la plataforma y contenido exclusivo',
+      'privacy.section2.item2': 'Enviar comunicaciones sobre nuevos contenidos y actualizaciones',
+      'privacy.section2.item3': 'Personalizar la experiencia según tus preferencias',
+      'privacy.section2.item4': 'Procesar pagos de membresías premium',
+      'privacy.section3.title': 'Protección de Datos',
+      'privacy.section3.content': 'Implementamos medidas de seguridad técnicas y organizativas para proteger tu información personal contra accesos no autorizados, pérdida o alteración. Utilizamos encriptación SSL para todas las transmisiones de datos.',
+      'privacy.section4.title': 'Compartición de Información',
+      'privacy.section4.content': 'No vendemos, alquilamos ni compartimos tu información personal con terceros con fines comerciales. Solo compartimos información cuando es necesario para:',
+      'privacy.section4.item1': 'Cumplir con requerimientos legales',
+      'privacy.section4.item2': 'Procesar pagos a través de proveedores certificados',
+      'privacy.section4.item3': 'Proveer servicios técnicos esenciales',
+      'privacy.section5.title': 'Tus Derechos',
+      'privacy.section5.item1': 'Acceder a tu información personal',
+      'privacy.section5.item2': 'Corregir datos inexactos',
+      'privacy.section5.item3': 'Solicitar la eliminación de tus datos',
+      'privacy.section5.item4': 'Retirar tu consentimiento en cualquier momento',
+
+      // PÁGINA COMPARATIVA
+      'comparative.badge': 'COMPARACIÓN DETALLADA',
+      'comparative.title': 'Comparación Completa de Planes',
+      'comparative.subtitle': 'Explora en detalle cada beneficio, descarga nuestra guía de primavera y elige el plan perfecto para tu evolución de estilo.',
+      
+      // Sección Ebook
+      'comparative.ebook.title': 'Guía de Primavera Gratuita',
+      'comparative.ebook.subtitle': 'Descarga nuestra guía completa para vestir con estilo durante la primavera',
+      'comparative.ebook.chapter1': 'Capítulo 1: Transición de Temporada',
+      'comparative.ebook.chapter1_desc': 'Cómo adaptar tu armario del invierno a la primavera',
+      'comparative.ebook.chapter2': 'Capítulo 2: Paleta de Colores Primaveral',
+      'comparative.ebook.chapter2_desc': 'Colores que brillan en primavera y cómo combinarlos',
+      'comparative.ebook.chapter3': 'Capítulo 3: Prendas Esenciales',
+      'comparative.ebook.chapter3_desc': 'Las 10 prendas imprescindibles para esta temporada',
+      'comparative.ebook.exercises': 'Ejercicios Prácticos',
+      'comparative.ebook.exercises_desc': 'Actividades para renovar tu estilo esta primavera',
+      'comparative.ebook.format': 'PDF • 4.1 MB',
+      'comparative.ebook.reading_time': '60 minutos de lectura',
+      'comparative.ebook.level': 'Nivel: Principiante/Intermedio',
+      'comparative.ebook.name': 'Guía de Estilo Primaveral',
+      'comparative.ebook.edition': 'Edición especial de temporada',
+      'comparative.ebook.download': 'Descargar Guía Gratis',
+      
+      // Tabla de Comparación
+      'comparative.table_title': 'Comparación Lado a Lado',
+      'comparative.table_subtitle': 'Revisa cada característica en detalle para tomar la mejor decisión',
+      'comparative.features': 'Características',
+      'comparative.plan_silver': 'Plan Plata',
+      'comparative.plan_gold': 'Plan Oro',
+      
+      // Categorías de la tabla
+      'comparative.category_community': 'Comunidad y Grupos',
+      'comparative.category_content': 'Contenido Exclusivo',
+      'comparative.category_benefits': 'Beneficios Exclusivos',
+      'comparative.category_events': 'Eventos y Experiencias',
+      'comparative.category_support': 'Soporte y Asesoría',
+      
+      // Características de la tabla
+      'comparative.feature_whatsapp': 'Grupo de WhatsApp',
+      'comparative.feature_ebooks': 'E-books digitales',
+      'comparative.feature_tutorials': 'Tutoriales en video',
+      'comparative.feature_discounts': 'Descuentos en prendas',
+      'comparative.feature_certificate': 'Certificado digital',
+      'comparative.feature_virtual_events': 'Eventos virtuales',
+      'comparative.feature_presential_events': 'Eventos presenciales',
+      'comparative.feature_consultation': 'Asesoría personal',
+      'comparative.feature_support': 'Soporte y respuestas',
+      
+      // Características Plan Plata
+      'comparative.silver_whatsapp': 'Acceso al grupo Plata',
+      'comparative.silver_ebooks': 'Acceso limitado',
+      'comparative.silver_tutorials': 'Contenido básico seleccionado',
+      'comparative.silver_discounts': '5% primera compra',
+      'comparative.silver_virtual_events': 'Algunos eventos selectos',
+      'comparative.silver_support': 'Respuestas en horarios laborables',
+      
+      // Características Plan Oro
+      'comparative.gold_whatsapp': 'Acceso exclusivo al grupo Oro',
+      'comparative.gold_ebooks': 'Acceso completo a toda la biblioteca',
+      'comparative.gold_tutorials': 'Tutoriales avanzados exclusivos',
+      'comparative.gold_discounts': '15% permanente en prendas específicas',
+      'comparative.gold_certificate': 'Certificado de membresía premium',
+      'comparative.gold_virtual_events': 'Todos los eventos online',
+      'comparative.gold_presential_events': 'Invitaciones a eventos selectos',
+      'comparative.gold_consultation': 'Consultas de estilo ocasionales',
+      'comparative.gold_support': 'Atención prioritaria',
+      
+      // Listas completas de características
+      'comparative.features.silver1': 'Acceso al grupo principal de WhatsApp (Grupo Plata)',
+      'comparative.features.silver2': 'Newsletter mensual con tips de estilo',
+      'comparative.features.silver3': 'Consejos semanales de combinación',
+      'comparative.features.silver4': 'Acceso a algunos eventos virtuales selectos',
+      'comparative.features.silver5': '5% de descuento en primera compra',
+      'comparative.features.silver6': 'Guía básica de estilo personal',
+      'comparative.features.silver7': 'Comunidad de apoyo y networking básico',
+      'comparative.features.silver8': 'Contenido exclusivo en redes sociales',
+      
+      'comparative.features.gold1': 'Todo lo del plan Plata',
+      'comparative.features.gold2': 'Acceso exclusivo al grupo VIP de WhatsApp (Grupo Oro)',
+      'comparative.features.gold3': 'Biblioteca digital completa: acceso a todos los ebooks',
+      'comparative.features.gold4': 'Tutoriales en video exclusivos (contenido avanzado)',
+      'comparative.features.gold5': 'Consultas de estilo personalizadas ocasionales',
+      'comparative.features.gold6': '15% de descuento permanente en prendas específicas',
+      'comparative.features.gold7': 'Acceso anticipado a nuevas colecciones',
+      'comparative.features.gold8': 'Invitaciones a eventos presenciales selectos',
+      'comparative.features.gold9': 'Guía de inversión en prendas de calidad',
+      'comparative.features.gold10': 'Asesoría de combinaciones personalizadas',
+      'comparative.features.gold11': 'Certificado digital de membresía premium',
+      
+      // Sección CTA
+      'comparative.plan_silver_complete': 'Plan Plata Completo',
+      'comparative.plan_gold_complete': 'Plan Oro Completo',
+      'comparative.show_all': 'Ver todas las características',
+      'comparative.show_less': 'Mostrar menos',
+      'comparative.cta_title': '¿Listo para Transformar Tu Estilo?',
+      'comparative.cta_subtitle': 'Únete a miles de personas que ya están mejorando su estilo de vida con Akahl Club. Elige el plan que mejor se adapte a tus necesidades.',
+      'comparative.cta_button_silver': 'Comenzar Plan Plata',
+      'comparative.cta_button_gold': 'Probar Plan Oro',
+      'comparative.cta_help': '¿Aún tienes dudas?',
+      'comparative.contact_us': 'Contáctanos',
+      'comparative.cta_help_suffix': 'para una asesoría personalizada',
+
+      // Sección Destacada (Nueva sección color crema)
+      'comparative.highlight_section.badge': 'POR QUÉ ELEGIRNOS',
+      'comparative.highlight_section.title': 'Más que una membresía,',
+      'comparative.highlight_section.highlight': 'una experiencia transformadora',
+      'comparative.highlight_section.description': 'En AKAHL CLUB no solo te ofrecemos beneficios, te guiamos en un viaje de transformación personal donde el estilo se convierte en tu firma distintiva.',
+      'comparative.highlight_section.card1_title': 'Expertos en Estilo',
+      'comparative.highlight_section.card1_desc': 'Más de 10 años transformando armarios y elevando estilos personales.',
+      'comparative.highlight_section.card2_title': 'Comunidad Activa',
+      'comparative.highlight_section.card2_desc': 'Miles de miembros compartiendo tips, combinaciones y experiencias.',
+      'comparative.highlight_section.card3_title': 'Beneficios Reales',
+      'comparative.highlight_section.card3_desc': 'Descuentos, eventos exclusivos y contenido que transforma tu día a día.',
+
+      // Precios de membresía (actualizados)
+      'membership.silver.price': '9.99',
+      'membership.gold.price': '19.99',
+
+      // Language detection for content filtering
+      'current_language': 'es',
+
+      // DASHBOARD / PORTAL
+      'dashboard.welcome': 'Bienvenido de nuevo',
+      'dashboard.ready': 'Tu experiencia premium de estilo está lista',
+      'dashboard.experience': 'Descubre contenido exclusivo diseñado para elevar tu presencia y distinguirte.',
+      'dashboard.explore': 'Explorar Contenido',
+      'dashboard.controlPanel': 'Panel de Control',
+      'dashboard.guides': 'Guías de Estilo',
+      'dashboard.guidesDesc': 'Recursos especializados para dominar tu estilo',
+      'dashboard.ebooks': 'Colección de E-Books',
+      'dashboard.ebooksDesc': 'Manuales completos para consulta detallada',
+      'dashboard.videos': 'Galería de Videos',
+      'dashboard.videosDesc': 'Tutoriales visuales paso a paso',
+      'dashboard.tips': 'Consejos Exclusivos',
+      'dashboard.tipsDesc': 'Tips prácticos de expertos en estilo',
+      'dashboard.guidesAvailable': 'guías disponibles',
+      'dashboard.ebooksAvailable': 'e-books disponibles',
+      'dashboard.videosAvailable': 'videos disponibles',
+      'dashboard.tipsAvailable': 'consejos disponibles',
+      'dashboard.comingSoon': 'Próximamente',
+      'dashboard.preparing': 'Estamos preparando contenido exclusivo para ti',
+      'dashboard.inPreparation': 'Contenido en preparación',
+      'dashboard.publishingSoon': 'Lanzaremos nuestra colección premium pronto',
+      'dashboard.producing': 'Estamos produciendo contenido exclusivo en video',
+      'dashboard.sharingSoon': 'Próximamente compartiremos consejos exclusivos',
+      'dashboard.vipAccess': 'Acceso VIP Premium - Plan Oro',
+      'dashboard.standardAccess': 'Acceso Estándar - Plan Plata',
+      'dashboard.activeMember': 'Miembro Activo',
+      'dashboard.recentActivity': 'Actividad Reciente',
+      'dashboard.lastAccess': 'Tu último acceso',
+      'dashboard.sessionStarted': 'Sesión iniciada correctamente',
+      'dashboard.momentsAgo': 'Hace unos momentos',
+      'dashboard.membershipActive': 'Membresía {plan} activa',
+      'dashboard.fullAccess': 'Acceso completo garantizado',
+      'dashboard.benefits': 'Beneficios',
+      'dashboard.exclusiveBenefits': 'Ventajas exclusivas',
+      'dashboard.unlimitedAccess': 'Acceso ilimitado a todo el contenido',
+      'dashboard.weeklyUpdates': 'Actualizaciones semanales exclusivas',
+      'dashboard.prioritySupport': 'Soporte prioritario personalizado',
+      'dashboard.exclusiveEvents': 'Eventos y workshops exclusivos',
+      'dashboard.welcomeBack': 'BIENVENIDO DE NUEVO',
+      'dashboard.hello': 'Hola',
+      'dashboard.readyMessage': 'Tu experiencia premium de estilo está lista. Descubre contenido exclusivo diseñado para elevar tu presencia.',
+      'dashboard.explore': 'Explorar Contenido',
+      'dashboard.active': 'Membresía',
+      'dashboard.exclusivePerks': 'Ventajas exclusivas',
+      'dashboard.downloadGuide': 'Descargar Guía',
+      'dashboard.downloadEbook': 'Descargar E-Book',
+      'dashboard.watchVideo': 'Ver Video',
+      'dashboard.premium': 'PREMIUM',
+      'dashboard.author': 'Por {author}',
+      'dashboard.pages': '{pages} páginas',
+      'dashboard.duration': '{duration}',
+      'dashboard.loading': 'Cargando tu experiencia premium',
+      'dashboard.preparing': 'Preparando contenido exclusivo...',
+      'dashboard.memberPortal': 'Portal Miembros',
+      'dashboard.contents': 'Contenidos',
+      'dashboard.logout': 'Cerrar Sesión',
+      'dashboard.controlPanel': 'Panel de Control',
+      'dashboard.guides': 'Guías de Estilo',
+      'dashboard.ebooks': 'E-Books',
+      'dashboard.videos': 'Videos',
+      'dashboard.tips': 'Consejos',
+      'dashboard.controlPanelTitle': 'Panel de Control',
+      'dashboard.guidesTitle': 'Biblioteca de Guías',
+      'dashboard.guidesDesc': 'Recursos especializados para dominar tu estilo',
+      'dashboard.ebooksTitle': 'Colección de E-Books',
+      'dashboard.ebooksDesc': 'Manuales completos para consulta detallada',
+      'dashboard.videosTitle': 'Galería de Videos',
+      'dashboard.videosDesc': 'Tutoriales visuales paso a paso',
+      'dashboard.tipsTitle': 'Consejos Exclusivos',
+      'dashboard.tipsDesc': 'Tips prácticos de expertos en estilo',
+      'dashboard.searchPlaceholder': 'Buscar...',
+      'dashboard.allCategories': 'Todas las categorías',
+      'dashboard.goldOnly': 'Solo Oro',
+      'dashboard.added': 'Añadido',
+      'dashboard.of': 'de',
+      'dashboard.noResults': 'No se encontraron resultados',
+      'dashboard.noResultsDesc': 'Intenta con otros términos',
+      'dashboard.searchGuides': 'Buscar guías...',
+      'dashboard.searchEbooks': 'Buscar e-books...',
+      'dashboard.searchVideos': 'Buscar videos...',
+      'dashboard.searchTips': 'Buscar consejos...',
+      'dashboard.noGuides': 'No se encontraron guías',
+      'dashboard.noEbooks': 'No se encontraron e-books',
+      'dashboard.noVideos': 'No se encontraron videos',
+      'dashboard.noTips': 'No se encontraron consejos',
+
+    }
+  }
+};
+
+// Función para obtener idioma guardado (compatible con localStorage)
+const getSavedLanguage = () => {
+  try {
+    return localStorage.getItem('language') || 'en'; // Inglés por defecto
+  } catch (e) {
+    return 'en'; // Fallback si localStorage no está disponible
+  }
+};
+
+// Función para guardar idioma (compatible con localStorage)
+const saveLanguage = (lng) => {
+  try {
+    localStorage.setItem('language', lng);
+  } catch (e) {
+    console.warn('No se pudo guardar la preferencia de idioma');
+  }
+};
+
+// Configuración optimizada
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: getSavedLanguage(), // Usa la función helper
+    fallbackLng: 'en', // Fallback a inglés
+    
+    // Optimizaciones de performance
+    interpolation: {
+      escapeValue: false,
+    },
+    
+    react: {
+      useSuspense: false,
+      bindI18n: 'languageChanged',
+      bindI18nStore: '',
+    },
+    
+    // Mejor experiencia de desarrollo
+    saveMissing: true,
+    missingKeyHandler: (lng, ns, key) => {
+      console.warn(`Missing translation: ${key}`);
+      return key;
+    },
+    
+    // Cache
+    appendNamespaceToCIMode: true,
+    appendNamespaceToMissingKey: true,
+  });
+
+// Evento para guardar preferencia de idioma
+i18n.on('languageChanged', (lng) => {
+  saveLanguage(lng); // Usa la función helper
+  // Actualizar el atributo lang del documento
+  document.documentElement.lang = lng;
+});
+
+export default i18n;

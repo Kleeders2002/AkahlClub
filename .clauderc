@@ -1,0 +1,12 @@
+{
+  "allowedCommands": ["npm", "npx", "node", "git", "prisma"],
+  "blockedPaths": [
+    ".env",
+    "node_modules/**",
+    ".git/**",
+    "package-lock.json"
+  ],
+  "allowedPaths": [
+    "**/*"
+  ]
+}
