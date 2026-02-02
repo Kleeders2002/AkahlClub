@@ -138,7 +138,7 @@ import LeadCaptureModal from "./components/LeadCaptureModal"
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userToken, setUserToken] = useState(null)
-  const [showLeadModal, setShowLeadModal] = useState(true) // Cambiado a true por defecto
+  const [showLeadModal, setShowLeadModal] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -146,12 +146,16 @@ function App() {
       setUserToken(token)
       setIsLoggedIn(true)
     }
-    
-    // Para pruebas: siempre mostrar el modal
-    const timer = setTimeout(() => {
-      setShowLeadModal(true)
-    }, 1000)
-    return () => clearTimeout(timer)
+
+    // Verificar si ya mostramos el modal al usuario
+    const hasSeenModal = localStorage.getItem("hasSeenLeadModal")
+    if (!hasSeenModal && !token) {
+      // Esperar un momento para mejor experiencia de usuario
+      const timer = setTimeout(() => {
+        setShowLeadModal(true)
+      }, 1000)
+      return () => clearTimeout(timer)
+    }
   }, [])
 
   const handleLogin = (token) => {
@@ -168,21 +172,19 @@ function App() {
 
   const handleLeadSubmit = (leadData) => {
     console.log("Lead capturado:", leadData)
-    // Comentar esta línea para que no se guarde el estado
-    // localStorage.setItem("hasSeenLeadModal", "true")
+    localStorage.setItem("hasSeenLeadModal", "true")
     setShowLeadModal(false)
     alert("¡Gracias! Te contactaremos pronto.")
   }
 
   const handleCloseModal = () => {
-    // Comentar esta línea para que no se guarde el estado
-    // localStorage.setItem("hasSeenLeadModal", "true")
+    localStorage.setItem("hasSeenLeadModal", "true")
     setShowLeadModal(false)
   }
 
   return (
     <Router>
-      {/* Modal de captación de leads - SIEMPRE visible */}
+      {/* Modal de captación de leads - Solo muestra una vez */}
       {showLeadModal && (
         <LeadCaptureModal
           onSubmit={handleLeadSubmit}
