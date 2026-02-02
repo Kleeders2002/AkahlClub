@@ -28,7 +28,7 @@ const SectionFour = () => {
               <span>{t('membership.label', 'TU CAMINO AL ESTILO')}</span>
             </div>
             
-            <h2 className="font-stanford text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-dark-green leading-tight mb-6 lg:mb-8 tracking-tight relative after:absolute after:bottom-[-20px] after:left-1/2 after:transform after:translate-x-[-50%] after:w-28 after:h-1 after:bg-gradient-to-r after:from-transparent after:via-gold after:to-transparent">
+            <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-dark-green leading-tight mb-6 lg:mb-8 tracking-tight relative after:absolute after:bottom-[-20px] after:left-1/2 after:transform after:translate-x-[-50%] after:w-28 after:h-1 after:bg-gradient-to-r after:from-transparent after:via-gold after:to-transparent">
               {t('membership.title_line1', 'Elige tu nivel de')}<br />
               {t('membership.title_line2', 'membresía ideal')}
             </h2>
@@ -52,7 +52,7 @@ const SectionFour = () => {
                 <span>{t('membership.silver.badge', 'ENTRADA')}</span>
               </div>
               
-              <h3 className="font-stanford text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-600 mb-4 lg:mb-6 leading-tight">
+              <h3 className="font-playfair text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-600 mb-4 lg:mb-6 leading-tight">
                 {t('membership.silver.name', 'Akahl Club Plata')}
               </h3>
               
@@ -122,7 +122,7 @@ const SectionFour = () => {
                 <span>{t('membership.gold.badge', 'RECOMENDADO')}</span>
               </div>
               
-              <h3 className="font-stanford text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-br from-dark-green to-[#2c463c] bg-clip-text text-transparent mb-4 lg:mb-6 leading-tight">
+              <h3 className="font-playfair text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-br from-dark-green to-[#2c463c] bg-clip-text text-transparent mb-4 lg:mb-6 leading-tight">
                 {t('membership.gold.name', 'Akahl Club Oro')}
               </h3>
               
@@ -213,7 +213,7 @@ const SectionFour = () => {
               <span>{t('membership.comparison.badge', 'RECOMENDACIÓN EXPERTA')}</span>
             </div>
             
-            <h3 className="font-cormorant text-2xl lg:text-3xl xl:text-4xl font-semibant text-white mb-6 lg:mb-8 leading-tight">
+            <h3 className="font-cormorant text-2xl lg:text-3xl xl:text-4xl font-semibold text-white mb-6 lg:mb-8 leading-tight">
               {t('membership.comparison.title', '¿No estás seguro de cuál elegir?')}
             </h3>
             

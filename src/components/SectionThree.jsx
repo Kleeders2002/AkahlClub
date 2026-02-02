@@ -110,12 +110,12 @@ const SectionThree = () => {
         <div className="text-center mb-16 md:mb-24 lg:mb-28 pt-10 md:pt-16">
           <div className="inline-flex items-center gap-3 bg-[rgba(193,173,72,0.1)] border border-[rgba(193,173,72,0.2)] backdrop-blur-sm rounded-full px-6 py-3 mb-8">
             <Sparkles className="w-4 h-4 text-[#c1ad48]" />
-            <span className="font-montserrat font-bold text-xs md:text-sm uppercase tracking-widest text-[#c1ad48]">
+            <span className="font-playfair font-bold text-xs md:text-sm uppercase tracking-widest text-[#c1ad48]">
               {t('benefits.label')}
             </span>
           </div>
           
-          <h2 className="font-stanford font-semibold text-3xl md:text-4xl lg:text-5xl text-[#152821] leading-tight mb-6">
+          <h2 className="font-playfair font-semibold text-3xl md:text-4xl lg:text-5xl text-[#152821] leading-tight mb-6">
             {t('benefits.title.line1')}
             <br />
             {t('benefits.title.line2')}
@@ -125,7 +125,7 @@ const SectionThree = () => {
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-0.5 bg-gradient-to-r from-transparent via-[#c1ad48] to-transparent" />
           </div>
           
-          <p className="font-montserrat font-light text-base md:text-lg lg:text-xl text-[#152821]/70 max-w-3xl mx-auto leading-relaxed tracking-wide">
+          <p className="font-cormorant font-light text-base md:text-lg lg:text-xl text-[#152821]/70 max-w-3xl mx-auto leading-relaxed tracking-wide">
             {t('benefits.subtitle')}
           </p>
         </div>
@@ -162,14 +162,14 @@ const SectionThree = () => {
                   
                   {/* Contenido */}
                   <div className="relative z-10 flex-1 flex flex-col">
-                    <h3 className="font-stanford font-semibold text-2xl md:text-3xl text-[#152821] mb-4 md:mb-6 min-h-[72px]">
+                    <h3 className="font-playfair font-semibold text-2xl md:text-3xl text-[#152821] mb-4 md:mb-6 min-h-[72px]">
                       {benefit.title}
                     </h3>
                     
                     {/* Divider */}
                     <div className="w-12 h-0.5 bg-gradient-to-r from-[#c1ad48] to-transparent opacity-50 mb-6" />
                     
-                    <p className="font-montserrat font-light text-sm md:text-base text-[#152821]/70 leading-relaxed flex-1">
+                    <p className="font-cormorant font-light text-sm md:text-base text-[#152821]/70 leading-relaxed flex-1">
                       {benefit.description}
                     </p>
                   </div>
@@ -233,7 +233,7 @@ const SectionThree = () => {
             </h3>
             
             {/* Subtítulo */}
-            <p className="font-montserrat font-light text-base md:text-lg text-white/85 max-w-4xl mx-auto mb-10 md:mb-12 lg:mb-16 leading-relaxed tracking-wide">
+            <p className="font-cormorant font-light text-base md:text-lg text-white/85 max-w-4xl mx-auto mb-10 md:mb-12 lg:mb-16 leading-relaxed tracking-wide">
               {t('benefits.access.subtitle')}
             </p>
             
@@ -247,7 +247,7 @@ const SectionThree = () => {
                   <div className="w-10 h-10 bg-[#c1ad48] rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_10px_30px_rgba(193,173,72,0.3)]">
                     <Check className="w-5 h-5 text-[#152821] font-bold" />
                   </div>
-                  <p className="font-montserrat font-medium text-sm md:text-base text-white text-center leading-relaxed">
+                  <p className="font-cormorant font-medium text-sm md:text-base text-white text-center leading-relaxed">
                     {feature}
                   </p>
                 </div>
@@ -260,11 +260,11 @@ const SectionThree = () => {
       {/* Estilos CSS personalizados */}
       <style jsx global>{`
         .font-cormorant {
-          font-family: 'Marcellus', serif;
+          font-family: 'Playfair Display', serif;
         }
 
-        .font-montserrat {
-          font-family: 'Inter', sans-serif;
+        .font-luxury-sans {
+          font-family: 'Cormorant Garamond', serif;
         }
         
         @keyframes gradientShift {

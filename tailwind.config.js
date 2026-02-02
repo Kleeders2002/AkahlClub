@@ -43,10 +43,12 @@ export default {
         'light-cream': '#faf8f3',
       },
       fontFamily: {
+        'playfair': ['"Playfair Display"', 'serif'],
+        'cormorant': ['"Cormorant Garamond"', 'serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
         'marcellus': ['Marcellus', 'serif'],
         'oldstandard': ['"Old Standard TT"', 'serif'],
-        'stanford': ['"Stanford Breath"', 'serif'],
       },
       keyframes: {
         fadeUp: {

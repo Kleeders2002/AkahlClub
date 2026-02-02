@@ -73,11 +73,11 @@ export default function SectionTwo() {
               </div>
 
               {/* Título principal - Responsive */}
-              <h2 className="font-stanford text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] font-light text-[#233c33]">
+              <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] font-light text-[#233c33]">
                 {t('section2.title_line1') || "Más que moda,"}
                 <br />
                 <span
-                  className="font-stanford italic text-[#ceb652] relative inline-block"
+                  className="font-playfair italic text-[#ceb652] relative inline-block"
                   style={{
                     textShadow: '0 0 40px rgba(206, 182, 82, 0.15)'
                   }}
@@ -275,11 +275,11 @@ export default function SectionTwo() {
 
       <style>{`
         section {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Cormorant Garamond', serif;
         }
 
         h2 span {
-          font-family: 'Marcellus', serif;
+          font-family: 'Playfair Display', serif;
         }
       `}</style>
     </>

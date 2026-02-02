@@ -440,7 +440,7 @@ const MembershipForm = () => {
             {t('form.title')}
           </h2>
           
-          <p className="font-montserrat text-base md:text-lg text-white/80 leading-relaxed max-w-xl mx-auto">
+          <p className="font-cormorant text-base md:text-lg text-white/80 leading-relaxed max-w-xl mx-auto">
             {t('form.subtitle')}
           </p>
         </div>

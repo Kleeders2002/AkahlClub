@@ -27,13 +27,13 @@ const PrivacyModal = ({ isOpen, onClose }) => {
         <div className="p-6 md:p-8 overflow-y-auto max-h-[70vh]">
           <div className="space-y-6 text-dark-green/80">
             <section>
-              <h4 className="font-montserrat text-lg font-bold text-dark-green mb-3">
+              <h4 className="font-playfair text-lg font-bold text-dark-green mb-3">
                 1. {t('privacy.section1.title', 'Información que Recopilamos')}
               </h4>
-              <p className="font-montserrat text-sm leading-relaxed mb-3">
+              <p className="font-cormorant text-sm leading-relaxed mb-3">
                 {t('privacy.section1.content', 'Recopilamos información personal que nos proporcionas voluntariamente cuando te registras en Akahl Club:')}
               </p>
-              <ul className="font-montserrat text-sm space-y-2 list-disc pl-5">
+              <ul className="font-cormorant text-sm space-y-2 list-disc pl-5">
                 <li>{t('privacy.section1.item1', 'Nombre completo y apellido')}</li>
                 <li>{t('privacy.section1.item2', 'Dirección de correo electrónico')}</li>
                 <li>{t('privacy.section1.item3', 'Número de teléfono (opcional)')}</li>
@@ -42,10 +42,10 @@ const PrivacyModal = ({ isOpen, onClose }) => {
             </section>
 
             <section>
-              <h4 className="font-montserrat text-lg font-bold text-dark-green mb-3">
+              <h4 className="font-playfair text-lg font-bold text-dark-green mb-3">
                 2. {t('privacy.section2.title', 'Uso de la Información')}
               </h4>
-              <ul className="font-montserrat text-sm space-y-2 list-disc pl-5">
+              <ul className="font-cormorant text-sm space-y-2 list-disc pl-5">
                 <li>{t('privacy.section2.item1', 'Proporcionar acceso a la plataforma y contenido exclusivo')}</li>
                 <li>{t('privacy.section2.item2', 'Enviar comunicaciones sobre nuevos contenidos y actualizaciones')}</li>
                 <li>{t('privacy.section2.item3', 'Personalizar la experiencia según tus preferencias')}</li>
@@ -54,19 +54,19 @@ const PrivacyModal = ({ isOpen, onClose }) => {
             </section>
 
             <section>
-              <h4 className="font-montserrat text-lg font-bold text-dark-green mb-3">
+              <h4 className="font-playfair text-lg font-bold text-dark-green mb-3">
                 3. {t('privacy.section3.title', 'Protección de Datos')}
               </h4>
-              <p className="font-montserrat text-sm leading-relaxed">
+              <p className="font-cormorant text-sm leading-relaxed">
                 {t('privacy.section3.content', 'Implementamos medidas de seguridad técnicas y organizativas para proteger tu información personal contra accesos no autorizados, pérdida o alteración. Utilizamos encriptación SSL para todas las transmisiones de datos.')}
               </p>
             </section>
 
             <section>
-              <h4 className="font-montserrat text-lg font-bold text-dark-green mb-3">
+              <h4 className="font-playfair text-lg font-bold text-dark-green mb-3">
                 4. {t('privacy.section4.title', 'Compartición de Información')}
               </h4>
-              <p className="font-montserrat text-sm leading-relaxed">
+              <p className="font-cormorant text-sm leading-relaxed">
                 {t('privacy.section4.content', 'No vendemos, alquilamos ni compartimos tu información personal con terceros con fines comerciales. Solo compartimos información cuando es necesario para:')}
               </p>
               <ul className="font-montserrat text-sm space-y-2 list-disc pl-5 mt-3">
@@ -77,10 +77,10 @@ const PrivacyModal = ({ isOpen, onClose }) => {
             </section>
 
             <section>
-              <h4 className="font-montserrat text-lg font-bold text-dark-green mb-3">
+              <h4 className="font-playfair text-lg font-bold text-dark-green mb-3">
                 5. {t('privacy.section5.title', 'Tus Derechos')}
               </h4>
-              <ul className="font-montserrat text-sm space-y-2 list-disc pl-5">
+              <ul className="font-cormorant text-sm space-y-2 list-disc pl-5">
                 <li>{t('privacy.section5.item1', 'Acceder a tu información personal')}</li>
                 <li>{t('privacy.section5.item2', 'Corregir datos inexactos')}</li>
                 <li>{t('privacy.section5.item3', 'Solicitar la eliminación de tus datos')}</li>

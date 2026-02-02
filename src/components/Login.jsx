@@ -74,7 +74,7 @@ export default function Login({ onLogin }) {
             >
               <Lock className="w-8 h-8 text-[#152821]" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Portal VIP</h1>
+            <h1 className="text-3xl font-playfair font-bold text-white mb-2">Portal VIP</h1>
             <p className="text-gray-400">Accede a tu área exclusiva</p>
           </div>
 

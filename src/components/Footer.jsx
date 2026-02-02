@@ -18,14 +18,14 @@ const Footer = () => {
                 className="h-12 w-auto transition-opacity duration-300 hover:opacity-80"
               />
             </div>
-            <p className="font-montserrat text-light-cream/70 text-sm leading-relaxed max-w-md">
+            <p className="font-cormorant text-light-cream/70 text-sm leading-relaxed max-w-md">
               {t('footer.description', 'Una comunidad exclusiva donde el estilo atemporal se encuentra con la vida moderna. Transformamos tu relación con la moda en una expresión auténtica y duradera.')}
             </p>
           </div>
 
           {/* Enlaces rápidos */}
           <div className="lg:col-span-3 lg:col-start-7">
-            <h4 className="font-montserrat font-semibold text-sm mb-6 uppercase tracking-widest text-light-cream">
+            <h4 className="font-playfair font-semibold text-sm mb-6 uppercase tracking-widest text-light-cream">
               {t('footer.quick_links', 'Enlaces Rápidos')}
             </h4>
             <ul className="space-y-3">
@@ -36,7 +36,7 @@ const Footer = () => {
                 <li key={link.key}>
                   <a
                     href={link.href}
-                    className="font-montserrat text-light-cream/60 hover:text-gold text-sm transition-all duration-300 inline-block hover:translate-x-1"
+                    className="font-cormorant text-light-cream/60 hover:text-gold text-sm transition-all duration-300 inline-block hover:translate-x-1"
                   >
                     {t(`footer.${link.key}`)}
                   </a>
@@ -47,14 +47,14 @@ const Footer = () => {
 
           {/* Contacto */}
           <div className="lg:col-span-4">
-            <h4 className="font-montserrat font-semibold text-sm mb-6 uppercase tracking-widest text-light-cream">
+            <h4 className="font-playfair font-semibold text-sm mb-6 uppercase tracking-widest text-light-cream">
               {t('footer.contact', 'Contacto')}
             </h4>
             <ul className="space-y-4">
               <li>
                 <a 
                   href="mailto:info@akahlstyle.com" 
-                  className="font-montserrat text-light-cream/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
+                  className="font-cormorant text-light-cream/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                 >
                   <span className="w-1 h-1 bg-gold rounded-full group-hover:scale-150 transition-transform duration-300"></span>
                   info@akahlstyle.com
@@ -63,13 +63,13 @@ const Footer = () => {
               <li>
                 <a 
                   href="https://wa.me/+17868658511" 
-                  className="font-montserrat text-light-cream/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
+                  className="font-cormorant text-light-cream/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                 >
                   <span className="w-1 h-1 bg-gold rounded-full group-hover:scale-150 transition-transform duration-300"></span>
                   WhatsApp
                 </a>
               </li>
-              <li className="font-montserrat text-light-cream/60 text-sm flex items-center gap-3">
+              <li className="font-cormorant text-light-cream/60 text-sm flex items-center gap-3">
                 <span className="w-1 h-1 bg-gold rounded-full"></span>
                 {t('footer.location', 'Buenos Aires, Argentina')}
               </li>
@@ -84,7 +84,7 @@ const Footer = () => {
 
         {/* Copyright y redes sociales */}
         <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="font-montserrat text-light-cream/50 text-xs tracking-wide">
+          <p className="font-inter text-light-cream/50 text-xs tracking-wide">
             © {new Date().getFullYear()} Akahl Club · {t('footer.copyright', 'Todos los derechos reservados.')}
           </p>
           

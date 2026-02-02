@@ -51,7 +51,7 @@ const ComparativePage = () => {
         
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-16 text-center lg:mb-20">
-            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-[#c4b998]/30 bg-white/10 px-6 py-3 font-montserrat text-sm font-bold uppercase tracking-[0.2em] text-[#c4b998] backdrop-blur-lg lg:px-9 lg:py-4 lg:text-base">
+            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-[#c4b998]/30 bg-white/10 px-6 py-3 font-playfair text-sm font-bold uppercase tracking-[0.2em] text-[#c4b998] backdrop-blur-lg lg:px-9 lg:py-4 lg:text-base">
               <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#c4b998]"></div>
               <span>{t('comparative.badge', 'COMPARACIÓN DETALLADA')}</span>
             </div>

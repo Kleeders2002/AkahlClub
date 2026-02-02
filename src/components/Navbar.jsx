@@ -183,7 +183,7 @@ export default function Navbar() {
                   background: 'rgba(193, 173, 72, 0.08)',
                   borderColor: 'rgba(193, 173, 72, 0.2)',
                   color: '#c1ad48',
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "'Cormorant Garamond', serif",
                   fontWeight: 500,
                   fontSize: '14px',
                   letterSpacing: '0.5px',
@@ -310,7 +310,7 @@ export default function Navbar() {
                     borderColor: 'rgba(193, 173, 72, 0.25)',
                     color: '#c1ad48',
                     border: '1px solid',
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Cormorant Garamond', serif",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(193, 173, 72, 0.2)';
@@ -399,7 +399,7 @@ export default function Navbar() {
                   color: '#152821',
                   boxShadow: '0 4px 20px rgba(193, 173, 72, 0.4)',
                   border: '1px solid rgba(193, 173, 72, 0.3)',
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "'Cormorant Garamond', serif",
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -500,7 +500,7 @@ export default function Navbar() {
                       }`}
                       style={{
                         minWidth: '140px',
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                       }}
                     >
                       Español
@@ -517,7 +517,7 @@ export default function Navbar() {
                       }`}
                       style={{
                         minWidth: '140px',
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                       }}
                     >
                       English
@@ -538,7 +538,7 @@ export default function Navbar() {
                         borderColor: 'rgba(193, 173, 72, 0.25)',
                         color: '#c1ad48',
                         border: '1px solid',
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                       }}
                     >
                       <span className="relative z-10">{t('nav.login')}</span>
@@ -563,7 +563,7 @@ export default function Navbar() {
                         color: '#152821',
                         boxShadow: '0 8px 30px rgba(193, 173, 72, 0.4)',
                         border: '1px solid rgba(193, 173, 72, 0.3)',
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                       }}
                     >
                       <span className="relative z-10">{t('nav.membership')}</span>
