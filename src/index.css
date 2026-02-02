@@ -2,3 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Aumentar tamaño base de fuente en todo el sitio */
+html {
+  font-size: 18px; /* 12.5% más grande que el default de 16px */
+}
+
+/* Asegurar que body herede el tamaño */
+body {
+  font-size: 1rem;
+}
+
