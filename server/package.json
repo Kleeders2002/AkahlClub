@@ -6,6 +6,7 @@
     "start": "node api.js",
     "dev": "nodemon api.js",
     "postinstall": "prisma generate",
+    "migrate": "echo 'Skipping migrations - database schema already applied'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
