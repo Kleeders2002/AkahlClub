@@ -1,0 +1,18 @@
+services:
+  # Web Service
+  - type: web
+    name: akahl-club-api
+    runtime: node
+    buildCommand: cd server && npm install && npm run migrate
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+
+  # PostgreSQL (opcional - si prefieres usar la base de datos externa de Neon, elimina esta sección)
+  # - type: pserv
+  #   name: akahl-club-db
+  #   databaseName: akahlclub
+  #   user: akahlclub

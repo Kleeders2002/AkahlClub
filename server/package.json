@@ -1,10 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api.js",
   "scripts": {
     "start": "node api.js",
     "dev": "nodemon api.js",
+    "postinstall": "prisma generate",
+    "migrate": "prisma migrate deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
