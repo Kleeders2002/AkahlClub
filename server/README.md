@@ -44,9 +44,11 @@ NODE_ENV="production"
 
 ```
 Root Directory: server
-Build Command: npm install && npm run migrate
+Build Command: npm install
 Start Command: npm start
 ```
+
+**Nota**: La base de datos ya tiene el schema aplicado, por lo que no se necesitan migraciones.
 
 ### 3. Configurar Variables de Entorno en Render
 
@@ -90,7 +92,6 @@ npm run dev
 
 # Producción
 npm start
-
-# Migraciones de base de datos
-npm run migrate
 ```
+
+**Nota**: La base de datos ya está configurada. No se requieren migraciones para el deploy en Render.

@@ -3,7 +3,7 @@ services:
   - type: web
     name: akahl-club-api
     runtime: node
-    buildCommand: cd server && npm install && npm run migrate
+    buildCommand: cd server && npm install
     startCommand: cd server && npm start
     envVars:
       - key: NODE_ENV

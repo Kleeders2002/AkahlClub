@@ -49,14 +49,15 @@ Runtime: Node
 ### Configuración de Build:
 
 ```
-Build Command: npm install && npm run migrate
+Build Command: npm install
 Start Command: npm start
 ```
 
 **Explicación:**
-- `npm install` - Instala dependencias
-- `npm run migrate` - Ejecuta `prisma generate` (gracias al `postinstall`)
+- `npm install` - Instala dependencias y genera Prisma Client (gracias al `postinstall`)
 - `npm start` - Inicia el servidor con `node api.js`
+
+**Nota**: No ejecutamos migraciones porque la base de datos ya tiene el schema aplicado.
 
 ---
 
