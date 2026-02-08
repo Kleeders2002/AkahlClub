@@ -7,13 +7,23 @@ const leadsRoutes = require('./routes/leads'); // Importar arriba
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// CORS
-app.use(cors({
-  origin: true,
+// Middleware para CORS mejorado
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permitir cualquier origen (incluyendo null para peticiones locales)
+    callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200 // Soporte para navegadores antiguos
+};
+
+// Aplicar CORS a todas las rutas
+app.use(cors(corsOptions));
+
+// Manejo manual de OPTIONS preflight
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
