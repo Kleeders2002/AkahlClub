@@ -466,7 +466,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     </div>
                     <div>
                       <h4 className="text-lg font-bold" style={{ color: colors.verdePrimario }}>
-                        {t('dashboard.currentPlan')} {userPlan === 'ORO ? 'ORO' : 'PLATA'}
+                        {t('dashboard.currentPlan')} {userPlan === 'ORO' ? 'ORO' : 'PLATA'}
                       </h4>
                       <p className="text-xs" style={{ color: colors.verdeMedio }}>
                         {userPlan === 'ORO' ? t('dashboard.premiumMembership') : t('dashboard.standardMembership')}
