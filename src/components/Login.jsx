@@ -8,6 +8,7 @@ export default function Login({ onLogin }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com';
+  console.log('🔗 API URL:', API_URL); // Debug: Verify correct API URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();

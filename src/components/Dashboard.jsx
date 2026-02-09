@@ -37,6 +37,7 @@ export default function Dashboard({ token, onLogout }) {
   const [isMobile, setIsMobile] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com';
+  console.log('🔗 Dashboard API URL:', API_URL); // Debug: Verify correct API URL
 
   const tabs = [
     { id: 'bienvenida', label: t('dashboard.controlPanel', 'Panel de Control'), icon: Home },
