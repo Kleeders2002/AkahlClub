@@ -56,12 +56,12 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
 
     // Validation
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setPasswordMessage({ type: 'error', text: 'Las contraseñas nuevas no coinciden' });
+      setPasswordMessage({ type: 'error', text: t('dashboard.passwordsNotMatch') });
       return;
     }
 
     if (passwordData.newPassword.length < 8) {
-      setPasswordMessage({ type: 'error', text: 'La contraseña debe tener al menos 8 caracteres' });
+      setPasswordMessage({ type: 'error', text: t('dashboard.passwordTooShort') });
       return;
     }
 
@@ -81,14 +81,14 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
       const data = await response.json();
 
       if (data.success) {
-        setPasswordMessage({ type: 'success', text: 'Contraseña cambiada exitosamente' });
+        setPasswordMessage({ type: 'success', text: t('dashboard.passwordChanged') });
         setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         setTimeout(() => setPasswordMessage({ type: '', text: '' }), 3000);
       } else {
-        setPasswordMessage({ type: 'error', text: data.message || 'Error al cambiar contraseña' });
+        setPasswordMessage({ type: 'error', text: data.message || t('dashboard.processingError') });
       }
     } catch (error) {
-      setPasswordMessage({ type: 'error', text: 'Error de conexión. Intenta nuevamente.' });
+      setPasswordMessage({ type: 'error', text: t('dashboard.connectionError') });
     }
   };
 
@@ -115,7 +115,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
       if (data.success) {
         setCancelMessage({
           type: 'success',
-          text: 'Solicitud de cancelación recibida. Te contactaremos en 24-48 horas para confirmar.'
+          text: t('dashboard.cancellationReceived')
         });
         setTimeout(() => {
           setShowCancelModal(false);
@@ -125,13 +125,13 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
       } else {
         setCancelMessage({
           type: 'error',
-          text: data.message || 'Error al procesar la solicitud'
+          text: data.message || t('dashboard.processingError')
         });
       }
     } catch (error) {
       setCancelMessage({
         type: 'error',
-        text: 'Error de conexión. Intenta nuevamente.'
+        text: t('dashboard.connectionError')
       });
     } finally {
       setIsCancelling(false);
@@ -155,7 +155,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
           }}
         >
           <User className="w-4 h-4" />
-          <span>Información Personal</span>
+          <span>{t('dashboard.personalInfo')}</span>
         </button>
 
         <button
@@ -171,7 +171,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
           }}
         >
           <Lock className="w-4 h-4" />
-          <span>Seguridad</span>
+          <span>{t('dashboard.security')}</span>
         </button>
 
         <button
@@ -187,7 +187,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
           }}
         >
           <CreditCard className="w-4 h-4" />
-          <span>Suscripción</span>
+          <span>{t('dashboard.subscription')}</span>
         </button>
       </div>
 
@@ -198,10 +198,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
           <div className="space-y-6">
             <div>
               <h3 className="text-xl font-bold mb-2" style={{ color: colors.verdePrimario }}>
-                Información Personal
+                {t('dashboard.personalInfo')}
               </h3>
               <p className="text-sm" style={{ color: colors.verdeMedio }}>
-                Gestiona tu información personal y preferencias
+                {t('dashboard.manageInfo')}
               </p>
             </div>
 
@@ -209,7 +209,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-medium" style={{ color: colors.verdePrimario }}>
                   <User className="w-4 h-4" />
-                  Nombre Completo
+                  {t('dashboard.fullName')}
                 </label>
                 <input
                   type="text"
@@ -223,7 +223,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-medium" style={{ color: colors.verdePrimario }}>
                   <Mail className="w-4 h-4" />
-                  Email
+                  {t('dashboard.email')}
                 </label>
                 <input
                   type="email"
@@ -237,11 +237,11 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-medium" style={{ color: colors.verdePrimario }}>
                   <Phone className="w-4 h-4" />
-                  Teléfono
+                  {t('dashboard.phone')}
                 </label>
                 <input
                   type="tel"
-                  value={userData.phone || 'No especificado'}
+                  value={userData.phone || t('dashboard.notSpecified', 'No especificado')}
                   disabled
                   className="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-gray-600 cursor-not-allowed"
                   style={{ borderColor: 'rgba(34, 60, 51, 0.1)' }}
@@ -251,7 +251,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-medium" style={{ color: colors.verdePrimario }}>
                   <MapPin className="w-4 h-4" />
-                  País
+                  {t('dashboard.country')}
                 </label>
                 <input
                   type="text"
@@ -264,11 +264,11 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
 
               <div className="space-y-2">
                 <label className="text-sm font-medium" style={{ color: colors.verdePrimario }}>
-                  Preferencia de Estilo
+                  {t('dashboard.stylePref')}
                 </label>
                 <input
                   type="text"
-                  value={userData.stylePreference || 'No especificado'}
+                  value={userData.stylePreference || t('dashboard.notSpecified', 'No especificado')}
                   disabled
                   className="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-gray-600 cursor-not-allowed"
                   style={{ borderColor: 'rgba(34, 60, 51, 0.1)' }}
@@ -278,7 +278,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-medium" style={{ color: colors.verdePrimario }}>
                   <Calendar className="w-4 h-4" />
-                  Miembro Desde
+                  {t('dashboard.memberSince')}
                 </label>
                 <input
                   type="text"
@@ -298,10 +298,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                 <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: colors.mostazaPrimario }} />
                 <div>
                   <p className="font-medium text-sm" style={{ color: colors.verdePrimario }}>
-                    ¿Quieres editar tu información?
+                    {t('dashboard.editInfo')}
                   </p>
                   <p className="text-xs mt-1" style={{ color: colors.verdeMedio }}>
-                    Contáctanos en soporte@akahl.com y con gusto te ayudaremos.
+                    {t('dashboard.editInfoNote')}
                   </p>
                 </div>
               </div>
@@ -314,10 +314,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
           <div className="space-y-6">
             <div>
               <h3 className="text-xl font-bold mb-2" style={{ color: colors.verdePrimario }}>
-                Cambiar Contraseña
+                {t('dashboard.newPassword').includes('Nueva') ? 'Cambiar Contraseña' : 'Change Password'}
               </h3>
               <p className="text-sm" style={{ color: colors.verdeMedio }}>
-                Mantén tu cuenta segura actualizando tu contraseña regularmente
+                {t('dashboard.securityDesc')}
               </p>
             </div>
 
@@ -341,7 +341,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
             <form onSubmit={handlePasswordChange} className="space-y-5">
               <div className="space-y-2">
                 <label className="text-sm font-medium" style={{ color: colors.verdePrimario }}>
-                  Contraseña Actual
+                  {t('dashboard.currentPassword')}
                 </label>
                 <div className="relative">
                   <input
@@ -351,7 +351,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     required
                     className="w-full px-4 py-2.5 pr-10 rounded-lg border focus:outline-none focus:ring-2"
                     style={{ borderColor: 'rgba(34, 60, 51, 0.2)', focusRingColor: colors.mostazaPrimario }}
-                    placeholder="Ingresa tu contraseña actual"
+                    placeholder={t('dashboard.currentPassPlaceholder')}
                   />
                   <button
                     type="button"
@@ -366,7 +366,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
 
               <div className="space-y-2">
                 <label className="text-sm font-medium" style={{ color: colors.verdePrimario }}>
-                  Nueva Contraseña
+                  {t('dashboard.newPassword')}
                 </label>
                 <div className="relative">
                   <input
@@ -377,7 +377,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     minLength={8}
                     className="w-full px-4 py-2.5 pr-10 rounded-lg border focus:outline-none focus:ring-2"
                     style={{ borderColor: 'rgba(34, 60, 51, 0.2)', focusRingColor: colors.mostazaPrimario }}
-                    placeholder="Mínimo 8 caracteres"
+                    placeholder={t('dashboard.newPassPlaceholder')}
                   />
                   <button
                     type="button"
@@ -392,7 +392,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
 
               <div className="space-y-2">
                 <label className="text-sm font-medium" style={{ color: colors.verdePrimario }}>
-                  Confirmar Nueva Contraseña
+                  {t('dashboard.confirmPassword')}
                 </label>
                 <div className="relative">
                   <input
@@ -403,7 +403,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     minLength={8}
                     className="w-full px-4 py-2.5 pr-10 rounded-lg border focus:outline-none focus:ring-2"
                     style={{ borderColor: 'rgba(34, 60, 51, 0.2)', focusRingColor: colors.mostazaPrimario }}
-                    placeholder="Repite tu nueva contraseña"
+                    placeholder={t('dashboard.confirmPassPlaceholder')}
                   />
                   <button
                     type="button"
@@ -421,7 +421,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                 className="w-full sm:w-auto px-6 py-2.5 rounded-lg font-medium text-white transition-all duration-200 hover:shadow-lg"
                 style={{ backgroundColor: colors.mostazaPrimario }}
               >
-                Actualizar Contraseña
+                {t('dashboard.updatePassword')}
               </button>
             </form>
           </div>

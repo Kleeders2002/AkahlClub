@@ -472,6 +472,7 @@ const resources = {
       'dashboard.cancellationReceived': 'Cancellation request received. We\'ll contact you in 24-48 hours to confirm.',
       'dashboard.processingError': 'Error processing request',
       'dashboard.connectionError': 'Connection error. Please try again.',
+      'dashboard.notSpecified': 'Not specified',
 
 
 
@@ -979,6 +980,7 @@ const resources = {
       'dashboard.cancellationReceived': 'Solicitud de cancelación recibida. Te contactaremos en 24-48 horas para confirmar.',
       'dashboard.processingError': 'Error al procesar la solicitud',
       'dashboard.connectionError': 'Error de conexión. Intenta nuevamente.',
+      'dashboard.notSpecified': 'No especificado',
 
     }
   }
