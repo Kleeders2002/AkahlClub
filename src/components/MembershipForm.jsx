@@ -360,20 +360,16 @@ const MembershipForm = () => {
     setSubmitStatus(null);
     
     try {
-      // Aquí va la conexión con tu backend
-      const API_URL = `${import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com'}/api/auth/register`;
+      // Usar Stripe para crear sesión de checkout
+      const API_URL = `${import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com'}/api/stripe/create-checkout-session`;
 
       const fullPhoneNumber = `${selectedCountry.dialCode}${formData.phone}`;
 
-      console.log('📤 Enviando registro a:', API_URL);
+      console.log('📤 Creando sesión de Stripe:', API_URL);
       console.log('📊 Datos:', {
         email: formData.email,
         nombre: `${formData.firstName} ${formData.lastName}`,
-        telefono: fullPhoneNumber,
-        pais: selectedCountry.code,
-        estilo_preferencia: formData.stylePreference,
         plan: formData.membershipPlan,
-        comentarios: formData.comments,
         idioma: i18n.language
       });
 
@@ -385,11 +381,7 @@ const MembershipForm = () => {
         body: JSON.stringify({
           email: formData.email,
           nombre: `${formData.firstName} ${formData.lastName}`,
-          telefono: fullPhoneNumber,
-          pais: selectedCountry.code,
-          estilo_preferencia: formData.stylePreference,
           plan: formData.membershipPlan,
-          comentarios: formData.comments,
           idioma: i18n.language // 'en' o 'es'
         })
       });
@@ -417,32 +409,12 @@ const MembershipForm = () => {
         throw new Error(data.message || `Error del servidor (${response.status})`);
       }
 
-      if (data.success) {
-        setSubmitStatus({
-          type: 'success',
-          message: t('form.success.message')
-        });
-
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          stylePreference: '',
-          membershipPlan: 'PLATA',
-          comments: '',
-          acceptedTerms: false
-        });
-
-        // Si requiere pago, redirigir
-        if (data.requiresPayment && data.checkoutUrl) {
-          setTimeout(() => {
-            window.location.href = data.checkoutUrl;
-          }, 2000);
-        }
+      if (data.success && data.checkoutUrl) {
+        // Redirigir a Stripe Checkout inmediatamente
+        console.log('🔄 Redirigiendo a Stripe:', data.checkoutUrl);
+        window.location.href = data.checkoutUrl;
       } else {
-        throw new Error(data.message || t('form.errors.submissionFailed'));
+        throw new Error('No se pudo crear la sesión de pago');
       }
     } catch (error) {
       console.error('❌ Error en registro:', error);

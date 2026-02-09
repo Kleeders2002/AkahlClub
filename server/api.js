@@ -4,6 +4,7 @@ const contenidoRoutes = require('./routes/contenidoRoutes');
 const { router: authRoutes, authMiddleware } = require('./routes/authRoutes');
 const leadsRoutes = require('./routes/leads');
 const usuarioRoutes = require('./routes/usuarioRoutes');
+const stripeRoutes = require('./routes/stripeRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -46,6 +47,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contenido', authMiddleware, contenidoRoutes);
 app.use('/api/leads', leadsRoutes); // ✅ Sin authMiddleware
 app.use('/api/usuarios', usuarioRoutes); // ✅ Rutas de usuarios
+app.use('/api/stripe', stripeRoutes); // ✅ Rutas de Stripe (públicas y webhooks)
 
 // Servidor
 app.listen(PORT, () => {
