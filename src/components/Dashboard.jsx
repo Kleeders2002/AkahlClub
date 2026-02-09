@@ -13,7 +13,6 @@ import {
   FileText,
   Video,
   Lightbulb,
-  Home,
   Settings,
   CreditCard,
   Lock
