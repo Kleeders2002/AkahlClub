@@ -14,9 +14,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
-  const { email, nombre, telefono, pais, estilo_preferencia, plan, comentarios } = req.body;
+  const { email, nombre, telefono, pais, estilo_preferencia, plan, comentarios, idioma } = req.body;
 
-  console.log("📝 Intento de registro:", { email, nombre, plan, telefono, pais });
+  console.log("📝 Intento de registro:", { email, nombre, plan, telefono, pais, idioma });
 
   if (!email || !nombre) {
     return res.status(400).json({
@@ -41,6 +41,7 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     const planFinal = plan || 'PLATA';
+    const idiomaUsuario = idioma || 'es'; // Default español
 
     // Separar nombre y apellido
     const nameParts = nombre.trim().split(' ');
@@ -62,6 +63,7 @@ router.post("/register", async (req, res) => {
         lastName: lastName,
         phone: telefono || null,
         country: pais || 'US',
+        idioma: idiomaUsuario, // 🌍 Guardar idioma del usuario
         passwordHash: hashedPassword,
         tier: planFinal === 'PLATA' ? 'PLATA' : 'ORO',
         status: 'LEAD', // Todos los usuarios empiezan como LEAD (inactivo)
@@ -74,48 +76,35 @@ router.post("/register", async (req, res) => {
     });
 
     console.log("✅ Usuario creado:", nuevoUsuario.id, "-", nuevoUsuario.email);
-    console.log("📊 Estado inicial:", nuevoUsuario.status, "Tier:", nuevoUsuario.tier);
+    console.log("📊 Estado inicial:", nuevoUsuario.status, "Tier:", nuevoUsuario.tier, "Idioma:", nuevoUsuario.idioma);
 
-    // 📧 ENVIAR EMAIL SEGÚN EL PLAN
-    if (planFinal === 'PLATA') {
-      // Email de bienvenida pero usuario sigue como LEAD hasta que pague
-      await enviarEmailPagoPendiente(email, nombre, tempPassword,
-        `https://akahlclub.com/membership?plan=plata`);
+    // 📧 ENVIAR EMAIL SEGÚN EL PLAN EN EL IDIOMA DEL USUARIO
+    const checkoutUrl = planFinal === 'ORO'
+      ? (process.env.CHECKOUT_URL_ORO || `https://checkout.systeme.io/tu-producto-oro?email=${encodeURIComponent(email)}`)
+      : `https://akahlclub.com/membership?plan=plata`;
 
-      return res.json({
-        success: true,
-        message: "¡Registro exitoso! Revisa tu email para completar el pago y activar tu cuenta.",
-        requiresPayment: true,
-        user: {
-          id: nuevoUsuario.id,
-          email: nuevoUsuario.email,
-          nombre: nuevoUsuario.fullName,
-          plan: nuevoUsuario.tier
-        }
-      });
-    }
+    // Email de pago pendiente con el idioma correcto
+    await enviarEmailPagoPendiente(email, nombre, tempPassword, checkoutUrl, idiomaUsuario);
 
-    if (planFinal === 'ORO') {
-      const checkoutUrl = process.env.CHECKOUT_URL_ORO ||
-        `https://checkout.systeme.io/tu-producto-oro?email=${encodeURIComponent(email)}`;
-
-      // Email de pago pendiente
-      await enviarEmailPagoPendiente(email, nombre, tempPassword, checkoutUrl);
-
-      return res.json({
-        success: true,
-        message: "Cuenta creada. Completa el pago para activar tu membresía Gold.",
-        requiresPayment: true,
-        checkoutUrl: checkoutUrl,
-        tempPassword: tempPassword,
-        user: {
-          id: nuevoUsuario.id,
-          email: nuevoUsuario.email,
-          nombre: nuevoUsuario.fullName,
-          plan: nuevoUsuario.tier
-        }
-      });
-    }
+    return res.json({
+      success: true,
+      message: planFinal === 'PLATA'
+        ? (idiomaUsuario === 'en'
+          ? "Registration successful! Check your email to complete payment and activate your account."
+          : "¡Registro exitoso! Revisa tu email para completar el pago y activar tu cuenta.")
+        : (idiomaUsuario === 'en'
+          ? "Account created. Complete payment to activate your Gold membership."
+          : "Cuenta creada. Completa el pago para activar tu membresía Gold."),
+      requiresPayment: true,
+      checkoutUrl: checkoutUrl,
+      user: {
+        id: nuevoUsuario.id,
+        email: nuevoUsuario.email,
+        nombre: nuevoUsuario.fullName,
+        plan: nuevoUsuario.tier,
+        idioma: nuevoUsuario.idioma
+      }
+    });
 
   } catch (err) {
     console.error("❌ Error en registro:", err);
@@ -384,10 +373,14 @@ router.post("/activate-user", async (req, res) => {
     });
 
     console.log("✅ Usuario activado:", usuarioActualizado.id, "-", usuarioActualizado.email);
-    console.log("📊 Nuevo estado:", usuarioActualizado.status, "Tier:", usuarioActualizado.tier);
+    console.log("📊 Nuevo estado:", usuarioActualizado.status, "Tier:", usuarioActualizado.tier, "Idioma:", usuarioActualizado.idioma);
 
-    // Enviar email de confirmación de pago
-    await enviarEmailPagoConfirmado(email, usuarioActualizado.fullName || email);
+    // Enviar email de confirmación de pago en el idioma del usuario
+    await enviarEmailPagoConfirmado(
+      email,
+      usuarioActualizado.fullName || email,
+      usuarioActualizado.idioma || 'es'
+    );
 
     res.json({
       success: true,
@@ -396,7 +389,8 @@ router.post("/activate-user", async (req, res) => {
         id: usuarioActualizado.id,
         email: usuarioActualizado.email,
         status: usuarioActualizado.status,
-        tier: usuarioActualizado.tier
+        tier: usuarioActualizado.tier,
+        idioma: usuarioActualizado.idioma
       }
     });
 

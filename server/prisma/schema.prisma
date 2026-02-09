@@ -50,12 +50,13 @@ model Usuario {
   lastName        String?
   phone           String?
   country         String?             @default("US")
+  idioma          String?             @default("es")  // 🌍 Idioma preferido: 'es' o 'en'
   status          UserStatus          @default(LEAD)
   tier            MembershipTier      @default(POTENCIAL)
   source          RegistrationSource  @default(MODAL)
   stylePreference StylePreference?
-  metadata              Json?     // ✅ AGREGAR ESTE CAMPO
-  
+  metadata        Json?               // ✅ AGREGAR ESTE CAMPO
+
   // RELACIONES
   contenidoAccedidos UsuarioContenido[]
 

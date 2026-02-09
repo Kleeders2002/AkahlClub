@@ -5,6 +5,9 @@ import { ChevronDown, Search } from 'lucide-react';
 import TermsModal from './modals/TermsModal';
 import PrivacyModal from './modals/PrivacyModal';
 
+const MembershipForm = () => {
+  const { t, i18n } = useTranslation();
+
 // Lista de países con banderas y códigos
 const countries = [
   { code: 'AF', name: 'Afghanistan', flag: '🇦🇫', dialCode: '+93' },
@@ -207,7 +210,7 @@ const countries = [
 ];
 
 const MembershipForm = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
@@ -370,7 +373,8 @@ const MembershipForm = () => {
         pais: selectedCountry.code,
         estilo_preferencia: formData.stylePreference,
         plan: formData.membershipPlan,
-        comentarios: formData.comments
+        comentarios: formData.comments,
+        idioma: i18n.language
       });
 
       const response = await fetch(API_URL, {
@@ -385,7 +389,8 @@ const MembershipForm = () => {
           pais: selectedCountry.code,
           estilo_preferencia: formData.stylePreference,
           plan: formData.membershipPlan,
-          comentarios: formData.comments
+          comentarios: formData.comments,
+          idioma: i18n.language // 'en' o 'es'
         })
       });
 
