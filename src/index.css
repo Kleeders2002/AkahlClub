@@ -2,13 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Aumentar tamaño base de fuente en todo el sitio */
+/* ========================================
+   FUENTES LUXURY AKAHL - Aplicado a TODA la página
+   Cormorant Garamond: Texto general
+   Playfair Display: Títulos
+   ======================================== */
+
+/* Fuente base para todo el sitio */
 html {
   font-size: 18px; /* 12.5% más grande que el default de 16px */
 }
 
-/* Asegurar que body herede el tamaño */
+/* Body: Cormorant Garamond para todo el texto */
 body {
+  font-family: 'Cormorant Garamond', serif !important;
   font-size: 1rem;
+  line-height: 1.6;
+  color: inherit;
 }
 
+/* TODOS los elementos usan Cormorant Garamond por defecto */
+*, *::before, *::after {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Headings: Playfair Display para todos los títulos - IMPORTANTE para sobrescribir */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* Sobrescribir clases de Tailwind */
+.font-playfair, .font-cormorant, .font-montserrat, .font-inter {
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* Elementos específicos que deben tener Cormorant */
+p, span, div, a, button, input, textarea, select, label,
+li, td, th, blockquote, code, pre {
+  font-family: 'Cormorant Garamond', serif !important;
+}
+
+/* Excepción: Los títulos siempre Playfair Display */
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p,
+.title, .heading, .header, .text-title {
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* Placeholder de inputs también Cormorant */
+::placeholder, ::-webkit-input-placeholder, :-moz-placeholder,
+:-ms-input-placeholder {
+  font-family: 'Cormorant Garamond', serif !important;
+}
+
+/* Botones y enlaces */
+button, .btn, .button, a, .link {
+  font-family: 'Cormorant Garamond', serif !important;
+}
+
+/* Asegurar que los spans dentro de títulos usen Playfair */
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+  font-family: 'Playfair Display', serif !important;
+}
