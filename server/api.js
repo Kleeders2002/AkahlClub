@@ -3,6 +3,7 @@ const cors = require('cors');
 const contenidoRoutes = require('./routes/contenidoRoutes');
 const { router: authRoutes, authMiddleware } = require('./routes/authRoutes');
 const leadsRoutes = require('./routes/leads');
+const usuarioRoutes = require('./routes/usuarioRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -44,6 +45,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/contenido', authMiddleware, contenidoRoutes);
 app.use('/api/leads', leadsRoutes); // ✅ Sin authMiddleware
+app.use('/api/usuarios', usuarioRoutes); // ✅ Rutas de usuarios
 
 // Servidor
 app.listen(PORT, () => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, Lock, CreditCard, Calendar, Mail, Phone, MapPin, Crown, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { User, Lock, CreditCard, Calendar, Mail, Phone, MapPin, Crown, AlertCircle, CheckCircle2, Eye, EyeOff, X, PauseCircle } from 'lucide-react';
 
 export default function ProfileSection({ token, userName, userPlan, colors, t, API_URL }) {
   const [activeSection, setActiveSection] = useState('info');
@@ -25,6 +25,13 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
     confirm: false
   });
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
+
+  // Cancelación de suscripción
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState('');
+  const [cancelFeedback, setCancelFeedback] = useState('');
+  const [cancelMessage, setCancelMessage] = useState({ type: '', text: '' });
+  const [isCancelling, setIsCancelling] = useState(false);
 
   // Load user data from token
   useEffect(() => {
@@ -82,6 +89,52 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
       }
     } catch (error) {
       setPasswordMessage({ type: 'error', text: 'Error de conexión. Intenta nuevamente.' });
+    }
+  };
+
+  const handleCancelSubscription = async (e) => {
+    e.preventDefault();
+    setIsCancelling(true);
+    setCancelMessage({ type: '', text: '' });
+
+    try {
+      const response = await fetch(`${API_URL}/api/usuarios/cancelar-suscripcion`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          reason: cancelReason,
+          feedback: cancelFeedback
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setCancelMessage({
+          type: 'success',
+          text: 'Solicitud de cancelación recibida. Te contactaremos en 24-48 horas para confirmar.'
+        });
+        setTimeout(() => {
+          setShowCancelModal(false);
+          setCancelReason('');
+          setCancelFeedback('');
+        }, 3000);
+      } else {
+        setCancelMessage({
+          type: 'error',
+          text: data.message || 'Error al procesar la solicitud'
+        });
+      }
+    } catch (error) {
+      setCancelMessage({
+        type: 'error',
+        text: 'Error de conexión. Intenta nuevamente.'
+      });
+    } finally {
+      setIsCancelling(false);
     }
   };
 
@@ -484,34 +537,156 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                       Cancelar Suscripción
                     </h4>
                     <p className="text-xs mb-3 text-red-700">
-                      Puedes cancelar tu suscripción en cualquier momento desde tu panel de Systeme.io
+                      Lamentamos verte ir. Antes de irte, ¿podrías decirnos por qué?
                     </p>
-                    <a
-                      href="https://systeme.io/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-4 py-2 rounded-lg font-bold text-red-700 border-2 border-red-300 text-sm transition-all duration-200 hover:bg-red-50"
+                    <button
+                      onClick={() => setShowCancelModal(true)}
+                      className="inline-block px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg"
+                      style={{ backgroundColor: '#dc2626' }}
                     >
-                      Gestionar en Systeme.io →
-                    </a>
+                      Solicitar Cancelación
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Systeme.io Note */}
+            {/* Retention Note */}
             <div className="mt-6 p-4 rounded-lg border-l-4" style={{
-              backgroundColor: 'rgba(34, 60, 51, 0.02)',
-              borderColor: colors.verdeMedio
+              backgroundColor: 'rgba(206, 182, 82, 0.05)',
+              borderColor: colors.mostazaPrimario
             }}>
-              <p className="text-xs" style={{ color: colors.verdeMedio }}>
-                <strong>Nota:</strong> Los pagos y gestión de suscripciones son procesados de forma segura a través de Systeme.io.
-                Para cualquier duda sobre tu plan, pagos o renovaciones, contacta a nuestro equipo de soporte.
-              </p>
+              <div className="flex items-start gap-3">
+                <PauseCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: colors.mostazaPrimario }} />
+                <div className="flex-1">
+                  <p className="text-xs mb-2" style={{ color: colors.verdePrimario }}>
+                    <strong>¿Solo necesitas un descanso?</strong>
+                  </p>
+                  <p className="text-xs" style={{ color: colors.verdeMedio }}>
+                    Contáctanos antes de cancelar. Podemos pausar tu membresía o ofrecerte un descuento especial.
+                    Tu satisfacción es nuestra prioridad.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Modal de Cancelación de Suscripción */}
+      {showCancelModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="sticky top-0 bg-white border-b p-6 rounded-t-2xl" style={{ borderColor: 'rgba(34, 60, 51, 0.1)' }}>
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold" style={{ color: colors.verdePrimario }}>
+                  Cancelar Suscripción
+                </h3>
+                <button
+                  onClick={() => {
+                    setShowCancelModal(false);
+                    setCancelMessage({ type: '', text: '' });
+                  }}
+                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-600" />
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <p className="text-sm mb-6 text-gray-700">
+                Lamentamos verte ir. Por favor ayúdanos a mejorar seleccionando el motivo principal de tu cancelación:
+              </p>
+
+              {cancelMessage.text && (
+                <div className={`mb-4 p-3 rounded-lg flex items-start gap-2 ${
+                  cancelMessage.type === 'success'
+                    ? 'bg-green-50 border border-green-200'
+                    : 'bg-red-50 border border-red-200'
+                }`}>
+                  {cancelMessage.type === 'success' ? (
+                    <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0 text-green-600" />
+                  ) : (
+                    <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600" />
+                  )}
+                  <p className="text-sm">{cancelMessage.text}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleCancelSubscription} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                    Motivo de cancelación <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    value={cancelReason}
+                    onChange={(e) => setCancelReason(e.target.value)}
+                    required
+                    className="w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'rgba(34, 60, 51, 0.2)' }}
+                  >
+                    <option value="">Selecciona un motivo</option>
+                    <option value="expensive">Es muy costoso</option>
+                    <option value="not_using">No estoy usando el contenido</option>
+                    <option value="quality">La calidad del contenido no es lo que esperaba</option>
+                    <option value="technical">Problemas técnicos</option>
+                    <option value="found_alternative">Encontré una alternativa</option>
+                    <option value="personal">Razones personales</option>
+                    <option value="other">Otro</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                    Comentarios adicionales (opcional)
+                  </label>
+                  <textarea
+                    value={cancelFeedback}
+                    onChange={(e) => setCancelFeedback(e.target.value)}
+                    rows="3"
+                    className="w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 resize-none"
+                    style={{ borderColor: 'rgba(34, 60, 51, 0.2)' }}
+                    placeholder="Cuéntanos más sobre tu experiencia..."
+                  />
+                </div>
+
+                <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                  <p className="text-xs text-blue-900">
+                    <strong>Nota importante:</strong> Tu solicitud será revisada por nuestro equipo.
+                    Te contactaremos en 24-48 horas para confirmar la cancelación y ofrecerte alternativas.
+                    Tu membresía seguirá activa hasta que se confirme la cancelación.
+                  </p>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowCancelModal(false);
+                      setCancelMessage({ type: '', text: '' });
+                    }}
+                    className="flex-1 px-4 py-2.5 rounded-lg font-medium border-2 transition-all duration-200"
+                    style={{ borderColor: 'rgba(34, 60, 51, 0.2)', color: colors.verdePrimario }}
+                  >
+                    Mantener Suscripción
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isCancelling}
+                    className="flex-1 px-4 py-2.5 rounded-lg font-bold text-white transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: '#dc2626' }}
+                  >
+                    {isCancelling ? 'Enviando...' : 'Confirmar Cancelación'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
