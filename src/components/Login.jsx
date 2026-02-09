@@ -7,7 +7,7 @@ export default function Login({ onLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com';
 
   const handleSubmit = async (e) => {
     e.preventDefault();

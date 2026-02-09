@@ -358,7 +358,7 @@ const MembershipForm = () => {
     
     try {
       // Aquí va la conexión con tu backend
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/auth/register';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com/api/auth/register';
       
       const fullPhoneNumber = `${selectedCountry.dialCode}${formData.phone}`;
       

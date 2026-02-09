@@ -15,7 +15,7 @@ const LeadCaptureModal = ({ onSubmit, onClose }) => {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [language, setLanguage] = useState('en'); // 'en' o 'es'
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com';
 
   // Códigos de teléfono por país
   const phoneCodes = [
