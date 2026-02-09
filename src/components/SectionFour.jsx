@@ -153,38 +153,96 @@ const SectionFour = () => {
               </div>
               
               <ul className="space-y-3 lg:space-y-4 mb-8 lg:mb-10 flex-grow">
+                {/* Live Text Consultations - PREMIUM FEATURE */}
+                <li className="relative pl-12 py-4 lg:py-5 font-montserrat text-dark-green hover:text-dark-green transition-all duration-300 hover:translate-x-2 border-2 border-gold/30 rounded-2xl bg-gradient-to-r from-gold/5 to-yellow-50/30 shadow-lg hover:shadow-xl">
+                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-gold to-yellow-500 text-white shadow-lg">
+                    💬
+                  </div>
+                  <div className="mb-2">
+                    <span className="inline-flex items-center gap-2 font-montserrat text-[10px] lg:text-xs font-black tracking-[0.2em] uppercase bg-gradient-to-r from-gold to-yellow-500 text-white py-1.5 px-4 rounded-full shadow-md">
+                      {t('membership.gold.benefit1_highlight', 'PREMIUM FEATURE')}
+                    </span>
+                  </div>
+                  <strong className="text-base lg:text-lg">{t('membership.gold.benefit1', 'Live Text Consultations:')}</strong>
+                  <ul className="mt-3 lg:mt-4 space-y-2 lg:space-y-2.5 pl-4 border-t border-gold/20 pt-3">
+                    {[1, 2, 3, 4].map((num) => (
+                      <li key={num} className="relative pl-8 text-sm lg:text-base text-dark-green/80 hover:text-dark-green transition-colors duration-300">
+                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg flex items-center justify-center bg-gold/10 text-gold border border-gold/30">
+                          ✓
+                        </div>
+                        {t(`membership.gold.benefit1_sublist${num}`,
+                          num === 1 ? 'Personalized real-time style advice via text' :
+                          num === 2 ? 'Quick responses to your fashion questions' :
+                          num === 3 ? 'Outfit feedback and recommendations' :
+                          'Style guidance for special occasions'
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+
+                {/* Wardrobe Evaluations - EXCLUSIVE SERVICE */}
+                <li className="relative pl-12 py-4 lg:py-5 font-montserrat text-dark-green hover:text-dark-green transition-all duration-300 hover:translate-x-2 border-2 border-gold/30 rounded-2xl bg-gradient-to-r from-gold/5 to-yellow-50/30 shadow-lg hover:shadow-xl">
+                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-gold to-yellow-500 text-white shadow-lg">
+                    👔
+                  </div>
+                  <div className="mb-2">
+                    <span className="inline-flex items-center gap-2 font-montserrat text-[10px] lg:text-xs font-black tracking-[0.2em] uppercase bg-gradient-to-r from-gold to-yellow-500 text-white py-1.5 px-4 rounded-full shadow-md">
+                      {t('membership.gold.benefit2_highlight', 'EXCLUSIVE SERVICE')}
+                    </span>
+                  </div>
+                  <strong className="text-base lg:text-lg">{t('membership.gold.benefit2', 'Wardrobe Evaluations:')}</strong>
+                  <ul className="mt-3 lg:mt-4 space-y-2 lg:space-y-2.5 pl-4 border-t border-gold/20 pt-3">
+                    {[1, 2, 3, 4].map((num) => (
+                      <li key={num} className="relative pl-8 text-sm lg:text-base text-dark-green/80 hover:text-dark-green transition-colors duration-300">
+                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg flex items-center justify-center bg-gold/10 text-gold border border-gold/30">
+                          ✓
+                        </div>
+                        {t(`membership.gold.benefit2_sublist${num}`,
+                          num === 1 ? '15-minute personalized video consultation' :
+                          num === 2 ? 'One complete evaluation per season' :
+                          num === 3 ? 'Expert analysis of your current wardrobe' :
+                          'Actionable improvement recommendations'
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+
+                {/* Digital Library */}
                 <li className="relative pl-12 py-3 lg:py-4 font-montserrat text-dark-green/80 hover:text-dark-green transition-all duration-300 hover:translate-x-2 border-b border-dark-green/5 group-hover:border-gold/20">
                   <div className="absolute left-0 top-4 w-8 h-8 rounded-xl flex items-center justify-center bg-gold/10 text-gold border border-gold/20">
                     ✦
                   </div>
-                  <strong>{t('membership.gold.benefit1', 'Acceso a la biblioteca digital:')}</strong>
+                  <strong>{t('membership.gold.benefit3', 'Access to the digital library:')}</strong>
                   <ul className="mt-3 lg:mt-4 space-y-2 lg:space-y-3 pl-4 border-t border-dark-green/5 pt-3">
                     {[1, 2, 3, 4].map((num) => (
                       <li key={num} className="relative pl-8 text-sm lg:text-base text-dark-green/70 hover:text-dark-green transition-colors duration-300">
                         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg flex items-center justify-center bg-gold/5 text-gold border border-gold/15">
                           →
                         </div>
-                        {t(`membership.gold.benefit1_sublist${num}`,
-                          num === 1 ? 'E-books de combinación de patrones' :
-                          num === 2 ? 'Guías de tejidos y texturas' :
-                          num === 3 ? 'Manual de estilo atemporal' :
-                          'PDFs con consejos de tendencias conscientes'
+                        {t(`membership.gold.benefit3_sublist${num}`,
+                          num === 1 ? 'Pattern combination e-books' :
+                          num === 2 ? 'Fabric and texture guides' :
+                          num === 3 ? 'Timeless style manual' :
+                          'PDFs with conscious trend tips'
                         )}
                       </li>
                     ))}
                   </ul>
                 </li>
-                
-                {[2, 3, 4, 5].map((num) => (
+
+                {/* Other benefits */}
+                {[4, 5, 6, 7].map((num) => (
                   <li key={num} className="relative pl-12 py-3 lg:py-4 font-montserrat text-dark-green/80 hover:text-dark-green transition-all duration-300 hover:translate-x-2 border-b border-dark-green/5 group-hover:border-gold/20">
                     <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center bg-gold/10 text-gold border border-gold/20">
                       ✦
                     </div>
                     {t(`membership.gold.benefit${num}`,
-                      num === 2 ? 'Tutoriales y recursos exclusivos mensuales' :
-                      num === 3 ? 'Acceso exclusivo a la comunidad VIP de WhatsApp' :
-                      num === 4 ? 'Descuentos especiales en prendas personalizadas' :
-                      'Acceso anticipado a lanzamientos y colecciones'
+                      num === 4 ? 'Monthly exclusive tutorials and resources' :
+                      num === 5 ? 'Exclusive access to the VIP WhatsApp community' :
+                      num === 6 ? 'Special discounts on personalized garments' :
+                      'Early access to launches and collections'
                     )}
                   </li>
                 ))}

@@ -72,7 +72,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-5 relative z-10">
             {/* WhatsApp */}
             <a
-              href="https://wa.me/+17868658511"
+              href="https://wa.me/17863751958"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative w-11 h-11 rounded-full border-2 flex items-center justify-center transition-all duration-400 hover:scale-105 hover:-translate-y-1"
@@ -441,7 +441,7 @@ export default function Navbar() {
                 {/* Redes sociales en móvil */}
                 <div className="flex justify-center gap-6 mb-8">
                   <a
-                    href="https://wa.me/+17868658511"
+                    href="https://wa.me/17863751958"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all duration-400"

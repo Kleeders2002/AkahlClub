@@ -61,8 +61,8 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://wa.me/+17868658511" 
+                <a
+                  href="https://wa.me/17863751958"
                   className="font-cormorant text-light-cream/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                 >
                   <span className="w-1 h-1 bg-gold rounded-full group-hover:scale-150 transition-transform duration-300"></span>

@@ -35,13 +35,14 @@ const ComparativePage = () => {
     t('comparative.features.gold2', 'Acceso exclusivo al grupo VIP de WhatsApp (Grupo Oro)'),
     t('comparative.features.gold3', 'Biblioteca digital completa: acceso a todos los ebooks'),
     t('comparative.features.gold4', 'Tutoriales en video exclusivos (contenido avanzado)'),
-    t('comparative.features.gold5', 'Consultas de estilo personalizadas ocasionales'),
-    t('comparative.features.gold6', '15% de descuento permanente en prendas específicas'),
-    t('comparative.features.gold7', 'Acceso anticipado a nuevas colecciones'),
-    t('comparative.features.gold8', 'Invitaciones a eventos presenciales selectos'),
-    t('comparative.features.gold9', 'Guía de inversión en prendas de calidad'),
-    t('comparative.features.gold10', 'Asesoría de combinaciones personalizadas'),
-    t('comparative.features.gold11', 'Certificado digital de membresía premium')
+    t('comparative.features.gold5', 'Consultas por Texto en Vivo - Asesoramiento premium en tiempo real'),
+    t('comparative.features.gold6', 'Evaluaciones de Armario - Consulta de 15 min + evaluación por temporada'),
+    t('comparative.features.gold7', '15% de descuento permanente en prendas específicas'),
+    t('comparative.features.gold8', 'Acceso anticipado a nuevas colecciones'),
+    t('comparative.features.gold9', 'Invitaciones a eventos presenciales selectos'),
+    t('comparative.features.gold10', 'Guía de inversión en prendas de calidad'),
+    t('comparative.features.gold11', 'Asesoría de combinaciones personalizadas'),
+    t('comparative.features.gold12', 'Certificado digital de membresía premium')
   ];
 
   return (
