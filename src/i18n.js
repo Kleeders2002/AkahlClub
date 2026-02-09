@@ -409,6 +409,11 @@ const resources = {
       'dashboard.weeklyUpdates': 'Exclusive weekly updates',
       'dashboard.prioritySupport': 'Personalized priority support',
       'dashboard.exclusiveEvents': 'Exclusive events and workshops',
+      'dashboard.profile': 'Profile',
+      'dashboard.profileTitle': 'My Profile',
+      'dashboard.personalInfo': 'Personal Information',
+      'dashboard.security': 'Security',
+      'dashboard.subscription': 'Subscription',
 
 
     }
@@ -852,6 +857,11 @@ const resources = {
       'dashboard.noEbooks': 'No se encontraron e-books',
       'dashboard.noVideos': 'No se encontraron videos',
       'dashboard.noTips': 'No se encontraron consejos',
+      'dashboard.profile': 'Perfil',
+      'dashboard.profileTitle': 'Mi Perfil',
+      'dashboard.personalInfo': 'Información Personal',
+      'dashboard.security': 'Seguridad',
+      'dashboard.subscription': 'Suscripción',
 
     }
   }

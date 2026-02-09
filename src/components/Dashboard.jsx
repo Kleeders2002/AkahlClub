@@ -12,7 +12,11 @@ import {
   BookOpen,
   FileText,
   Video,
-  Lightbulb
+  Lightbulb,
+  Home,
+  Settings,
+  CreditCard,
+  Lock
 } from 'lucide-react';
 
 import WelcomeSection from './dashboard/WelcomeSection';
@@ -20,6 +24,7 @@ import GuiasSection from './dashboard/GuiasSection';
 import EbooksSection from './dashboard/EbooksSection';
 import VideosSection from './dashboard/VideosSection';
 import TipsSection from './dashboard/TipsSection';
+import ProfileSection from './dashboard/ProfileSection';
 
 export default function Dashboard({ token, onLogout }) {
   const { t } = useTranslation();
@@ -44,7 +49,8 @@ export default function Dashboard({ token, onLogout }) {
     { id: 'guias', label: t('dashboard.guides', 'Guías de Estilo'), icon: BookOpen },
     { id: 'ebooks', label: t('dashboard.ebooks', 'E-Books'), icon: FileText },
     { id: 'videos', label: t('dashboard.videos', 'Videos'), icon: Video },
-    { id: 'tips', label: t('dashboard.tips', 'Tips'), icon: Lightbulb }
+    { id: 'tips', label: t('dashboard.tips', 'Tips'), icon: Lightbulb },
+    { id: 'perfil', label: t('dashboard.profile', 'Perfil'), icon: User }
   ];
 
   // Detectar pantalla móvil
@@ -354,7 +360,8 @@ export default function Dashboard({ token, onLogout }) {
                  activeTab === 'guias' ? t('dashboard.guidesTitle') :
                  activeTab === 'ebooks' ? t('dashboard.ebooksTitle') :
                  activeTab === 'videos' ? t('dashboard.videosTitle') :
-                 activeTab === 'tips' ? t('dashboard.tipsTitle') : ''}
+                 activeTab === 'tips' ? t('dashboard.tipsTitle') :
+                 activeTab === 'perfil' ? t('dashboard.profileTitle') : ''}
               </h1>
               <p className="text-xs sm:text-sm mt-1" style={{ color: colors.verdeMedio }}>
                 {userPlan === 'ORO' ? t('dashboard.vipAccess') : t('dashboard.standardAccess')}
@@ -453,6 +460,18 @@ export default function Dashboard({ token, onLogout }) {
                 t={t}
               />
             </div>
+          )}
+
+          {/* Profile Tab */}
+          {activeTab === 'perfil' && (
+            <ProfileSection
+              token={token}
+              userName={userName}
+              userPlan={userPlan}
+              colors={colors}
+              t={t}
+              API_URL={API_URL}
+            />
           )}
 
         </div>
