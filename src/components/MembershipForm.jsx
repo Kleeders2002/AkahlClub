@@ -358,10 +358,21 @@ const MembershipForm = () => {
     
     try {
       // Aquí va la conexión con tu backend
-      const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com/api/auth/register';
-      
+      const API_URL = `${import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com'}/api/auth/register`;
+
       const fullPhoneNumber = `${selectedCountry.dialCode}${formData.phone}`;
-      
+
+      console.log('📤 Enviando registro a:', API_URL);
+      console.log('📊 Datos:', {
+        email: formData.email,
+        nombre: `${formData.firstName} ${formData.lastName}`,
+        telefono: fullPhoneNumber,
+        pais: selectedCountry.code,
+        estilo_preferencia: formData.stylePreference,
+        plan: formData.membershipPlan,
+        comentarios: formData.comments
+      });
+
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -377,15 +388,36 @@ const MembershipForm = () => {
           comentarios: formData.comments
         })
       });
-      
-      const data = await response.json();
-      
+
+      console.log('📥 Respuesta status:', response.status);
+      console.log('📥 Respuesta ok:', response.ok);
+
+      // Verificar si la respuesta es JSON antes de parsear
+      const contentType = response.headers.get('content-type');
+      console.log('📥 Content-Type:', contentType);
+
+      let data;
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        // Si no es JSON, obtener el texto para debugging
+        const text = await response.text();
+        console.error('❌ Respuesta no es JSON:', text);
+        throw new Error(`El servidor devolvió un error (${response.status}). Por favor intenta nuevamente.`);
+      }
+
+      console.log('✅ Datos parseados:', data);
+
+      if (!response.ok) {
+        throw new Error(data.message || `Error del servidor (${response.status})`);
+      }
+
       if (data.success) {
-        setSubmitStatus({ 
-          type: 'success', 
-          message: t('form.success.message') 
+        setSubmitStatus({
+          type: 'success',
+          message: t('form.success.message')
         });
-        
+
         // Reset form
         setFormData({
           firstName: '',
@@ -397,7 +429,7 @@ const MembershipForm = () => {
           comments: '',
           acceptedTerms: false
         });
-        
+
         // Si requiere pago, redirigir
         if (data.requiresPayment && data.checkoutUrl) {
           setTimeout(() => {
@@ -408,9 +440,10 @@ const MembershipForm = () => {
         throw new Error(data.message || t('form.errors.submissionFailed'));
       }
     } catch (error) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: error.message || t('form.errors.connectionFailed') 
+      console.error('❌ Error en registro:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: error.message || t('form.errors.connectionFailed')
       });
     } finally {
       setIsSubmitting(false);
