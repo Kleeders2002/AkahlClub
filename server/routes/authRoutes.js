@@ -14,99 +14,121 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
-  const { email, nombre, telefono, plan, comentarios } = req.body;
-  
-  console.log("📝 Intento de registro:", { email, nombre, plan });
-  
+  const { email, nombre, telefono, pais, estilo_preferencia, plan, comentarios } = req.body;
+
+  console.log("📝 Intento de registro:", { email, nombre, plan, telefono, pais });
+
   if (!email || !nombre) {
-    return res.status(400).json({ 
-      success: false, 
-      message: "Email y nombre son obligatorios" 
+    return res.status(400).json({
+      success: false,
+      message: "Email y nombre son obligatorios"
     });
   }
-  
+
   try {
-    const usuarioExistente = await prisma.usuario.findUnique({ 
-      where: { email } 
+    const usuarioExistente = await prisma.usuario.findUnique({
+      where: { email }
     });
-    
+
     if (usuarioExistente) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Este email ya está registrado" 
+      return res.status(400).json({
+        success: false,
+        message: "Este email ya está registrado"
       });
     }
-    
+
     const tempPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
-    
+
     const planFinal = plan || 'PLATA';
-    const estaActivo = planFinal === 'PLATA';
-    
+
+    // Separar nombre y apellido
+    const nameParts = nombre.trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Guardar metadata adicional
+    const metadata = {
+      comentarios: comentarios || '',
+      telefono: telefono || '',
+      fuenteRegistro: 'FORMULARIO_MEMBRESIA'
+    };
+
     const nuevoUsuario = await prisma.usuario.create({
       data: {
         email,
-        nombre,
-        password: hashedPassword,
-        plan: planFinal,
-        activo: estaActivo
+        fullName: nombre,
+        firstName: firstName,
+        lastName: lastName,
+        phone: telefono || null,
+        country: pais || 'US',
+        passwordHash: hashedPassword,
+        tier: planFinal === 'PLATA' ? 'PLATA' : 'ORO',
+        status: 'LEAD', // Todos los usuarios empiezan como LEAD (inactivo)
+        source: 'FORM',
+        stylePreference: estilo_preferencia === 'oldMoney' ? 'OLD_MONEY' :
+                        estilo_preferencia === 'classic' ? 'CLASSIC' :
+                        estilo_preferencia === 'modern' ? 'MODERN' : null,
+        metadata: metadata
       }
     });
-    
+
     console.log("✅ Usuario creado:", nuevoUsuario.id, "-", nuevoUsuario.email);
-    
+    console.log("📊 Estado inicial:", nuevoUsuario.status, "Tier:", nuevoUsuario.tier);
+
     // 📧 ENVIAR EMAIL SEGÚN EL PLAN
     if (planFinal === 'PLATA') {
-      // Email de bienvenida con acceso inmediato
-      await enviarEmailBienvenidaGratis(email, nombre, tempPassword);
-      
+      // Email de bienvenida pero usuario sigue como LEAD hasta que pague
+      await enviarEmailPagoPendiente(email, nombre, tempPassword,
+        `https://akahlclub.com/membership?plan=plata`);
+
       return res.json({
         success: true,
-        message: "¡Registro exitoso! Revisa tu email para acceder.",
-        requiresPayment: false,
+        message: "¡Registro exitoso! Revisa tu email para completar el pago y activar tu cuenta.",
+        requiresPayment: true,
         user: {
           id: nuevoUsuario.id,
           email: nuevoUsuario.email,
-          nombre: nuevoUsuario.nombre,
-          plan: nuevoUsuario.plan
+          nombre: nuevoUsuario.fullName,
+          plan: nuevoUsuario.tier
         }
       });
     }
-    
+
     if (planFinal === 'ORO') {
-      const checkoutUrl = process.env.CHECKOUT_URL_ORO || 
+      const checkoutUrl = process.env.CHECKOUT_URL_ORO ||
         `https://checkout.systeme.io/tu-producto-oro?email=${encodeURIComponent(email)}`;
-      
+
       // Email de pago pendiente
       await enviarEmailPagoPendiente(email, nombre, tempPassword, checkoutUrl);
-      
+
       return res.json({
         success: true,
-        message: "Cuenta creada. Completa el pago para activar tu membresía.",
+        message: "Cuenta creada. Completa el pago para activar tu membresía Gold.",
         requiresPayment: true,
         checkoutUrl: checkoutUrl,
         tempPassword: tempPassword,
         user: {
           id: nuevoUsuario.id,
           email: nuevoUsuario.email,
-          nombre: nuevoUsuario.nombre,
-          plan: nuevoUsuario.plan
+          nombre: nuevoUsuario.fullName,
+          plan: nuevoUsuario.tier
         }
       });
     }
-    
+
   } catch (err) {
     console.error("❌ Error en registro:", err);
-    
+
     if (err.code === 'P2002') {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Este email ya está registrado" 
+      return res.status(400).json({
+        success: false,
+        message: "Este email ya está registrado"
       });
     }
-    
-    res.status(500).json({ 
-      success: false, 
+
+    res.status(500).json({
+      success: false,
       message: "Error del servidor al crear usuario"
     });
   }
@@ -201,13 +223,32 @@ router.get("/verify", authMiddleware, async (req, res) => {
   try {
     const user = await prisma.usuario.findUnique({
       where: { id: req.user.id },
-      select: { id: true, email: true, nombre: true, plan: true, activo: true }
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        tier: true,
+        status: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        country: true,
+        stylePreference: true
+      }
     });
 
-    if (!user || !user.activo) {
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado"
+      });
+    }
+
+    if (user.status !== 'ACTIVE') {
       return res.status(403).json({
         success: false,
-        message: "Usuario inactivo o no encontrado"
+        message: "Usuario inactivo. Por favor completa el pago para activar tu cuenta.",
+        needsPayment: true
       });
     }
 
@@ -292,12 +333,12 @@ router.post("/change-password", authMiddleware, async (req, res) => {
 // Middleware para proteger rutas
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
-  
-  if (!authHeader) 
+
+  if (!authHeader)
     return res.status(401).json({ success: false, message: "No token proporcionado" });
-  
+
   const token = authHeader.split(" ")[1];
-  
+
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
@@ -306,5 +347,66 @@ function authMiddleware(req, res, next) {
     return res.status(401).json({ success: false, message: "Token inválido o expirado" });
   }
 }
+
+// POST /api/auth/activate-user - Endpoint para activar usuarios después del pago
+router.post("/activate-user", async (req, res) => {
+  const { email, tier } = req.body;
+
+  console.log("🔄 Intento de activación:", { email, tier });
+
+  if (!email || !tier) {
+    return res.status(400).json({
+      success: false,
+      message: "Email y tier son requeridos"
+    });
+  }
+
+  try {
+    // Buscar usuario por email
+    const usuario = await prisma.usuario.findUnique({
+      where: { email }
+    });
+
+    if (!usuario) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado"
+      });
+    }
+
+    // Actualizar usuario a ACTIVE
+    const usuarioActualizado = await prisma.usuario.update({
+      where: { email },
+      data: {
+        status: 'ACTIVE',
+        tier: tier.toUpperCase()
+      }
+    });
+
+    console.log("✅ Usuario activado:", usuarioActualizado.id, "-", usuarioActualizado.email);
+    console.log("📊 Nuevo estado:", usuarioActualizado.status, "Tier:", usuarioActualizado.tier);
+
+    // Enviar email de confirmación de pago
+    await enviarEmailPagoConfirmado(email, usuarioActualizado.fullName || email);
+
+    res.json({
+      success: true,
+      message: "Usuario activado exitosamente",
+      user: {
+        id: usuarioActualizado.id,
+        email: usuarioActualizado.email,
+        status: usuarioActualizado.status,
+        tier: usuarioActualizado.tier
+      }
+    });
+
+  } catch (err) {
+    console.error("❌ Error al activar usuario:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error del servidor al activar usuario"
+    });
+  }
+});
 
 module.exports = { router, authMiddleware };
