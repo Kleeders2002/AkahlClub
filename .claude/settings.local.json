@@ -17,7 +17,17 @@
       "Bash(npx prisma db push:*)",
       "Bash(tree:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git push:*)",
+      "Bash(dir:*)",
+      "Bash(git -C \"C:\\\\Users\\\\PC\\\\Desktop\\\\AKAHLClub - copia\\\\portal-vip\" log --oneline -20)",
+      "Bash(git -C \"C:\\\\Users\\\\PC\\\\Desktop\\\\AKAHLClub - copia\\\\portal-vip\" diff --stat HEAD~5..HEAD)",
+      "Bash(wc:*)",
+      "Bash(gh repo view:*)",
+      "Bash(git reset:*)",
+      "WebSearch"
     ]
   }
 }

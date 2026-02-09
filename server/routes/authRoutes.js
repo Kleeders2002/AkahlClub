@@ -16,7 +16,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 router.post("/register", async (req, res) => {
   const { email, nombre, telefono, pais, estilo_preferencia, plan, comentarios, idioma } = req.body;
 
-  console.log("📝 Intento de registro:", { email, nombre, plan, telefono, pais, idioma });
+  console.log("📝 Intento de registro:", { email, nombre, plan, idioma });
 
   if (!email || !nombre) {
     return res.status(400).json({
@@ -41,7 +41,7 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     const planFinal = plan || 'PLATA';
-    const idiomaUsuario = idioma || 'es'; // Default español
+    const idiomaEmail = idioma || 'es'; // Solo para enviar el email, NO se guarda en BD
 
     // Separar nombre y apellido
     const nameParts = nombre.trim().split(' ');
@@ -63,7 +63,6 @@ router.post("/register", async (req, res) => {
         lastName: lastName,
         phone: telefono || null,
         country: pais || 'US',
-        idioma: idiomaUsuario, // 🌍 Guardar idioma del usuario
         passwordHash: hashedPassword,
         tier: planFinal === 'PLATA' ? 'PLATA' : 'ORO',
         status: 'LEAD', // Todos los usuarios empiezan como LEAD (inactivo)
@@ -76,9 +75,9 @@ router.post("/register", async (req, res) => {
     });
 
     console.log("✅ Usuario creado:", nuevoUsuario.id, "-", nuevoUsuario.email);
-    console.log("📊 Estado inicial:", nuevoUsuario.status, "Tier:", nuevoUsuario.tier, "Idioma:", nuevoUsuario.idioma);
+    console.log("📊 Estado inicial:", nuevoUsuario.status, "Tier:", nuevoUsuario.tier);
 
-    // 📧 ENVIAR EMAIL SEGÚN EL PLAN EN EL IDIOMA DEL USUARIO
+    // 📧 ENVIAR EMAIL EN EL IDIOMA SELECCIONADO POR EL USUARIO
     let checkoutUrl;
     if (planFinal === 'ORO') {
       checkoutUrl = process.env.CHECKOUT_URL_ORO || `https://akahlstyle.systeme.io/0fee916e-ab00925a-b40f6434-9fbf5ad1`;
@@ -91,16 +90,16 @@ router.post("/register", async (req, res) => {
       checkoutUrl += `?email=${encodeURIComponent(email)}`;
     }
 
-    // Email de pago pendiente con el idioma correcto
-    await enviarEmailPagoPendiente(email, nombre, tempPassword, checkoutUrl, idiomaUsuario);
+    // Email de pago pendiente en el idioma seleccionado
+    await enviarEmailPagoPendiente(email, nombre, tempPassword, checkoutUrl, idiomaEmail);
 
     return res.json({
       success: true,
       message: planFinal === 'PLATA'
-        ? (idiomaUsuario === 'en'
+        ? (idiomaEmail === 'en'
           ? "Registration successful! Check your email to complete payment and activate your account."
           : "¡Registro exitoso! Revisa tu email para completar el pago y activar tu cuenta.")
-        : (idiomaUsuario === 'en'
+        : (idiomaEmail === 'en'
           ? "Account created. Complete payment to activate your Gold membership."
           : "Cuenta creada. Completa el pago para activar tu membresía Gold."),
       requiresPayment: true,
@@ -109,8 +108,7 @@ router.post("/register", async (req, res) => {
         id: nuevoUsuario.id,
         email: nuevoUsuario.email,
         nombre: nuevoUsuario.fullName,
-        plan: nuevoUsuario.tier,
-        idioma: nuevoUsuario.idioma
+        plan: nuevoUsuario.tier
       }
     });
 
@@ -357,9 +355,9 @@ function authMiddleware(req, res, next) {
 
 // POST /api/auth/activate-user - Endpoint para activar usuarios después del pago
 router.post("/activate-user", async (req, res) => {
-  const { email, tier } = req.body;
+  const { email, tier, idioma } = req.body;
 
-  console.log("🔄 Intento de activación:", { email, tier });
+  console.log("🔄 Intento de activación:", { email, tier, idioma });
 
   if (!email || !tier) {
     return res.status(400).json({
@@ -391,13 +389,13 @@ router.post("/activate-user", async (req, res) => {
     });
 
     console.log("✅ Usuario activado:", usuarioActualizado.id, "-", usuarioActualizado.email);
-    console.log("📊 Nuevo estado:", usuarioActualizado.status, "Tier:", usuarioActualizado.tier, "Idioma:", usuarioActualizado.idioma);
+    console.log("📊 Nuevo estado:", usuarioActualizado.status, "Tier:", usuarioActualizado.tier);
 
-    // Enviar email de confirmación de pago en el idioma del usuario
+    // Enviar email de confirmación de pago (idioma por defecto español si no se especifica)
     await enviarEmailPagoConfirmado(
       email,
       usuarioActualizado.fullName || email,
-      usuarioActualizado.idioma || 'es'
+      idioma || 'es'
     );
 
     res.json({
@@ -407,8 +405,7 @@ router.post("/activate-user", async (req, res) => {
         id: usuarioActualizado.id,
         email: usuarioActualizado.email,
         status: usuarioActualizado.status,
-        tier: usuarioActualizado.tier,
-        idioma: usuarioActualizado.idioma
+        tier: usuarioActualizado.tier
       }
     });
 
