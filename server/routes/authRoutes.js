@@ -199,24 +199,93 @@ router.post("/logout", authMiddleware, async (req, res) => {
 // GET /api/auth/verify
 router.get("/verify", authMiddleware, async (req, res) => {
   try {
-    const user = await prisma.usuario.findUnique({ 
+    const user = await prisma.usuario.findUnique({
       where: { id: req.user.id },
       select: { id: true, email: true, nombre: true, plan: true, activo: true }
     });
-    
+
     if (!user || !user.activo) {
-      return res.status(403).json({ 
-        success: false, 
-        message: "Usuario inactivo o no encontrado" 
+      return res.status(403).json({
+        success: false,
+        message: "Usuario inactivo o no encontrado"
       });
     }
-    
+
     res.json({
       success: true,
       user
     });
   } catch (err) {
     res.status(500).json({ success: false, message: "Error al verificar usuario" });
+  }
+});
+
+// POST /api/auth/change-password
+router.post("/change-password", authMiddleware, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    console.log("🔐 Usuario intentando cambiar contraseña:", userId);
+
+    // Validaciones
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "La contraseña actual y la nueva son requeridas"
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "La nueva contraseña debe tener al menos 8 caracteres"
+      });
+    }
+
+    // Buscar usuario
+    const user = await prisma.usuario.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado"
+      });
+    }
+
+    // Verificar contraseña actual
+    const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "La contraseña actual es incorrecta"
+      });
+    }
+
+    // Hashear nueva contraseña
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Actualizar contraseña
+    await prisma.usuario.update({
+      where: { id: userId },
+      data: { passwordHash: hashedPassword }
+    });
+
+    console.log("✅ Contraseña actualizada exitosamente para:", user.email);
+
+    res.json({
+      success: true,
+      message: "Contraseña actualizada exitosamente"
+    });
+
+  } catch (err) {
+    console.error("❌ Error al cambiar contraseña:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error del servidor al cambiar contraseña"
+    });
   }
 });
 
