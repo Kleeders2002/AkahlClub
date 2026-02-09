@@ -12,8 +12,8 @@ export default function Navbar() {
   const mobileMenuRef = useRef(null);
   const { t, i18n } = useTranslation();
 
-  // Determinar si estamos en el portal
-  const isPortalRoute = location.pathname.startsWith('/portal');
+  // Determinar si estamos en el portal o dashboard
+  const isPortalRoute = location.pathname.startsWith('/portal') || location.pathname.startsWith('/dashboard');
 
   // Determinar si mostrar el botón de membresía (solo en landing y comparative)
   const showMembershipButton = location.pathname === '/' || location.pathname === '/comparative';
