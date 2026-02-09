@@ -308,7 +308,7 @@ export default function Dashboard({ token, onLogout }) {
                   color: activeTab === tab.id ? colors.fondo : colors.doradoClaro
                 }}
               >
-                <Icon className={`flex-shrink-0 ${activeTab === tab.id ? 'font-bold' : ''}`} style={{ fontSize: activeTab === tab.id ? '1.1em' : '1em' }} />
+                <Icon className={`flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5`} />
                 <span className={`text-xs sm:text-sm ${activeTab === tab.id ? 'font-bold' : 'font-medium'}`}>{tab.label}</span>
                 {activeTab === tab.id && (
                   <div className="ml-auto w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ backgroundColor: colors.fondo }}></div>
