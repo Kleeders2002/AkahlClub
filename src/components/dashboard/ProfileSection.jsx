@@ -432,10 +432,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
           <div className="space-y-6">
             <div>
               <h3 className="text-xl font-bold mb-2" style={{ color: colors.verdePrimario }}>
-                Tu Suscripción
+                {t('dashboard.subscription')}
               </h3>
               <p className="text-sm" style={{ color: colors.verdeMedio }}>
-                Gestiona tu membresía Akahl Club
+                {t('dashboard.subscriptionDesc')}
               </p>
             </div>
 
@@ -466,10 +466,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     </div>
                     <div>
                       <h4 className="text-lg font-bold" style={{ color: colors.verdePrimario }}>
-                        Plan {userPlan === 'ORO' ? 'ORO' : 'PLATA'}
+                        {t('dashboard.currentPlan')} {userPlan === 'ORO ? 'ORO' : 'PLATA'}
                       </h4>
                       <p className="text-xs" style={{ color: colors.verdeMedio }}>
-                        {userPlan === 'ORO' ? 'Membresía Premium' : 'Membresía Estándar'}
+                        {userPlan === 'ORO' ? t('dashboard.premiumMembership') : t('dashboard.standardMembership')}
                       </p>
                     </div>
                   </div>
@@ -477,7 +477,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     <div className="px-3 py-1 rounded-full text-xs font-bold text-white"
                       style={{ backgroundColor: colors.mostazaPrimario }}
                     >
-                      ACTIVO
+                      {t('dashboard.active')}
                     </div>
                   )}
                 </div>
@@ -485,15 +485,15 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <div className="text-center p-3 rounded-lg bg-white/60">
                     <div className="text-2xl font-bold" style={{ color: colors.verdePrimario }}>
-                      {userPlan === 'ORO' ? '∞' : 'Limitado'}
+                      {userPlan === 'ORO' ? t('dashboard.unlimited') : t('dashboard.limited')}
                     </div>
-                    <div className="text-xs" style={{ color: colors.verdeMedio }}>Acceso a Contenido</div>
+                    <div className="text-xs" style={{ color: colors.verdeMedio }}>{t('dashboard.contentAccess')}</div>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-white/60">
                     <div className="text-2xl font-bold" style={{ color: colors.verdePrimario }}>
-                      {userPlan === 'ORO' ? 'Full' : 'Básico'}
+                      {userPlan === 'ORO' ? t('dashboard.full') : t('dashboard.basic')}
                     </div>
-                    <div className="text-xs" style={{ color: colors.verdeMedio }}>Beneficios</div>
+                    <div className="text-xs" style={{ color: colors.verdeMedio }}>{t('dashboard.benefits')}</div>
                   </div>
                 </div>
               </div>
@@ -510,10 +510,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     <Crown className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: colors.mostazaPrimario }} />
                     <div className="flex-1">
                       <h4 className="font-bold text-sm mb-1" style={{ color: colors.verdePrimario }}>
-                        ¿Quieres más beneficios?
+                        {t('dashboard.upgrade')}
                       </h4>
                       <p className="text-xs mb-3" style={{ color: colors.verdeMedio }}>
-                        Actualiza a Plan ORO y obtén acceso ilimitado a todo el contenido premium.
+                        {t('dashboard.upgradeDesc')}
                       </p>
                       <a
                         href="https://checkout.systeme.io/tu-producto-oro"
@@ -522,7 +522,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                         className="inline-block px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg"
                         style={{ backgroundColor: colors.mostazaPrimario }}
                       >
-                        Hacer Upgrade a ORO →
+                        {t('dashboard.upgradeButton')}
                       </a>
                     </div>
                   </div>
@@ -534,17 +534,17 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                   <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600" />
                   <div className="flex-1">
                     <h4 className="font-bold text-sm mb-1 text-red-900">
-                      Cancelar Suscripción
+                      {t('dashboard.cancelSubscription')}
                     </h4>
                     <p className="text-xs mb-3 text-red-700">
-                      Lamentamos verte ir. Antes de irte, ¿podrías decirnos por qué?
+                      {t('dashboard.cancelDesc')}
                     </p>
                     <button
                       onClick={() => setShowCancelModal(true)}
                       className="inline-block px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg"
                       style={{ backgroundColor: '#dc2626' }}
                     >
-                      Solicitar Cancelación
+                      {t('dashboard.requestCancellation')}
                     </button>
                   </div>
                 </div>
@@ -560,11 +560,10 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                 <PauseCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: colors.mostazaPrimario }} />
                 <div className="flex-1">
                   <p className="text-xs mb-2" style={{ color: colors.verdePrimario }}>
-                    <strong>¿Solo necesitas un descanso?</strong>
+                    <strong>{t('dashboard.pauseNote')}</strong>
                   </p>
                   <p className="text-xs" style={{ color: colors.verdeMedio }}>
-                    Contáctanos antes de cancelar. Podemos pausar tu membresía o ofrecerte un descuento especial.
-                    Tu satisfacción es nuestra prioridad.
+                    {t('dashboard.pauseNoteDesc')}
                   </p>
                 </div>
               </div>
@@ -581,7 +580,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
             <div className="sticky top-0 bg-white border-b p-6 rounded-t-2xl" style={{ borderColor: 'rgba(34, 60, 51, 0.1)' }}>
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold" style={{ color: colors.verdePrimario }}>
-                  Cancelar Suscripción
+                  {t('dashboard.cancelModalTitle')}
                 </h3>
                 <button
                   onClick={() => {
@@ -598,7 +597,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
             {/* Content */}
             <div className="p-6">
               <p className="text-sm mb-6 text-gray-700">
-                Lamentamos verte ir. Por favor ayúdanos a mejorar seleccionando el motivo principal de tu cancelación:
+                {t('dashboard.cancelModalDesc')}
               </p>
 
               {cancelMessage.text && (
@@ -619,7 +618,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
               <form onSubmit={handleCancelSubscription} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2 text-gray-700">
-                    Motivo de cancelación <span className="text-red-600">*</span>
+                    {t('dashboard.cancelReasonLabel')} <span className="text-red-600">*</span>
                   </label>
                   <select
                     value={cancelReason}
@@ -628,20 +627,20 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     className="w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2"
                     style={{ borderColor: 'rgba(34, 60, 51, 0.2)' }}
                   >
-                    <option value="">Selecciona un motivo</option>
-                    <option value="expensive">Es muy costoso</option>
-                    <option value="not_using">No estoy usando el contenido</option>
-                    <option value="quality">La calidad del contenido no es lo que esperaba</option>
-                    <option value="technical">Problemas técnicos</option>
-                    <option value="found_alternative">Encontré una alternativa</option>
-                    <option value="personal">Razones personales</option>
-                    <option value="other">Otro</option>
+                    <option value="">{t('dashboard.selectReason')}</option>
+                    <option value="expensive">{t('dashboard.reasonExpensive')}</option>
+                    <option value="not_using">{t('dashboard.reasonNotUsing')}</option>
+                    <option value="quality">{t('dashboard.reasonQuality')}</option>
+                    <option value="technical">{t('dashboard.reasonTechnical')}</option>
+                    <option value="found_alternative">{t('dashboard.reasonAlternative')}</option>
+                    <option value="personal">{t('dashboard.reasonPersonal')}</option>
+                    <option value="other">{t('dashboard.reasonOther')}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2 text-gray-700">
-                    Comentarios adicionales (opcional)
+                    {t('dashboard.additionalComments')}
                   </label>
                   <textarea
                     value={cancelFeedback}
@@ -649,15 +648,13 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     rows="3"
                     className="w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 resize-none"
                     style={{ borderColor: 'rgba(34, 60, 51, 0.2)' }}
-                    placeholder="Cuéntanos más sobre tu experiencia..."
+                    placeholder={t('dashboard.feedbackPlaceholder')}
                   />
                 </div>
 
                 <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
                   <p className="text-xs text-blue-900">
-                    <strong>Nota importante:</strong> Tu solicitud será revisada por nuestro equipo.
-                    Te contactaremos en 24-48 horas para confirmar la cancelación y ofrecerte alternativas.
-                    Tu membresía seguirá activa hasta que se confirme la cancelación.
+                    {t('dashboard.cancellationNote')}
                   </p>
                 </div>
 
@@ -671,7 +668,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     className="flex-1 px-4 py-2.5 rounded-lg font-medium border-2 transition-all duration-200"
                     style={{ borderColor: 'rgba(34, 60, 51, 0.2)', color: colors.verdePrimario }}
                   >
-                    Mantener Suscripción
+                    {t('dashboard.keepSubscription')}
                   </button>
                   <button
                     type="submit"
@@ -679,7 +676,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                     className="flex-1 px-4 py-2.5 rounded-lg font-bold text-white transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ backgroundColor: '#dc2626' }}
                   >
-                    {isCancelling ? 'Enviando...' : 'Confirmar Cancelación'}
+                    {isCancelling ? t('dashboard.sending') : t('dashboard.confirmCancellation')}
                   </button>
                 </div>
               </form>
