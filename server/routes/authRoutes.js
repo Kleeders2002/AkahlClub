@@ -79,9 +79,17 @@ router.post("/register", async (req, res) => {
     console.log("📊 Estado inicial:", nuevoUsuario.status, "Tier:", nuevoUsuario.tier, "Idioma:", nuevoUsuario.idioma);
 
     // 📧 ENVIAR EMAIL SEGÚN EL PLAN EN EL IDIOMA DEL USUARIO
-    const checkoutUrl = planFinal === 'ORO'
-      ? (process.env.CHECKOUT_URL_ORO || `https://checkout.systeme.io/tu-producto-oro?email=${encodeURIComponent(email)}`)
-      : `https://akahlclub.com/membership?plan=plata`;
+    let checkoutUrl;
+    if (planFinal === 'ORO') {
+      checkoutUrl = process.env.CHECKOUT_URL_ORO || `https://akahlstyle.systeme.io/0fee916e-ab00925a-b40f6434-9fbf5ad1`;
+    } else {
+      checkoutUrl = process.env.CHECKOUT_URL_PLATA || `https://akahlstyle.systeme.io/0fee916e-ab00925a-b40f6434-9fbf5ad1-7660c707`;
+    }
+
+    // Agregar email como parámetro si no está incluido
+    if (!checkoutUrl.includes('email=')) {
+      checkoutUrl += `?email=${encodeURIComponent(email)}`;
+    }
 
     // Email de pago pendiente con el idioma correcto
     await enviarEmailPagoPendiente(email, nombre, tempPassword, checkoutUrl, idiomaUsuario);
@@ -150,9 +158,19 @@ router.post("/login", async (req, res) => {
     // Verificar si el usuario está activo - usando el campo correcto según schema Prisma
     if (user.status !== 'ACTIVE') {
       // Generar URL de checkout según su plan
-      const checkoutUrl = user.tier === 'ORO'
-        ? `https://checkout.systeme.io/tu-producto-oro?email=${encodeURIComponent(user.email)}`
-        : null;
+      let checkoutUrl;
+      if (user.tier === 'ORO') {
+        checkoutUrl = process.env.CHECKOUT_URL_ORO || `https://akahlstyle.systeme.io/0fee916e-ab00925a-b40f6434-9fbf5ad1`;
+      } else if (user.tier === 'PLATA') {
+        checkoutUrl = process.env.CHECKOUT_URL_PLATA || `https://akahlstyle.systeme.io/0fee916e-ab00925a-b40f6434-9fbf5ad1-7660c707`;
+      } else {
+        checkoutUrl = null;
+      }
+
+      // Agregar email si no está incluido
+      if (checkoutUrl && !checkoutUrl.includes('email=')) {
+        checkoutUrl += `?email=${encodeURIComponent(user.email)}`;
+      }
 
       return res.status(403).json({
         success: false,
