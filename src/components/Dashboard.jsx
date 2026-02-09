@@ -305,13 +305,13 @@ export default function Dashboard({ token, onLogout }) {
                 }`}
                 style={{
                   backgroundColor: activeTab === tab.id ? `linear-gradient(135deg, ${colors.mostazaPrimario} 0%, ${colors.doradoMedio} 100%)` : 'transparent',
-                  color: activeTab === tab.id ? '#0a1f1a' : colors.doradoClaro
+                  color: activeTab === tab.id ? colors.fondo : colors.doradoClaro
                 }}
               >
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                <span className="font-medium text-xs sm:text-sm">{tab.label}</span>
+                <Icon className={`flex-shrink-0 ${activeTab === tab.id ? 'font-bold' : ''}`} style={{ fontSize: activeTab === tab.id ? '1.1em' : '1em' }} />
+                <span className={`text-xs sm:text-sm ${activeTab === tab.id ? 'font-bold' : 'font-medium'}`}>{tab.label}</span>
                 {activeTab === tab.id && (
-                  <div className="ml-auto w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ backgroundColor: '#0a1f1a' }}></div>
+                  <div className="ml-auto w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ backgroundColor: colors.fondo }}></div>
                 )}
               </button>
             );
