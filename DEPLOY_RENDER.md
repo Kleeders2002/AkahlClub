@@ -112,7 +112,7 @@ CHECKOUT_URL_ORO = https://checkout.systeme.io/tu-producto-oro
 
 ### Si todo sale bien:
 - ✅ Status: "Live"
-- 🌐 URL: `https://akahl-club-api.onrender.com`
+- 🌐 URL: `https://akahlclub.onrender.com`
 - 📊 Puedes ver los logs en la pestaña "Logs"
 
 ---
@@ -123,7 +123,7 @@ Una vez desplegado, prueba estos endpoints:
 
 ### Health Check:
 ```bash
-curl https://akahl-club-api.onrender.com/
+curl https://akahlclub.onrender.com/
 ```
 Debería retornar:
 ```json
@@ -132,7 +132,7 @@ Debería retornar:
 
 ### Probar Lead Capture:
 ```bash
-curl -X POST https://akahl-club-api.onrender.com/api/leads \
+curl -X POST https://akahlclub.onrender.com/api/leads \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -150,7 +150,7 @@ Después del deploy, actualiza tu frontend:
 
 ### En `.env` del frontend:
 ```env
-VITE_API_URL=https://akahl-club-api.onrender.com
+VITE_API_URL=https://akahlclub.onrender.com
 ```
 
 ### Re-deploya el frontend en Vercel
@@ -230,7 +230,7 @@ Render detectará el push y hará deploy automático ✅
 Si necesitas que Systeme.io notifique a tu API cuando se complete un pago:
 
 1. En Systeme.io, configura el webhook:
-   - URL: `https://akahl-club-api.onrender.com/api/webhooks/payment`
+   - URL: `https://akahlclub.onrender.com/api/webhooks/payment`
    - Evento: "Purchase completed"
 
 2. Crea la ruta en tu servidor (pendiente de implementar)
@@ -253,7 +253,7 @@ Si necesitas que Systeme.io notifique a tu API cuando se complete un pago:
 
 ## 🎯 URLs Finales
 
-- **API**: `https://akahl-club-api.onrender.com`
+- **API**: `https://akahlclub.onrender.com`
 - **Frontend**: `https://tu-frontend.vercel.app`
 - **Dashboard Render**: [dashboard.render.com](https://dashboard.render.com)
 

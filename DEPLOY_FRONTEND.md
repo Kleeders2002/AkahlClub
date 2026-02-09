@@ -20,7 +20,7 @@ Busca y selecciona tu proyecto del portal VIP.
 
 ```
 Key: VITE_API_URL
-Value: https://akahl-club-api.onrender.com
+Value: https://akahlclub.onrender.com
 ```
 
 3. Selecciona los entornos donde aplicar:
@@ -71,7 +71,7 @@ Después del deploy, prueba:
 4. **Prueba hacer login o registrarte**
 5. **Verifica que las peticiones van a**:
    ```
-   https://akahl-club-api.onrender.com/api/...
+   https://akahlclub.onrender.com/api/...
    ```
 
 NO debería ir a:
@@ -99,15 +99,15 @@ http://localhost:4000/api/...
 **Solución**:
 1. Verifica el status del backend en Render
 2. Revisa los logs en Render
-3. Prueba: `curl https://akahl-club-api.onrender.com/`
+3. Prueba: `curl https://akahlclub.onrender.com/`
 
 ---
 
 ## 📱 URLs Finales
 
 - **Frontend**: Tu URL en Vercel
-- **Backend**: https://akahl-club-api.onrender.com
-- **Health Check Backend**: https://akahl-club-api.onrender.com/
+- **Backend**: https://akahlclub.onrender.com
+- **Health Check Backend**: https://akahlclub.onrender.com/
 
 ---
 

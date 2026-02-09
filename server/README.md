@@ -74,7 +74,7 @@ Click en "Create Web Service" y Render hará:
 - Ejecutar migraciones de la base de datos
 - Iniciar el servidor
 
-Tu API estará disponible en: `https://akahl-club-api.onrender.com`
+Tu API estará disponible en: `https://akahlclub.onrender.com`
 
 ## Endpoints Principales
 
