@@ -95,7 +95,7 @@ router.post('/create-checkout-session', async (req, res) => {
           quantity: 1
         }
       ],
-      success_url: `${process.env.FRONTEND_URL || 'https://akahl-club.vercel.app'}/membership?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.FRONTEND_URL || 'https://akahl-club.vercel.app'}/login?stripe=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.FRONTEND_URL || 'https://akahl-club.vercel.app'}/membership?cancelled=true`,
       metadata: {
         email,

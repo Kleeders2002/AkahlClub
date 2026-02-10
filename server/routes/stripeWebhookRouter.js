@@ -7,10 +7,109 @@ const { enviarEmailPagoConfirmado } = require('../services/emailService');
 const prisma = new PrismaClient();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
+// Endpoint de prueba para verificar webhook
+router.get('/test', async (req, res) => {
+  console.log('🧪 Endpoint de prueba del webhook ejecutado');
+
+  const checks = {
+    stripeSecretKey: !!process.env.STRIPE_SECRET_KEY,
+    webhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+    frontendUrl: process.env.FRONTEND_URL,
+    stripePricePlata: !!process.env.STRIPE_PRICE_PLATA,
+    stripePriceOro: !!process.env.STRIPE_PRICE_ORO,
+    databaseConnected: false
+  };
+
+  // Verificar conexión a BD
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    checks.databaseConnected = true;
+  } catch (dbError) {
+    checks.databaseConnected = false;
+    console.error('❌ Error de BD:', dbError.message);
+  }
+
+  res.json({
+    success: true,
+    message: 'Webhook test endpoint',
+    checks,
+    environment: {
+      nodeEnv: process.env.NODE_ENV,
+      port: process.env.PORT
+    }
+  });
+});
+
+// Endpoint para crear un usuario de prueba manualmente
+router.post('/test-create-user', async (req, res) => {
+  const { email, nombre } = req.body;
+
+  console.log('🧪 Creando usuario de prueba manualmente');
+
+  try {
+    // Verificar si ya existe
+    const existing = await prisma.usuario.findUnique({ where: { email } });
+    if (existing) {
+      return res.json({
+        success: false,
+        message: 'Usuario ya existe',
+        user: existing
+      });
+    }
+
+    // Crear usuario de prueba
+    const tempPassword = 'test123456';
+    const bcrypt = require('bcryptjs');
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+    const nameParts = (nombre || email).trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    const usuario = await prisma.usuario.create({
+      data: {
+        email,
+        fullName: nombre || email,
+        firstName,
+        lastName,
+        passwordHash: hashedPassword,
+        tier: 'PLATA',
+        status: 'ACTIVE',
+        source: 'MANUAL_TEST',
+        metadata: {
+          testUser: true
+        }
+      }
+    });
+
+    console.log('✅ Usuario de prueba creado:', usuario.id);
+
+    res.json({
+      success: true,
+      message: 'Usuario de prueba creado',
+      user: usuario,
+      tempPassword // Solo para pruebas
+    });
+
+  } catch (error) {
+    console.error('❌ Error creando usuario de prueba:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 // ⚠️ Este endpoint necesita el body RAW (no parseado) para verificar la firma
 router.post('/', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  console.log('==========================================');
+  console.log('🔔 Webhook recibido');
+  console.log('📋 Headers:', Object.keys(req.headers));
+  console.log('✅ Tiene stripe-signature:', !!sig);
+  console.log('✅ Tiene STRIPE_WEBHOOK_SECRET:', !!webhookSecret);
 
   let event;
 
@@ -28,11 +127,13 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
 
     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
 
-    console.log('🔔 Webhook recibido:', event.type);
+    console.log('✅ Webhook verificado correctamente');
+    console.log('🔔 Tipo de evento:', event.type);
     console.log('📊 Event ID:', event.id);
 
   } catch (err) {
     console.error('❌ Error verificando webhook:', err.message);
+    console.error('❌ Stack trace:', err.stack);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
@@ -44,6 +145,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
     await processWebhookEvent(event);
   } catch (error) {
     console.error('❌ Error procesando evento:', error);
+    console.error('❌ Stack trace:', error.stack);
     // No enviamos error porque ya respondimos 200
   }
 });
@@ -53,21 +155,32 @@ async function processWebhookEvent(event) {
 
   switch (event.type) {
     case 'checkout.session.completed': {
-      console.log('✅ Checkout completado');
+      console.log('==========================================');
+      console.log('✅ checkout.session.completed recibido');
+      console.log('📊 Data completo:', JSON.stringify(data, null, 2));
       console.log('📧 Metadata:', data.metadata);
 
       const { email, plan, idioma, nombre } = data.metadata;
 
+      console.log('📧 Email extraído:', email);
+      console.log('👤 Nombre extraído:', nombre);
+      console.log('🏷️ Plan extraído:', plan);
+      console.log('🌍 Idioma extraído:', idioma);
+
       if (!email) {
         console.error('❌ Email no encontrado en metadata');
+        console.error('❌ Metadata completa:', data.metadata);
         return;
       }
 
       // Buscar si el usuario ya existe
+      console.log('🔍 Buscando usuario en base de datos...');
       let usuario = await prisma.usuario.findUnique({ where: { email } });
 
       if (usuario) {
         console.log('📝 Usuario ya existe, actualizando...');
+        console.log('👤 Usuario antes de actualización:', usuario);
+
         // Actualizar usuario existente
         usuario = await prisma.usuario.update({
           where: { email },
@@ -81,11 +194,15 @@ async function processWebhookEvent(event) {
             }
           }
         });
+
+        console.log('✅ Usuario actualizado:', usuario);
       } else {
         console.log('👤 Creando nuevo usuario...');
 
         // Crear contraseña temporal
         const tempPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
+        console.log('🔑 Contraseña temporal generada:', tempPassword);
+
         const bcrypt = require('bcryptjs');
         const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
@@ -94,33 +211,60 @@ async function processWebhookEvent(event) {
         const firstName = nameParts[0] || '';
         const lastName = nameParts.slice(1).join(' ') || '';
 
-        // Crear nuevo usuario
-        usuario = await prisma.usuario.create({
-          data: {
-            email,
-            fullName: nombre || email,
-            firstName,
-            lastName,
-            passwordHash: hashedPassword,
-            tier: plan || 'PLATA',
-            status: 'ACTIVE',
-            source: 'STRIPE',
-            metadata: {
-              stripeCustomerId: data.customer,
-              stripeSubscriptionId: data.subscription,
-              tempPassword: tempPassword // Guardar password temporal por si acaso
-            }
-          }
-        });
+        console.log('📝 Datos del nuevo usuario:');
+        console.log('  - Email:', email);
+        console.log('  - Nombre completo:', nombre || email);
+        console.log('  - First name:', firstName);
+        console.log('  - Last name:', lastName);
+        console.log('  - Tier:', plan || 'PLATA');
+        console.log('  - Status: ACTIVE');
+        console.log('  - Source: STRIPE');
 
-        console.log('✅ Usuario creado desde Stripe:', usuario.id);
+        // Crear nuevo usuario
+        try {
+          usuario = await prisma.usuario.create({
+            data: {
+              email,
+              fullName: nombre || email,
+              firstName,
+              lastName,
+              passwordHash: hashedPassword,
+              tier: plan || 'PLATA',
+              status: 'ACTIVE',
+              source: 'STRIPE',
+              metadata: {
+                stripeCustomerId: data.customer,
+                stripeSubscriptionId: data.subscription,
+                tempPassword: tempPassword
+              }
+            }
+          });
+
+          console.log('✅✅✅ USUARIO CREADO EXITOSAMENTE ✅✅✅');
+          console.log('👤 ID:', usuario.id);
+          console.log('📧 Email:', usuario.email);
+          console.log('🏷️ Tier:', usuario.tier);
+          console.log('✅ Status:', usuario.status);
+        } catch (createError) {
+          console.error('❌❌❌ ERROR CREANDO USUARIO ❌❌❌');
+          console.error('Error:', createError.message);
+          console.error('Code:', createError.code);
+          console.error('Stack:', createError.stack);
+          throw createError;
+        }
       }
 
-      console.log('✅ Usuario activado:', usuario.email, 'Status:', usuario.status, 'Tier:', usuario.tier);
+      console.log('✅ Usuario final:', usuario.email, 'Status:', usuario.status, 'Tier:', usuario.tier);
 
       // Enviar email de confirmación
-      await enviarEmailPagoConfirmado(email, nombre || email, idioma || 'es');
-      console.log('📧 Email de confirmación enviado a:', email);
+      console.log('📧 Enviando email de confirmación a:', email);
+      try {
+        await enviarEmailPagoConfirmado(email, nombre || email, idioma || 'es');
+        console.log('✅ Email de confirmación enviado');
+      } catch (emailError) {
+        console.error('❌ Error enviando email:', emailError.message);
+        // No fallamos el proceso si falla el email
+      }
 
       break;
     }
