@@ -256,11 +256,11 @@ async function processWebhookEvent(event) {
 
       console.log('✅ Usuario final:', usuario.email, 'Status:', usuario.status, 'Tier:', usuario.tier);
 
-      // Enviar email de confirmación
+      // Enviar email de confirmación con contraseña temporal
       console.log('📧 Enviando email de confirmación a:', email);
       try {
-        await enviarEmailPagoConfirmado(email, nombre || email, idioma || 'es');
-        console.log('✅ Email de confirmación enviado');
+        await enviarEmailPagoConfirmado(email, nombre || email, tempPassword, idioma || 'es');
+        console.log('✅ Email de confirmación enviado con contraseña temporal');
       } catch (emailError) {
         console.error('❌ Error enviando email:', emailError.message);
         // No fallamos el proceso si falla el email

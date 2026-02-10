@@ -292,15 +292,15 @@ async function enviarEmailPagoPendiente(email, nombre, password, checkoutUrl, la
 }
 
 // 📧 EMAIL 3: Confirmación de Pago - MULTIIDIOMA
-async function enviarEmailPagoConfirmado(email, nombre, language = 'es') {
-  
+async function enviarEmailPagoConfirmado(email, nombre, tempPassword, language = 'es') {
+
   const translations = {
     en: {
-      subject: '🎉 Payment Confirmed! GOLD Access Activated',
+      subject: '🎉 Payment Confirmed! Your Access is Now Active',
       greeting: 'Congratulations',
       paymentConfirmed: '✅ Payment Confirmed',
-      confirmText: 'Your GOLD Membership has been successfully activated.',
-      welcomeText: 'You now have full access to all exclusive AKAHL Club benefits. We are excited to have you as a GOLD member.',
+      confirmText: 'Your membership has been successfully activated. Welcome to AKAHL Club!',
+      welcomeText: 'You now have full access to all exclusive AKAHL Club benefits. We are excited to have you as a member.',
       accessIncludes: '🌟 Your access includes:',
       benefits: [
         'Unlimited premium content',
@@ -309,6 +309,11 @@ async function enviarEmailPagoConfirmado(email, nombre, language = 'es') {
         'Special discounts',
         'Priority support'
       ],
+      credentialsTitle: '🔑 Your Login Credentials',
+      credentialsNote: 'Save this information to access the portal:',
+      emailLabel: 'Email',
+      passwordLabel: 'Temporary Password',
+      passwordWarning: '⚠️ Please change your password after your first login for security.',
       buttonText: '🚀 Access Portal Now',
       questionsText: 'If you have any questions, our team is here to help you.',
       footerText: '© 2025 AKAHL Club. All rights reserved.',
@@ -316,11 +321,11 @@ async function enviarEmailPagoConfirmado(email, nombre, language = 'es') {
       portalLink: 'Portal'
     },
     es: {
-      subject: '🎉 ¡Pago Confirmado! Acceso ORO Activado',
+      subject: '🎉 ¡Pago Confirmado! Tu Acceso ya está Activo',
       greeting: 'Felicidades',
       paymentConfirmed: '✅ Pago Confirmado',
-      confirmText: 'Tu Membresía ORO ha sido activada exitosamente.',
-      welcomeText: 'Ya tienes acceso completo a todos los beneficios exclusivos de AKAHL Club. Estamos emocionados de tenerte como miembro ORO.',
+      confirmText: 'Tu membresía ha sido activada exitosamente. ¡Bienvenido a AKAHL Club!',
+      welcomeText: 'Ya tienes acceso completo a todos los beneficios exclusivos de AKAHL Club. Estamos emocionados de tenerte como miembro.',
       accessIncludes: '🌟 Tu acceso incluye:',
       benefits: [
         'Contenido premium ilimitado',
@@ -329,6 +334,11 @@ async function enviarEmailPagoConfirmado(email, nombre, language = 'es') {
         'Descuentos especiales',
         'Soporte prioritario'
       ],
+      credentialsTitle: '🔑 Tus Credenciales de Acceso',
+      credentialsNote: 'Guarda esta información para acceder al portal:',
+      emailLabel: 'Email',
+      passwordLabel: 'Contraseña Temporal',
+      passwordWarning: '⚠️ Por favor cambia tu contraseña después del primer inicio de sesión por seguridad.',
       buttonText: '🚀 Acceder al Portal Ahora',
       questionsText: 'Si tienes alguna pregunta, nuestro equipo está aquí para ayudarte.',
       footerText: '© 2025 AKAHL Club. Todos los derechos reservados.',
@@ -350,46 +360,62 @@ async function enviarEmailPagoConfirmado(email, nombre, language = 'es') {
         <style>
           body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
           .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-          .header { background: linear-gradient(135deg, #c1ad48 0%, #d4bf5a 100%); padding: 40px 30px; text-align: center; }
+          .header { background: linear-gradient(135deg, #152821 0%, #1a332b 100%); padding: 40px 30px; text-align: center; }
           .logo-img { max-width: 200px; height: auto; }
           .content { padding: 40px 30px; }
           .title { color: #152821; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
           .text { color: #333; font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
           .success-box { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 20px; margin: 30px 0; border-radius: 8px; }
+          .credentials-box { background: #f8f9fa; border-left: 4px solid #c1ad48; padding: 20px; margin: 30px 0; border-radius: 8px; }
+          .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 8px; font-size: 14px; }
           .button { display: inline-block; background: linear-gradient(135deg, #c1ad48 0%, #d4bf5a 100%); color: #152821; text-decoration: none; padding: 15px 40px; border-radius: 8px; font-weight: bold; margin-top: 20px; font-size: 18px; }
           .footer { background: #f8f9fa; padding: 20px 30px; text-align: center; color: #666; font-size: 14px; }
           .benefit-item { margin: 8px 0; }
+          .code-display { background: #fff; padding: 8px 12px; border-radius: 4px; font-family: monospace; font-size: 14px; color: #152821; border: 1px solid #ddd; }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
             <img src="https://i.ibb.co/mFRJ8DWJ/Brutalist-Webzine-Blog-Post-Bold-Instagram-Post-Renaissance-CD-Cover-Art-2.png" alt="AKAHL" class="logo-img">
-            <p style="color:#152821;margin-top:15px;font-weight:600;font-size:20px;">✨ GOLD Membership / Membresía ORO ✨</p>
+            <p style="color:#c1ad48;margin-top:15px;font-weight:600;font-size:20px;">✨ GOLD Membership / Membresía ORO ✨</p>
           </div>
           <div class="content">
             <div class="title">¡${t.greeting} ${nombre}! 🎊</div>
-            
+
             <div class="success-box">
               <strong style="font-size:18px;">${t.paymentConfirmed}</strong><br>
               ${t.confirmText}
             </div>
-            
+
             <p class="text">
               ${t.welcomeText}
             </p>
-            
+
             <p class="text">
               <strong>${t.accessIncludes}</strong><br>
               ${t.benefits.map(benefit => `<div class="benefit-item">✅ ${benefit}</div>`).join('')}
             </p>
-            
+
+            <div class="credentials-box">
+              <strong style="color:#152821;font-size:18px;display:block;margin-bottom:15px;">${t.credentialsTitle}</strong>
+              <p style="margin:0 0 10px 0;color:#666;">${t.credentialsNote}</p>
+
+              <p style="margin:5px 0;color:#333;"><strong>📧 ${t.emailLabel}:</strong> ${email}</p>
+              <p style="margin:5px 0;color:#333;"><strong>🔑 ${t.passwordLabel}:</strong></p>
+              <code class="code-display">${tempPassword}</code>
+
+              <div class="warning-box">
+                ${t.passwordWarning}
+              </div>
+            </div>
+
             <center>
-              <a href="${process.env.PORTAL_URL || 'https://portal.akahl.com'}" class="button">
+              <a href="${process.env.PORTAL_URL || 'https://akahl-club.vercel.app/login'}" class="button">
                 ${t.buttonText}
               </a>
             </center>
-            
+
             <p class="text" style="margin-top:30px;font-size:14px;color:#666;">
               ${t.questionsText}
             </p>
@@ -397,7 +423,7 @@ async function enviarEmailPagoConfirmado(email, nombre, language = 'es') {
           <div class="footer">
             <p>${t.footerText}</p>
             <p style="margin-top:10px;">
-              <a href="mailto:soporte@akahl.com" style="color:#c1ad48;text-decoration:none;">${t.contactLink}</a> | 
+              <a href="mailto:soporte@akahl.com" style="color:#c1ad48;text-decoration:none;">${t.contactLink}</a> |
               <a href="#" style="color:#c1ad48;text-decoration:none;">${t.portalLink}</a>
             </p>
           </div>
