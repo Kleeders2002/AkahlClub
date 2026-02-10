@@ -218,7 +218,7 @@ async function processWebhookEvent(event) {
         console.log('  - Last name:', lastName);
         console.log('  - Tier:', plan || 'PLATA');
         console.log('  - Status: ACTIVE');
-        console.log('  - Source: STRIPE');
+        console.log('  - Source: FORM');
 
         // Crear nuevo usuario
         try {
@@ -231,7 +231,7 @@ async function processWebhookEvent(event) {
               passwordHash: hashedPassword,
               tier: plan || 'PLATA',
               status: 'ACTIVE',
-              source: 'STRIPE',
+              source: 'FORM',
               metadata: {
                 stripeCustomerId: data.customer,
                 stripeSubscriptionId: data.subscription,
@@ -274,17 +274,14 @@ async function processWebhookEvent(event) {
       const customerId = data.customer;
 
       // Buscar usuario por stripeCustomerId en metadata
-      const usuarios = await prisma.usuario.findMany({
-        where: {
-          metadata: {
-            path: ['stripeCustomerId'],
-            equals: customerId
-          }
-        }
-      });
+      // Debemos buscar en todos los usuarios y filtrar
+      const allUsuarios = await prisma.usuario.findMany();
 
-      if (usuarios.length > 0) {
-        const usuario = usuarios[0];
+      const usuario = allUsuarios.find(u =>
+        u.metadata && u.metadata.stripeCustomerId === customerId
+      );
+
+      if (usuario) {
         const newStatus = data.status === 'active' ? 'ACTIVE' : 'INACTIVE';
 
         await prisma.usuario.update({
@@ -310,18 +307,13 @@ async function processWebhookEvent(event) {
       const customerId = data.customer;
 
       // Buscar usuario por stripeCustomerId en metadata
-      const usuarios = await prisma.usuario.findMany({
-        where: {
-          metadata: {
-            path: ['stripeCustomerId'],
-            equals: customerId
-          }
-        }
-      });
+      const allUsuarios = await prisma.usuario.findMany();
 
-      if (usuarios.length > 0) {
-        const usuario = usuarios[0];
+      const usuario = allUsuarios.find(u =>
+        u.metadata && u.metadata.stripeCustomerId === customerId
+      );
 
+      if (usuario) {
         await prisma.usuario.update({
           where: { id: usuario.id },
           data: {
