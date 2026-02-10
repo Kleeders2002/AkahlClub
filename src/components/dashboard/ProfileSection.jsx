@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, Lock, CreditCard, Calendar, Mail, Phone, MapPin, Crown, AlertCircle, CheckCircle2, Eye, EyeOff, X, PauseCircle } from 'lucide-react';
+import { User, Lock, CreditCard, Calendar, Mail, Phone, MapPin, Crown, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 
 export default function ProfileSection({ token, userName, userPlan, colors, t, API_URL }) {
   const [activeSection, setActiveSection] = useState('info');
@@ -26,12 +26,9 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
   });
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
 
-  // Cancelación de suscripción
-  const [showCancelModal, setShowCancelModal] = useState(false);
-  const [cancelReason, setCancelReason] = useState('');
-  const [cancelFeedback, setCancelFeedback] = useState('');
-  const [cancelMessage, setCancelMessage] = useState({ type: '', text: '' });
-  const [isCancelling, setIsCancelling] = useState(false);
+  // Subscription management
+  const [portalLoading, setPortalLoading] = useState(false);
+  const [portalMessage, setPortalMessage] = useState({ type: '', text: '' });
 
   // Load user data from token
   useEffect(() => {
@@ -92,49 +89,47 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
     }
   };
 
-  const handleCancelSubscription = async (e) => {
-    e.preventDefault();
-    setIsCancelling(true);
-    setCancelMessage({ type: '', text: '' });
+  const handleManageSubscription = async () => {
+    setPortalLoading(true);
+    setPortalMessage({ type: '', text: '' });
 
     try {
-      const response = await fetch(`${API_URL}/api/usuarios/cancelar-suscripcion`, {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const email = payload.email;
+
+      const response = await fetch(`${API_URL}/api/stripe/create-portal-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          reason: cancelReason,
-          feedback: cancelFeedback
-        })
+        body: JSON.stringify({ email })
       });
 
       const data = await response.json();
 
-      if (data.success) {
-        setCancelMessage({
+      if (data.success && data.portalUrl) {
+        setPortalMessage({
           type: 'success',
-          text: t('dashboard.cancellationReceived')
+          text: t('dashboard.redirectingToPortal') || 'Redirigiendo al portal de gestión...'
         });
         setTimeout(() => {
-          setShowCancelModal(false);
-          setCancelReason('');
-          setCancelFeedback('');
-        }, 3000);
+          window.location.href = data.portalUrl;
+        }, 1000);
       } else {
-        setCancelMessage({
+        setPortalMessage({
           type: 'error',
-          text: data.message || t('dashboard.processingError')
+          text: data.message || t('dashboard.processingError') || 'Error al abrir el portal'
         });
       }
     } catch (error) {
-      setCancelMessage({
+      console.error('Error opening portal:', error);
+      setPortalMessage({
         type: 'error',
-        text: t('dashboard.connectionError')
+        text: t('dashboard.connectionError') || 'Error de conexión'
       });
     } finally {
-      setIsCancelling(false);
+      setPortalLoading(false);
     }
   };
 
@@ -501,6 +496,64 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
 
             {/* Actions */}
             <div className="space-y-4">
+              {/* Portal Message */}
+              {portalMessage.text && (
+                <div className={`p-4 rounded-lg flex items-start gap-3 ${
+                  portalMessage.type === 'success'
+                    ? 'bg-green-50 border-l-4 border-green-500'
+                    : 'bg-red-50 border-l-4 border-red-500'
+                }`}>
+                  {portalMessage.type === 'success' ? (
+                    <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0 text-green-600" />
+                  ) : (
+                    <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600" />
+                  )}
+                  <p className="text-sm font-medium" style={{ color: portalMessage.type === 'success' ? '#16a34a' : '#dc2626' }}>
+                    {portalMessage.text}
+                  </p>
+                </div>
+              )}
+
+              {/* Manage Subscription Button */}
+              <div className="p-5 rounded-xl border-2 bg-white shadow-sm" style={{
+                borderColor: colors.mostazaPrimario,
+                background: 'linear-gradient(135deg, rgba(34, 60, 51, 0.02) 0%, rgba(206, 182, 82, 0.05) 100%)'
+              }}>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: `${colors.mostazaPrimario}15` }}
+                  >
+                    <CreditCard className="w-5 h-5" style={{ color: colors.mostazaPrimario }} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-sm mb-2" style={{ color: colors.verdePrimario }}>
+                      {t('dashboard.manageSubscription') || 'Gestionar Suscripción'}
+                    </h4>
+                    <p className="text-xs mb-4" style={{ color: colors.verdeMedio }}>
+                      {t('dashboard.manageSubscriptionDesc') || 'Actualiza tu método de pago, cambia de plan, cancela o pausa tu suscripción desde el portal de Stripe.'}
+                    </p>
+                    <button
+                      onClick={handleManageSubscription}
+                      disabled={portalLoading}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{ backgroundColor: colors.mostazaPrimario }}
+                    >
+                      {portalLoading ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          {t('dashboard.loading') || 'Cargando...'}
+                        </>
+                      ) : (
+                        <>
+                          <CreditCard className="w-4 h-4" />
+                          {t('dashboard.openPortal') || 'Abrir Portal de Gestión'}
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {userPlan === 'PLATA' && (
                 <div className="p-4 rounded-xl border-2" style={{
                   borderColor: colors.mostazaPrimario,
@@ -516,9 +569,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                         {t('dashboard.upgradeDesc')}
                       </p>
                       <a
-                        href="https://checkout.systeme.io/tu-producto-oro"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="/membership"
                         className="inline-block px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg"
                         style={{ backgroundColor: colors.mostazaPrimario }}
                       >
@@ -529,161 +580,24 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                 </div>
               )}
 
-              <div className="p-4 rounded-xl border bg-gray-50" style={{ borderColor: 'rgba(220, 38, 38, 0.2)' }}>
+              {/* Info Box */}
+              <div className="p-4 rounded-xl border bg-blue-50" style={{ borderColor: 'rgba(59, 130, 246, 0.2)' }}>
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600" />
-                  <div className="flex-1">
-                    <h4 className="font-bold text-sm mb-1 text-red-900">
-                      {t('dashboard.cancelSubscription')}
-                    </h4>
-                    <p className="text-xs mb-3 text-red-700">
-                      {t('dashboard.cancelDesc')}
+                  <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 text-blue-600" />
+                  <div>
+                    <p className="text-xs font-medium text-blue-900 mb-1">
+                      {t('dashboard.portalInfoTitle') || 'Información Importante'}
                     </p>
-                    <button
-                      onClick={() => setShowCancelModal(true)}
-                      className="inline-block px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg"
-                      style={{ backgroundColor: '#dc2626' }}
-                    >
-                      {t('dashboard.requestCancellation')}
-                    </button>
+                    <p className="text-xs text-blue-700">
+                      {t('dashboard.portalInfoDesc') || 'Al hacer clic en "Abrir Portal de Gestión" serás redirigido a Stripe, donde podrás administrar todos los aspectos de tu suscripción de forma segura.'}
+                    </p>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Retention Note */}
-            <div className="mt-6 p-4 rounded-lg border-l-4" style={{
-              backgroundColor: 'rgba(206, 182, 82, 0.05)',
-              borderColor: colors.mostazaPrimario
-            }}>
-              <div className="flex items-start gap-3">
-                <PauseCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: colors.mostazaPrimario }} />
-                <div className="flex-1">
-                  <p className="text-xs mb-2" style={{ color: colors.verdePrimario }}>
-                    <strong>{t('dashboard.pauseNote')}</strong>
-                  </p>
-                  <p className="text-xs" style={{ color: colors.verdeMedio }}>
-                    {t('dashboard.pauseNoteDesc')}
-                  </p>
                 </div>
               </div>
             </div>
           </div>
         )}
       </div>
-
-      {/* Modal de Cancelación de Suscripción */}
-      {showCancelModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            {/* Header */}
-            <div className="sticky top-0 bg-white border-b p-6 rounded-t-2xl" style={{ borderColor: 'rgba(34, 60, 51, 0.1)' }}>
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold" style={{ color: colors.verdePrimario }}>
-                  {t('dashboard.cancelModalTitle')}
-                </h3>
-                <button
-                  onClick={() => {
-                    setShowCancelModal(false);
-                    setCancelMessage({ type: '', text: '' });
-                  }}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <X className="w-5 h-5 text-gray-600" />
-                </button>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-6">
-              <p className="text-sm mb-6 text-gray-700">
-                {t('dashboard.cancelModalDesc')}
-              </p>
-
-              {cancelMessage.text && (
-                <div className={`mb-4 p-3 rounded-lg flex items-start gap-2 ${
-                  cancelMessage.type === 'success'
-                    ? 'bg-green-50 border border-green-200'
-                    : 'bg-red-50 border border-red-200'
-                }`}>
-                  {cancelMessage.type === 'success' ? (
-                    <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0 text-green-600" />
-                  ) : (
-                    <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600" />
-                  )}
-                  <p className="text-sm">{cancelMessage.text}</p>
-                </div>
-              )}
-
-              <form onSubmit={handleCancelSubscription} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">
-                    {t('dashboard.cancelReasonLabel')} <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    value={cancelReason}
-                    onChange={(e) => setCancelReason(e.target.value)}
-                    required
-                    className="w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2"
-                    style={{ borderColor: 'rgba(34, 60, 51, 0.2)' }}
-                  >
-                    <option value="">{t('dashboard.selectReason')}</option>
-                    <option value="expensive">{t('dashboard.reasonExpensive')}</option>
-                    <option value="not_using">{t('dashboard.reasonNotUsing')}</option>
-                    <option value="quality">{t('dashboard.reasonQuality')}</option>
-                    <option value="technical">{t('dashboard.reasonTechnical')}</option>
-                    <option value="found_alternative">{t('dashboard.reasonAlternative')}</option>
-                    <option value="personal">{t('dashboard.reasonPersonal')}</option>
-                    <option value="other">{t('dashboard.reasonOther')}</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">
-                    {t('dashboard.additionalComments')}
-                  </label>
-                  <textarea
-                    value={cancelFeedback}
-                    onChange={(e) => setCancelFeedback(e.target.value)}
-                    rows="3"
-                    className="w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 resize-none"
-                    style={{ borderColor: 'rgba(34, 60, 51, 0.2)' }}
-                    placeholder={t('dashboard.feedbackPlaceholder')}
-                  />
-                </div>
-
-                <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-                  <p className="text-xs text-blue-900">
-                    {t('dashboard.cancellationNote')}
-                  </p>
-                </div>
-
-                <div className="flex gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowCancelModal(false);
-                      setCancelMessage({ type: '', text: '' });
-                    }}
-                    className="flex-1 px-4 py-2.5 rounded-lg font-medium border-2 transition-all duration-200"
-                    style={{ borderColor: 'rgba(34, 60, 51, 0.2)', color: colors.verdePrimario }}
-                  >
-                    {t('dashboard.keepSubscription')}
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isCancelling}
-                    className="flex-1 px-4 py-2.5 rounded-lg font-bold text-white transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ backgroundColor: '#dc2626' }}
-                  >
-                    {isCancelling ? t('dashboard.sending') : t('dashboard.confirmCancellation')}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

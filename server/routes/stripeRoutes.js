@@ -156,7 +156,7 @@ router.post('/create-portal-session', async (req, res) => {
     // Crear sesión del portal
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: usuario.metadata.stripeCustomerId,
-      return_url: `${process.env.FRONTEND_URL || 'https://akahlclub.com'}/portal`
+      return_url: `${process.env.FRONTEND_URL || 'https://akahl-club.vercel.app'}/dashboard`
     });
 
     console.log('✅ Sesión del portal creada:', portalSession.id);

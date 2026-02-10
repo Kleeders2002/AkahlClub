@@ -488,6 +488,13 @@ const resources = {
       'dashboard.processingError': 'Error processing request',
       'dashboard.connectionError': 'Connection error. Please try again.',
       'dashboard.notSpecified': 'Not specified',
+      'dashboard.manageSubscription': 'Manage Subscription',
+      'dashboard.manageSubscriptionDesc': 'Update your payment method, change plans, cancel or pause your subscription from the Stripe portal.',
+      'dashboard.openPortal': 'Open Management Portal',
+      'dashboard.redirectingToPortal': 'Redirecting to management portal...',
+      'dashboard.portalInfoTitle': 'Important Information',
+      'dashboard.portalInfoDesc': 'By clicking "Open Management Portal" you will be redirected to Stripe, where you can securely manage all aspects of your subscription.',
+      'dashboard.loading': 'Loading...',
 
 
 
@@ -1011,6 +1018,13 @@ const resources = {
       'dashboard.processingError': 'Error al procesar la solicitud',
       'dashboard.connectionError': 'Error de conexión. Intenta nuevamente.',
       'dashboard.notSpecified': 'No especificado',
+      'dashboard.manageSubscription': 'Gestionar Suscripción',
+      'dashboard.manageSubscriptionDesc': 'Actualiza tu método de pago, cambia de plan, cancela o pausa tu suscripción desde el portal de Stripe.',
+      'dashboard.openPortal': 'Abrir Portal de Gestión',
+      'dashboard.redirectingToPortal': 'Redirigiendo al portal de gestión...',
+      'dashboard.portalInfoTitle': 'Información Importante',
+      'dashboard.portalInfoDesc': 'Al hacer clic en "Abrir Portal de Gestión" serás redirigido a Stripe, donde podrás administrar todos los aspectos de tu suscripción de forma segura.',
+      'dashboard.loading': 'Cargando...',
 
     }
   }
