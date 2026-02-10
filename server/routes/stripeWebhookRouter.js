@@ -177,6 +177,10 @@ async function processWebhookEvent(event) {
       console.log('🔍 Buscando usuario en base de datos...');
       let usuario = await prisma.usuario.findUnique({ where: { email } });
 
+      // Generar contraseña temporal (se necesita en ambos casos)
+      const tempPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
+      console.log('🔑 Contraseña temporal generada:', tempPassword);
+
       if (usuario) {
         console.log('📝 Usuario ya existe, actualizando...');
         console.log('👤 Usuario antes de actualización:', usuario);
@@ -190,7 +194,8 @@ async function processWebhookEvent(event) {
             metadata: {
               ...(usuario.metadata || {}),
               stripeCustomerId: data.customer,
-              stripeSubscriptionId: data.subscription
+              stripeSubscriptionId: data.subscription,
+              tempPassword: tempPassword
             }
           }
         });
@@ -198,10 +203,6 @@ async function processWebhookEvent(event) {
         console.log('✅ Usuario actualizado:', usuario);
       } else {
         console.log('👤 Creando nuevo usuario...');
-
-        // Crear contraseña temporal
-        const tempPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
-        console.log('🔑 Contraseña temporal generada:', tempPassword);
 
         const bcrypt = require('bcryptjs');
         const hashedPassword = await bcrypt.hash(tempPassword, 10);
