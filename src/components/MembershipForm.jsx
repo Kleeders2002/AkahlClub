@@ -5,9 +5,6 @@ import { ChevronDown, Search } from 'lucide-react';
 import TermsModal from './modals/TermsModal';
 import PrivacyModal from './modals/PrivacyModal';
 
-const MembershipForm = () => {
-  const { t, i18n } = useTranslation();
-
 // Lista de países con banderas y códigos
 const countries = [
   { code: 'AF', name: 'Afghanistan', flag: '🇦🇫', dialCode: '+93' },
