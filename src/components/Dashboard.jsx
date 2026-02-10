@@ -405,6 +405,7 @@ export default function Dashboard({ token, onLogout }) {
                 colors={colors}
                 getThumbnailForContent={getThumbnailForContent}
                 t={t}
+                userPlan={userPlan}
               />
             </div>
           )}
@@ -423,6 +424,7 @@ export default function Dashboard({ token, onLogout }) {
                 colors={colors}
                 getThumbnailForContent={getThumbnailForContent}
                 t={t}
+                userPlan={userPlan}
               />
             </div>
           )}
@@ -440,6 +442,7 @@ export default function Dashboard({ token, onLogout }) {
                 contenido={contenido}
                 colors={colors}
                 t={t}
+                userPlan={userPlan}
               />
             </div>
           )}
@@ -457,6 +460,7 @@ export default function Dashboard({ token, onLogout }) {
                 contenido={contenido}
                 colors={colors}
                 t={t}
+                userPlan={userPlan}
               />
             </div>
           )}

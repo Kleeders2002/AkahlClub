@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Lightbulb, Search, Filter, Calendar, Star } from 'lucide-react';
+import { Lightbulb, Search, Filter, Calendar, Star, Lock, Crown } from 'lucide-react';
 
-export default function TipsSection({ contenido, colors, t }) {
+export default function TipsSection({ contenido, colors, t, userPlan }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOro, setFilterOro] = useState(false);
   const [filterCategoria, setFilterCategoria] = useState('todas');
@@ -109,12 +109,34 @@ export default function TipsSection({ contenido, colors, t }) {
             return (
               <div
                 key={tip.id}
-                className="rounded-xl p-4 sm:p-6 shadow-lg border transition-all duration-300 hover:shadow-xl"
+                className={`rounded-xl p-4 sm:p-6 shadow-lg border transition-all duration-300 hover:shadow-xl relative ${
+                  tip.premium && userPlan === 'PLATA' ? 'opacity-75 grayscale-[50%]' : ''
+                }`}
                 style={{
                   backgroundColor: colors.blancoHielo,
                   borderColor: 'rgba(34, 60, 51, 0.1)'
                 }}
               >
+                {/* Overlay de bloqueo para contenido ORO cuando usuario es PLATA */}
+                {tip.premium && userPlan === 'PLATA' && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-[2px] rounded-xl">
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ backgroundColor: `${colors.mostazaPrimario}30`, border: `2px solid ${colors.mostazaPrimario}` }}>
+                        <Crown className="w-8 h-8" style={{ color: colors.mostazaPrimario }} />
+                      </div>
+                      <p className="text-white font-bold text-sm mb-1">{t('dashboard.premiumContent')}</p>
+                      <p className="text-white/80 text-xs">{t('dashboard.lockedContent')}</p>
+                      <a
+                        href="/membership"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-xs mt-3 transition-all duration-200 hover:shadow-lg"
+                        style={{ backgroundColor: colors.mostazaPrimario }}
+                      >
+                        <Lock className="w-3 h-3" />
+                        {t('dashboard.upgradeToAccess')}
+                      </a>
+                    </div>
+                  </div>
+                )}
                 <div className="flex items-start gap-3 sm:gap-5">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${colors.doradoClaro}15` }}>
                     <Lightbulb className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: colors.doradoClaro }} />

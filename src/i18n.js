@@ -495,6 +495,13 @@ const resources = {
       'dashboard.portalInfoTitle': 'Important Information',
       'dashboard.portalInfoDesc': 'By clicking "Open Management Portal" you will be redirected to Stripe, where you can securely manage all aspects of your subscription.',
       'dashboard.loading': 'Loading...',
+      'dashboard.downloadGuide': 'Download Guide',
+      'dashboard.downloadEbook': 'Download E-Book',
+      'dashboard.watchVideo': 'Watch Video',
+      'dashboard.premiumContent': 'Premium Content',
+      'dashboard.upgradeToAccess': 'Upgrade to Gold to Access',
+      'dashboard.lockedContent': 'This content is exclusive to Gold members',
+      'dashboard.upgradeNow': 'Upgrade Now',
 
 
 
@@ -1025,6 +1032,13 @@ const resources = {
       'dashboard.portalInfoTitle': 'Información Importante',
       'dashboard.portalInfoDesc': 'Al hacer clic en "Abrir Portal de Gestión" serás redirigido a Stripe, donde podrás administrar todos los aspectos de tu suscripción de forma segura.',
       'dashboard.loading': 'Cargando...',
+      'dashboard.downloadGuide': 'Descargar Guía',
+      'dashboard.downloadEbook': 'Descargar E-Book',
+      'dashboard.watchVideo': 'Ver Video',
+      'dashboard.premiumContent': 'Contenido Premium',
+      'dashboard.upgradeToAccess': 'Actualiza a ORO para Acceder',
+      'dashboard.lockedContent': 'Este contenido es exclusivo para miembros ORO',
+      'dashboard.upgradeNow': 'Actualizar Ahora',
 
     }
   }

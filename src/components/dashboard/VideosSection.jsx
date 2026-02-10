@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Video, Play, Search, Filter, Calendar, Star, Clock } from 'lucide-react';
+import { Video, Play, Search, Filter, Calendar, Star, Clock, Lock, Crown } from 'lucide-react';
 
-export default function VideosSection({ contenido, colors, t }) {
+export default function VideosSection({ contenido, colors, t, userPlan }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOro, setFilterOro] = useState(false);
   const [filterCategoria, setFilterCategoria] = useState('todas');
@@ -109,9 +109,23 @@ export default function VideosSection({ contenido, colors, t }) {
             return (
               <div
                 key={video.id}
-                className="rounded-xl overflow-hidden shadow-lg border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl flex flex-col"
+                className={`rounded-xl overflow-hidden shadow-lg border transition-all duration-300 hover:shadow-xl flex flex-col relative ${
+                  video.premium && userPlan === 'PLATA' ? 'opacity-75 grayscale-[50%]' : 'hover:transform hover:scale-105'
+                }`}
                 style={{ backgroundColor: colors.blancoHielo, borderColor: 'rgba(34, 60, 51, 0.1)' }}
               >
+                {/* Overlay de bloqueo para contenido ORO cuando usuario es PLATA */}
+                {video.premium && userPlan === 'PLATA' && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-[2px]">
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ backgroundColor: `${colors.mostazaPrimario}30`, border: `2px solid ${colors.mostazaPrimario}` }}>
+                        <Crown className="w-8 h-8" style={{ color: colors.mostazaPrimario }} />
+                      </div>
+                      <p className="text-white font-bold text-sm mb-1">{t('dashboard.premiumContent')}</p>
+                      <p className="text-white/80 text-xs">{t('dashboard.lockedContent')}</p>
+                    </div>
+                  </div>
+                )}
                 <div className="relative h-48 sm:h-52 flex items-center justify-center overflow-hidden">
                   {video.thumbnailUrl ? (
                     <img src={video.thumbnailUrl} alt={video.titulo} className="w-full h-full object-cover" />
@@ -151,25 +165,47 @@ export default function VideosSection({ contenido, colors, t }) {
                     <span>Añadido: {fechaFormateada}</span>
                   </div>
 
-                  <a
-                    href={video.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-md text-xs sm:text-sm mt-auto"
-                    style={{
-                      background: `linear-gradient(135deg, ${colors.verdeAccent} 0%, ${colors.verdeSuave} 100%)`,
-                      color: 'white'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <Play className="w-3 h-3 sm:w-4 sm:h-4" />
-                    Ver Video
-                  </a>
+                  {video.premium && userPlan === 'PLATA' ? (
+                    // CONTENIDO BLOQUEADO PARA PLATA
+                    <a
+                      href="/membership"
+                      className="w-full flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-md text-xs sm:text-sm mt-auto relative overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)',
+                        color: 'white',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center gap-1 opacity-20">
+                        <Lock className="w-4 h-4" />
+                        <Lock className="w-4 h-4" />
+                        <Lock className="w-4 h-4" />
+                      </div>
+                      <Lock className="w-3 h-3 sm:w-4 sm:h-4 relative z-10" />
+                      <span className="relative z-10">{t('dashboard.upgradeToAccess')}</span>
+                    </a>
+                  ) : (
+                    // CONTENIDO ACCESIBLE
+                    <a
+                      href={video.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-md text-xs sm:text-sm mt-auto"
+                      style={{
+                        background: `linear-gradient(135deg, ${colors.verdeAccent} 0%, ${colors.verdeSuave} 100%)`,
+                        color: 'white'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <Play className="w-3 h-3 sm:w-4 sm:h-4" />
+                      {t('dashboard.watchVideo')}
+                    </a>
+                  )}
                 </div>
               </div>
             );

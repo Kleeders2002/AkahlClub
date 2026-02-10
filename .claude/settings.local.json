@@ -27,7 +27,13 @@
       "Bash(wc:*)",
       "Bash(gh repo view:*)",
       "Bash(git reset:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(stripe:*)",
+      "Bash(gpg:*)",
+      "Bash(echo:*)",
+      "Bash(tee:*)",
+      "Bash(apt-get:*)",
+      "Bash(apt-get install:*)"
     ]
   }
 }
