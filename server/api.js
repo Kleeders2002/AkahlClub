@@ -36,6 +36,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// ⚠️ IMPORTANTE: El webhook de Stripe debe ir ANTES de express.json()
+// porque necesita el body crudo para verificar la firma
+const StripeWebhookRouter = require('./routes/stripeWebhookRouter');
+app.use('/api/stripe/webhook', StripeWebhookRouter);
+
 app.use(express.json());
 
 // Rutas
