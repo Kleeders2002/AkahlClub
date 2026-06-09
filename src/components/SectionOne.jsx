@@ -288,7 +288,7 @@ const SectionOne = () => {
         </div>
 
         {/* Título */}
-        <h1 className={`font-playfair text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-snug sm:leading-tight mb-6 sm:mb-8 md:mb-10 transition-all duration-1000 delay-200 ${
+        <h1 className={`font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-snug sm:leading-tight mb-6 sm:mb-8 md:mb-10 transition-all duration-1000 delay-200 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
           {t('hero.title_line1')}{' '}

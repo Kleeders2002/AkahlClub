@@ -272,7 +272,7 @@ export default function Dashboard({ token, onLogout }) {
                     {userPlan === 'ORO' ? (
                       <span className="flex items-center gap-1">
                         <Star className="w-2 h-2 sm:w-3 sm:h-3 fill-current" />
-                        <span className="hidden xs:inline">ORO</span>
+                        <span className="hidden sm:inline">ORO</span>
                       </span>
                     ) : 'PLATA'}
                   </span>
