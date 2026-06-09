@@ -124,10 +124,9 @@ async function enviarEmailBienvenidaGratis(email, nombre, password, language = '
             </p>
             
             <div class="social-links">
-              <a href="#" class="social-link">Instagram</a>
-              <a href="#" class="social-link">Facebook</a>
-              <a href="#" class="social-link">Twitter</a>
-              <a href="#" class="social-link">TikTok</a>
+              <a href="https://www.instagram.com/akahlstyle/" class="social-link">Instagram</a>
+              <a href="https://www.facebook.com/p/AKAHL-STYLE-61570153105988/" class="social-link">Facebook</a>
+              <a href="https://www.youtube.com/channel/UCZnbVw_u5BP8SDA5_kRNovQ" class="social-link">YouTube</a>
             </div>
             
           </div>

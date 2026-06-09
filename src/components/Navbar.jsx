@@ -105,7 +105,7 @@ export default function Navbar() {
 
             {/* Instagram */}
             <a
-              href="https://instagram.com/akahlstyle"
+              href="https://www.instagram.com/akahlstyle/"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative w-11 h-11 rounded-full border-2 flex items-center justify-center transition-all duration-400 hover:scale-105 hover:-translate-y-1"
@@ -467,7 +467,7 @@ export default function Navbar() {
                   </a>
 
                   <a
-                    href="https://instagram.com/akahlstyle"
+                    href="https://www.instagram.com/akahlstyle/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all duration-400"
