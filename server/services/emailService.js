@@ -1,13 +1,13 @@
 const nodemailer = require('nodemailer');
 
-// Configurar transporter
+// Configurar transporter - Webmail cPanel
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false,
+  host: 'mail.akahlstyle.com',     // Servidor SMTP estándar cPanel
+  port: 465,                        // Puerto SSL
+  secure: true,                     // true para SSL
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: 'club@akahlstyle.com',
+    pass: 'Akahlst2025*',           // Contraseña del email
   },
 });
 
@@ -68,7 +68,7 @@ async function enviarEmailBienvenidaGratis(email, nombre, password, language = '
   const t = translations[language] || translations.es;
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: 'AKAHL Club <club@akahlstyle.com>',
     to: email,
     subject: t.subject,
     html: `
@@ -208,7 +208,7 @@ async function enviarEmailPagoPendiente(email, nombre, password, checkoutUrl, la
   const t = translations[language] || translations.es;
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: 'AKAHL Club <club@akahlstyle.com>',
     to: email,
     subject: t.subject,
     html: `
@@ -350,7 +350,7 @@ async function enviarEmailPagoConfirmado(email, nombre, tempPassword, language =
   const t = translations[language] || translations.es;
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: 'AKAHL Club <club@akahlstyle.com>',
     to: email,
     subject: t.subject,
     html: `
