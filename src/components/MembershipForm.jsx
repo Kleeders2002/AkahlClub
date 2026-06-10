@@ -385,7 +385,7 @@ const MembershipForm = () => {
         // Si no es JSON, obtener el texto para debugging
         const text = await response.text();
         throw new Error(t('membership.errorServerError'));
-      })
+      }
 
       if (!response.ok) {
         throw new Error(data.message || `${t('membership.errorServerGeneric')} (${response.status})`);
