@@ -49,7 +49,10 @@ export default function ChangePasswordPage({ token, onTokenUpdate }) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ newPassword: formData.newPassword })
+        body: JSON.stringify({ 
+          newPassword: formData.newPassword,
+          confirmPassword: formData.confirmPassword
+        })
       });
 
       const data = await res.json();
