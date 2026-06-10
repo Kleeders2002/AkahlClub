@@ -3,8 +3,9 @@ const nodemailer = require('nodemailer');
 // Configurar transporter - Webmail cPanel
 const transporter = nodemailer.createTransport({
   host: 'mail.akahlstyle.com',     // Servidor SMTP estándar cPanel
-  port: 465,                        // Puerto SSL
-  secure: true,                     // true para SSL
+  port: 587,                        // Puerto STARTTLS
+  secure: false,                    // false para STARTTLS (true solo para 465 SSL)
+  requireTLS: true,                // Requiere STARTTLS
   auth: {
     user: 'club@akahlstyle.com',
     pass: 'Akahlst2025*',           // Contraseña del email
