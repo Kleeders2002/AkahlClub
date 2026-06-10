@@ -12,6 +12,7 @@ import Login from "./components/Login"
 import Dashboard from "./components/Dashboard"
 import LeadCaptureModal from "./components/LeadCaptureModal"
 import ChangePasswordPage from "./pages/ChangePasswordPage"
+import AdminPanel from "./pages/AdminPage"
 
 function App() {
   const { t } = useTranslation();
@@ -19,15 +20,17 @@ function App() {
   const [userToken, setUserToken] = useState(null)
   const [showLeadModal, setShowLeadModal] = useState(false)
   const [mustChangePassword, setMustChangePassword] = useState(false)
+  const [userRole, setUserRole] = useState('USER')  // 👈 Nuevo estado para el rol
 
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
       try {
-        // Decodificar token para verificar si debe cambiar contraseña
+        // Decodificar token para verificar si debe cambiar contraseña y el rol
         const payload = JSON.parse(atob(token.split('.')[1]))
         setUserToken(token)
         setIsLoggedIn(true)
+        setUserRole(payload.role || 'USER')  // 👈 Guardar el rol
 
         // Verificar si tiene contraseña temporal
         if (payload.must_change_pwd) {
@@ -56,6 +59,7 @@ function App() {
       const payload = JSON.parse(atob(newToken.split('.')[1]))
       localStorage.setItem('token', newToken)
       setUserToken(newToken)
+      setUserRole(payload.role || 'USER')  // 👈 Actualizar rol también
       setMustChangePassword(payload.must_change_pwd || false)
     } catch (err) {
       console.error('Error al actualizar token:', err)
@@ -68,6 +72,7 @@ function App() {
       localStorage.setItem("token", token)
       setUserToken(token)
       setIsLoggedIn(true)
+      setUserRole(payload.role || 'USER')  // 👈 Guardar rol
       setMustChangePassword(payload.must_change_pwd || false)
 
       // Mostrar alerta según si debe cambiar contraseña
@@ -124,7 +129,10 @@ function App() {
           path="/login"
           element={
             isLoggedIn ? (
-              <Navigate to={mustChangePassword ? "/change-password" : "/dashboard"} replace />
+              <Navigate
+                to={mustChangePassword ? "/change-password" : userRole === 'ADMIN' ? "/admin" : "/dashboard"}
+                replace
+              />
             ) : (
               <div className="pt-20 min-h-screen flex flex-col">
                 <div className="flex-grow">
@@ -161,8 +169,24 @@ function App() {
               <Navigate to="/login" replace />
             ) : mustChangePassword ? (
               <Navigate to="/change-password" replace />
+            ) : userRole === 'ADMIN' ? (
+              <Navigate to="/admin" replace />
             ) : (
               <Dashboard token={userToken} onLogout={handleLogout} />
+            )
+          }
+        />
+
+        {/* Panel de Administración - Solo ADMIN */}
+        <Route
+          path="/admin"
+          element={
+            !isLoggedIn ? (
+              <Navigate to="/login" replace />
+            ) : userRole !== 'ADMIN' ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <AdminPanel token={userToken} onLogout={handleLogout} />
             )
           }
         />

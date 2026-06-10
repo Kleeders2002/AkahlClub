@@ -14,6 +14,11 @@ enum UserStatus {
   INACTIVE
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
 enum MembershipTier {
   POTENCIAL
   PLATA
@@ -53,6 +58,7 @@ model Usuario {
   country             String?             @default("US")
   status              UserStatus          @default(LEAD)
   tier                MembershipTier      @default(POTENCIAL)
+  role                UserRole            @default(USER)
   source              RegistrationSource  @default(MODAL)
   stylePreference     StylePreference?
   metadata            Json?

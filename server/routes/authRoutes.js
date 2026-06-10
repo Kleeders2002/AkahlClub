@@ -202,12 +202,13 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) return res.status(401).json({ success: false, message: "Contraseña incorrecta" });
 
-    // Crear token JWT con must_change_pwd
+    // Crear token JWT con must_change_pwd y role
     const tokenPayload = {
       id: user.id,
       email: user.email,
       plan: user.tier,
       nombre: user.fullName,
+      role: user.role || 'USER',  // 👈 Rol del usuario (USER o ADMIN)
       must_change_pwd: user.isTemporaryPassword || false  // 🔐 Claim para detectar contraseña temporal
     };
 
