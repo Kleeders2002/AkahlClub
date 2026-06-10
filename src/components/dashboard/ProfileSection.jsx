@@ -569,13 +569,24 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
                       <p className="text-xs mb-3" style={{ color: colors.verdeMedio }}>
                         {t('dashboard.upgradeDesc')}
                       </p>
-                      <a
-                        href="/membership"
-                        className="inline-block px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg"
+                      <button
+                        onClick={handleManageSubscription}
+                        disabled={portalLoading}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-sm transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ backgroundColor: colors.mostazaPrimario }}
                       >
-                        {t('dashboard.upgradeButton')}
-                      </a>
+                        {portalLoading ? (
+                          <>
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            {t('dashboard.loading') || 'Cargando...'}
+                          </>
+                        ) : (
+                          <>
+                            <Crown className="w-4 h-4" />
+                            {t('dashboard.upgradeButton')}
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>

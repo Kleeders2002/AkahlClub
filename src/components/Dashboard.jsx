@@ -206,6 +206,32 @@ export default function Dashboard({ token, onLogout }) {
     }
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const email = payload.email;
+
+      const response = await fetch(`${API_URL}/api/stripe/create-portal-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.portalUrl) {
+        window.location.href = data.portalUrl;
+      } else {
+        console.error('Error al abrir portal:', data.message);
+      }
+    } catch (error) {
+      console.error('Error opening portal:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: colors.fondo }}>
@@ -245,7 +271,7 @@ export default function Dashboard({ token, onLogout }) {
       {/* Sidebar */}
       <aside className={`fixed left-0 top-0 h-full shadow-xl flex flex-col transition-transform duration-300 z-40 ${
         isMobile ? (sidebarOpen ? 'translate-x-0' : '-translate-x-full') : 'translate-x-0'
-      }`} style={{ width: isMobile ? '280px' : '18rem', backgroundColor: colors.verdePrimario }}>
+      }`} style={{ width: isMobile ? '280px' : '18rem', backgroundColor: colors.verdePrimario, paddingTop: '70px' }}>
         {/* Logo Section */}
         <div className="p-4 sm:p-6 lg:p-8 border-b" style={{ borderColor: 'rgba(206, 182, 82, 0.15)' }}>
           <div className="flex items-center gap-3 sm:gap-4">
@@ -410,6 +436,7 @@ export default function Dashboard({ token, onLogout }) {
                 getThumbnailForContent={getThumbnailForContent}
                 t={t}
                 userPlan={userPlan}
+                onUpgradeClick={handleManageSubscription}
               />
             </div>
           )}
@@ -429,6 +456,7 @@ export default function Dashboard({ token, onLogout }) {
                 getThumbnailForContent={getThumbnailForContent}
                 t={t}
                 userPlan={userPlan}
+                onUpgradeClick={handleManageSubscription}
               />
             </div>
           )}
@@ -447,6 +475,7 @@ export default function Dashboard({ token, onLogout }) {
                 colors={colors}
                 t={t}
                 userPlan={userPlan}
+                onUpgradeClick={handleManageSubscription}
               />
             </div>
           )}
@@ -465,6 +494,7 @@ export default function Dashboard({ token, onLogout }) {
                 colors={colors}
                 t={t}
                 userPlan={userPlan}
+                onUpgradeClick={handleManageSubscription}
               />
             </div>
           )}

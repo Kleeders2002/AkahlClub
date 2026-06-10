@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Lightbulb, Search, Filter, Calendar, Star, Lock, Crown } from 'lucide-react';
 
-export default function TipsSection({ contenido, colors, t, userPlan }) {
+export default function TipsSection({ contenido, colors, t, userPlan, onUpgradeClick }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOro, setFilterOro] = useState(false);
   const [filterCategoria, setFilterCategoria] = useState('todas');
@@ -126,14 +126,14 @@ export default function TipsSection({ contenido, colors, t, userPlan }) {
                       </div>
                       <p className="text-white font-bold text-sm mb-1">{t('dashboard.premiumContent')}</p>
                       <p className="text-white/80 text-xs">{t('dashboard.lockedContent')}</p>
-                      <a
-                        href="/membership"
+                      <button
+                        onClick={onUpgradeClick}
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-white text-xs mt-3 transition-all duration-200 hover:shadow-lg"
                         style={{ backgroundColor: colors.mostazaPrimario }}
                       >
                         <Lock className="w-3 h-3" />
                         {t('dashboard.upgradeToAccess')}
-                      </a>
+                      </button>
                     </div>
                   </div>
                 )}

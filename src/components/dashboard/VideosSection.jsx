@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Video, Play, Search, Filter, Calendar, Star, Clock, Lock, Crown } from 'lucide-react';
 
-export default function VideosSection({ contenido, colors, t, userPlan }) {
+export default function VideosSection({ contenido, colors, t, userPlan, onUpgradeClick }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOro, setFilterOro] = useState(false);
   const [filterCategoria, setFilterCategoria] = useState('todas');
@@ -167,8 +167,8 @@ export default function VideosSection({ contenido, colors, t, userPlan }) {
 
                   {video.premium && userPlan === 'PLATA' ? (
                     // CONTENIDO BLOQUEADO PARA PLATA
-                    <a
-                      href="/membership"
+                    <button
+                      onClick={onUpgradeClick}
                       className="w-full flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-md text-xs sm:text-sm mt-auto relative overflow-hidden"
                       style={{
                         background: 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)',
@@ -183,7 +183,7 @@ export default function VideosSection({ contenido, colors, t, userPlan }) {
                       </div>
                       <Lock className="w-3 h-3 sm:w-4 sm:h-4 relative z-10" />
                       <span className="relative z-10">{t('dashboard.upgradeToAccess')}</span>
-                    </a>
+                    </button>
                   ) : (
                     // CONTENIDO ACCESIBLE
                     <a
