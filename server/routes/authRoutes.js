@@ -488,26 +488,25 @@ router.post("/activate-user", async (req, res) => {
       });
     }
 
-    // Generar contraseña temporal si no tiene o si la existente es muy antigua
+    // Solo generar contraseña si NO tiene una (o si la actual no es temporal)
     let tempPassword;
 
-    if (!usuario.passwordHash || usuario.isTemporaryPassword === false) {
-      // Generar nueva contraseña temporal
+    if (!usuario.passwordHash) {
+      // Usuario sin contraseña - generar una nueva
       tempPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
       const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
-      // Actualizar usuario con nueva contraseña temporal
       await prisma.usuario.update({
         where: { email },
         data: {
           passwordHash: hashedPassword,
-          isTemporaryPassword: true  // 🔐 Marcar como temporal
+          isTemporaryPassword: true
         }
       });
 
       console.log("🔑 Nueva contraseña temporal generada para:", email);
-    } else {
-      // Ya tiene contraseña temporal, generamos una nueva por seguridad
+    } else if (usuario.isTemporaryPassword === false) {
+      // Tiene contraseña pero NO es temporal - generar una nueva temporal
       tempPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
       const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
@@ -515,11 +514,28 @@ router.post("/activate-user", async (req, res) => {
         where: { email },
         data: {
           passwordHash: hashedPassword,
-          isTemporaryPassword: true  // 🔐 Seguir siendo temporal
+          isTemporaryPassword: true
         }
       });
 
-      console.log("🔑 Contraseña temporal regenerada para:", email);
+      console.log("🔑 Contraseña temporal generada para:", email);
+    } else {
+      // ✅ Ya tiene contraseña temporal - NO regenerar, mantener la actual
+      console.log("✅ Usuario ya tiene contraseña temporal - manteniendo la existente");
+      console.log("⚠️  No podemos enviar la contraseña por email (ya fue enviada al registro)");
+
+      // Informar que no se puede enviar la contraseña
+      return res.json({
+        success: true,
+        message: "Usuario activado. Usa la contraseña que recibiste al registrarte.",
+        note: "La contraseña temporal ya fue enviada al email proporcionado durante el registro.",
+        user: {
+          id: usuario.id,
+          email: usuario.email,
+          status: usuario.status,
+          tier: usuario.tier
+        }
+      });
     }
 
     // Actualizar usuario a ACTIVE
@@ -534,19 +550,29 @@ router.post("/activate-user", async (req, res) => {
     console.log("✅ Usuario activado:", usuarioActualizado.id, "-", usuarioActualizado.email);
     console.log("📊 Nuevo estado:", usuarioActualizado.status, "Tier:", usuarioActualizado.tier);
 
-    // Enviar email de confirmación de pago con contraseña temporal
-    await enviarEmailPagoConfirmado(
-      email,
-      usuarioActualizado.fullName || email,
-      tempPassword,  // 🔐 Enviar la contraseña temporal generada
-      idioma || 'es'
-    );
-
-    console.log("📧 Email enviado a:", email);
+    // Solo enviar email si se generó una nueva contraseña
+    if (tempPassword) {
+      try {
+        await enviarEmailPagoConfirmado(
+          email,
+          usuarioActualizado.fullName || email,
+          tempPassword,  // 🔐 Enviar la contraseña temporal generada
+          idioma || 'es'
+        );
+        console.log("📧 Email enviado a:", email);
+      } catch (emailError) {
+        console.error("⚠️ Error enviando email:", emailError.message);
+      }
+    } else {
+      console.log("📧 Email NO enviado - usuario ya tenía contraseña temporal");
+    }
 
     res.json({
       success: true,
-      message: "Usuario activado exitosamente",
+      message: tempPassword
+        ? "Usuario activado exitosamente"
+        : "Usuario activado. Usa la contraseña que recibiste al registrarte.",
+      tempPasswordSent: !!tempPassword,
       user: {
         id: usuarioActualizado.id,
         email: usuarioActualizado.email,
