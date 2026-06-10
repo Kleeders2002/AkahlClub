@@ -44,7 +44,7 @@ model Usuario {
   id                  String              @id @default(uuid())
   email               String              @unique
   passwordHash        String?             // Solo este campo para auth
-  isTemporaryPassword Boolean             @default(true)  // 🔐 Indica si debe cambiar contraseña
+  isTemporaryPassword Boolean             @default(true)  // 🔐 Contraseña temporal - debe cambiar
   createdAt           DateTime            @default(now())
   fullName            String?
   firstName           String?

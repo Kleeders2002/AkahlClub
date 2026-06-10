@@ -64,14 +64,16 @@ router.post("/register", async (req, res) => {
         phone: telefono || null,
         country: pais || 'US',
         passwordHash: hashedPassword,
-        isTemporaryPassword: true,  // 🔐 Marcar como contraseña temporal
         tier: planFinal === 'PLATA' ? 'PLATA' : 'ORO',
         status: 'LEAD', // Todos los usuarios empiezan como LEAD (inactivo)
         source: 'FORM',
         stylePreference: estilo_preferencia === 'oldMoney' ? 'OLD_MONEY' :
                         estilo_preferencia === 'classic' ? 'CLASSIC' :
                         estilo_preferencia === 'modern' ? 'MODERN' : null,
-        metadata: metadata
+        metadata: {
+          ...metadata,
+          mustChangePassword: false  // Solo debe cambiar cuando se active después del pago
+        }
       }
     });
 
