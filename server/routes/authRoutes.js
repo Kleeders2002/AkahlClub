@@ -297,13 +297,13 @@ router.get("/verify", authMiddleware, async (req, res) => {
   }
 });
 
-// POST /api/auth/change-password
+// POST /api/auth/change-password - Para primera vez (contraseña temporal, NO requiere currentPassword)
 router.post("/change-password", authMiddleware, async (req, res) => {
   try {
     const { newPassword, confirmPassword } = req.body;
     const userId = req.user.id;
 
-    console.log("🔐 Usuario intentando cambiar contraseña:", userId);
+    console.log("🔐 Usuario cambiando contraseña temporal:", userId);
 
     // Validaciones simplificadas
     if (!newPassword) {
@@ -313,7 +313,6 @@ router.post("/change-password", authMiddleware, async (req, res) => {
       });
     }
 
-    // Validar longitud mínima de contraseña
     if (newPassword.length < 8) {
       return res.status(400).json({
         success: false,
@@ -340,15 +339,6 @@ router.post("/change-password", authMiddleware, async (req, res) => {
       });
     }
 
-    // Verificar que no sea igual a la actual
-    const samePassword = await bcrypt.compare(newPassword, user.passwordHash);
-    if (samePassword) {
-      return res.status(400).json({
-        success: false,
-        message: "La nueva contraseña debe ser diferente a la actual"
-      });
-    }
-
     // Hashear nueva contraseña
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
@@ -361,7 +351,7 @@ router.post("/change-password", authMiddleware, async (req, res) => {
       }
     });
 
-    console.log("✅ Contraseña actualizada y isTemporaryPassword=false para:", user.email);
+    console.log("✅ Contraseña temporal cambiada y isTemporaryPassword=false para:", user.email);
 
     // Generar NUEVO token sin must_change_pwd
     const newTokenPayload = {
@@ -369,7 +359,7 @@ router.post("/change-password", authMiddleware, async (req, res) => {
       email: updatedUser.email,
       plan: updatedUser.tier,
       nombre: updatedUser.fullName,
-      must_change_pwd: false  // 🔐 Ya no debe cambiar
+      must_change_pwd: false
     };
 
     const newToken = jwt.sign(
@@ -380,7 +370,7 @@ router.post("/change-password", authMiddleware, async (req, res) => {
 
     res.json({
       success: true,
-      token: newToken,  // 🔐 Devolver nuevo token
+      token: newToken,
       message: "Contraseña actualizada exitosamente"
     });
 
@@ -389,6 +379,110 @@ router.post("/change-password", authMiddleware, async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error del servidor al cambiar contraseña"
+    });
+  }
+});
+
+// POST /api/auth/update-password - Para perfil (REQUIERE currentPassword)
+router.post("/update-password", authMiddleware, async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    const userId = req.user.id;
+
+    console.log("🔐 Usuario actualizando contraseña en perfil:", userId);
+
+    // Validaciones
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Contraseña actual y nueva son requeridas"
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "La contraseña debe tener mínimo 8 caracteres"
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Las contraseñas no coinciden"
+      });
+    }
+
+    // Buscar usuario
+    const user = await prisma.usuario.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado"
+      });
+    }
+
+    // 🔐 Verificar contraseña actual
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isCurrentPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "La contraseña actual es incorrecta"
+      });
+    }
+
+    // Verificar que no sea igual a la actual
+    const samePassword = await bcrypt.compare(newPassword, user.passwordHash);
+    if (samePassword) {
+      return res.status(400).json({
+        success: false,
+        message: "La nueva contraseña debe ser diferente a la actual"
+      });
+    }
+
+    // Hashear nueva contraseña
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Actualizar contraseña y asegurar que no sea temporal
+    const updatedUser = await prisma.usuario.update({
+      where: { id: userId },
+      data: {
+        passwordHash: hashedPassword,
+        isTemporaryPassword: false  // Asegurar que no sea temporal
+      }
+    });
+
+    console.log("✅ Contraseña actualizada en perfil para:", user.email);
+
+    // Generar NUEVO token
+    const newTokenPayload = {
+      id: updatedUser.id,
+      email: updatedUser.email,
+      plan: updatedUser.tier,
+      nombre: updatedUser.fullName,
+      must_change_pwd: false
+    };
+
+    const newToken = jwt.sign(
+      newTokenPayload,
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      success: true,
+      token: newToken,
+      message: "Contraseña actualizada exitosamente"
+    });
+
+  } catch (err) {
+    console.error("❌ Error al actualizar contraseña:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error del servidor al actualizar contraseña"
     });
   }
 });
@@ -409,7 +503,8 @@ function authMiddleware(req, res, next) {
     if (decoded.must_change_pwd) {
       // Rutas permitidas con contraseña temporal
       const allowedRoutes = [
-        '/api/auth/change-password',
+        '/api/auth/change-password',  // Primera vez (temporal)
+        '/api/auth/update-password',   // Perfil (normal)
         '/api/auth/logout',
         '/api/auth/verify'
       ];

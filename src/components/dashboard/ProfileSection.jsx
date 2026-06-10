@@ -63,7 +63,7 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/change-password`, {
+      const response = await fetch(`${API_URL}/api/auth/update-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,8 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
         },
         body: JSON.stringify({
           currentPassword: passwordData.currentPassword,
-          newPassword: passwordData.newPassword
+          newPassword: passwordData.newPassword,
+          confirmPassword: passwordData.confirmPassword
         })
       });
 
