@@ -305,7 +305,7 @@ router.post("/change-password", authMiddleware, async (req, res) => {
 
     console.log("🔐 Usuario intentando cambiar contraseña:", userId);
 
-    // Validaciones mejoradas
+    // Validaciones simplificadas
     if (!newPassword) {
       return res.status(400).json({
         success: false,
@@ -313,39 +313,11 @@ router.post("/change-password", authMiddleware, async (req, res) => {
       });
     }
 
-    // Validar fortaleza de contraseña
+    // Validar longitud mínima de contraseña
     if (newPassword.length < 8) {
       return res.status(400).json({
         success: false,
         message: "La contraseña debe tener mínimo 8 caracteres"
-      });
-    }
-
-    if (!/[A-Z]/.test(newPassword)) {
-      return res.status(400).json({
-        success: false,
-        message: "La contraseña debe tener al menos una mayúscula (A-Z)"
-      });
-    }
-
-    if (!/[a-z]/.test(newPassword)) {
-      return res.status(400).json({
-        success: false,
-        message: "La contraseña debe tener al menos una minúscula (a-z)"
-      });
-    }
-
-    if (!/[0-9]/.test(newPassword)) {
-      return res.status(400).json({
-        success: false,
-        message: "La contraseña debe tener al menos un número (0-9)"
-      });
-    }
-
-    if (!/[@$!%*?&]/.test(newPassword)) {
-      return res.status(400).json({
-        success: false,
-        message: "La contraseña debe tener al menos un carácter especial (@$!%*?&)"
       });
     }
 
