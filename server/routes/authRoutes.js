@@ -490,27 +490,24 @@ router.post("/update-password", authMiddleware, async (req, res) => {
 // Middleware para proteger rutas
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
-
   if (!authHeader)
     return res.status(401).json({ success: false, message: "No token proporcionado" });
 
   const token = authHeader.split(" ")[1];
-
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // 🔐 Verificar si tiene contraseña temporal
     if (decoded.must_change_pwd) {
-      // Rutas permitidas con contraseña temporal
       const allowedRoutes = [
-        '/api/auth/change-password',  // Primera vez (temporal)
-        '/api/auth/update-password',   // Perfil (normal)
+        '/api/auth/change-password',
+        '/api/auth/update-password',
         '/api/auth/logout',
         '/api/auth/verify'
       ];
 
+      // ✅ Cambia req.path por req.originalUrl
       const isAllowed = allowedRoutes.some(route =>
-        req.path.startsWith(route)
+        req.originalUrl.startsWith(route)
       );
 
       if (!isAllowed) {
