@@ -362,14 +362,6 @@ const MembershipForm = () => {
 
       const fullPhoneNumber = `${selectedCountry.dialCode}${formData.phone}`;
 
-      console.log('📤 Creando sesión de Stripe:', API_URL);
-      console.log('📊 Datos:', {
-        email: formData.email,
-        nombre: `${formData.firstName} ${formData.lastName}`,
-        plan: formData.membershipPlan,
-        idioma: i18n.language
-      });
-
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -383,12 +375,8 @@ const MembershipForm = () => {
         })
       });
 
-      console.log('📥 Respuesta status:', response.status);
-      console.log('📥 Respuesta ok:', response.ok);
-
       // Verificar si la respuesta es JSON antes de parsear
       const contentType = response.headers.get('content-type');
-      console.log('📥 Content-Type:', contentType);
 
       let data;
       if (contentType && contentType.includes('application/json')) {
@@ -396,25 +384,20 @@ const MembershipForm = () => {
       } else {
         // Si no es JSON, obtener el texto para debugging
         const text = await response.text();
-        console.error('❌ Respuesta no es JSON:', text);
-        throw new Error(`El servidor devolvió un error (${response.status}). Por favor intenta nuevamente.`);
-      }
-
-      console.log('✅ Datos parseados:', data);
+        throw new Error(t('membership.errorServerError'));
+      })
 
       if (!response.ok) {
-        throw new Error(data.message || `Error del servidor (${response.status})`);
+        throw new Error(data.message || `${t('membership.errorServerGeneric')} (${response.status})`);
       }
 
       if (data.success && data.checkoutUrl) {
         // Redirigir a Stripe Checkout inmediatamente
-        console.log('🔄 Redirigiendo a Stripe:', data.checkoutUrl);
         window.location.href = data.checkoutUrl;
       } else {
-        throw new Error('No se pudo crear la sesión de pago');
+        throw new Error(t('membership.errorCheckout'));
       }
     } catch (error) {
-      console.error('❌ Error en registro:', error);
       setSubmitStatus({
         type: 'error',
         message: error.message || t('form.errors.connectionFailed')

@@ -43,7 +43,6 @@ export default function Dashboard({ token, onLogout }) {
   const [isMobile, setIsMobile] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com';
-  console.log('🔗 Dashboard API URL:', API_URL); // Debug: Verify correct API URL
 
   const tabs = [
     { id: 'bienvenida', label: t('dashboard.controlPanel', 'Panel de Control'), icon: Home },
@@ -145,7 +144,6 @@ export default function Dashboard({ token, onLogout }) {
 
       // Verificar si tiene contraseña temporal - redirigir
       if (payload.must_change_pwd) {
-        console.warn('Usuario con contraseña temporal intentando acceder al dashboard');
         navigate('/change-password', { replace: true });
         return;
       }
@@ -159,9 +157,7 @@ export default function Dashboard({ token, onLogout }) {
     const fetchContenido = async () => {
       setLoading(true);
       try {
-        const idioma = i18n.language || 'es'; // 🌍 Obtener idioma actual con fallback
-        console.log('🌍 Idioma actual:', idioma);
-        console.log('🌍 URL:', `${API_URL}/api/contenido?idioma=${idioma}&tipo=GUIA`);
+        const idioma = i18n.language || 'es';
 
         const tipos = ['GUIA', 'EBOOK', 'VIDEO', 'TIP'];
         const resultados = await Promise.all(
@@ -174,9 +170,7 @@ export default function Dashboard({ token, onLogout }) {
           )
         );
 
-        console.log('📊 Resultados:', {
-          guias: resultados[0].data?.length || 0,
-          ebooks: resultados[1].data?.length || 0,
+        setContenido({
           videos: resultados[2].data?.length || 0,
           tips: resultados[3].data?.length || 0
         });

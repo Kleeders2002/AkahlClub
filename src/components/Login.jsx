@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 export default function Login({ onLogin }) {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'https://akahlclub.onrender.com';
-  console.log('🔗 API URL:', API_URL); // Debug: Verify correct API URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    console.log("🔄 Enviando datos:", { email, password });
 
     try {
       const res = await fetch(`${API_URL}/api/auth/login`, {
@@ -26,25 +25,23 @@ export default function Login({ onLogin }) {
       });
 
       const data = await res.json();
-      console.log("✅ Respuesta del backend:", data);
 
       if (data.success) {
         localStorage.setItem("token", data.token);
 
         // Verificar si debe cambiar contraseña temporal
         if (data.must_change_pwd) {
-          alert("⚠️ Debes cambiar tu contraseña temporal para continuar");
+          alert("⚠️ " + t('login.tempPasswordWarning'));
         } else {
-          alert("¡Login exitoso! 🎉");
+          alert(t('login.success'));
         }
 
         onLogin(data.token);
       } else {
-        alert(data.message || "Credenciales inválidas");
+        alert(data.message || t('login.invalidCredentials'));
       }
     } catch (err) {
-      console.error("❌ Error completo:", err);
-      alert(`Error al iniciar sesión. Verifica que el backend esté corriendo en ${API_URL}`);
+      alert(t('login.backendCheck') + ` ${API_URL}`);
     } finally {
       setIsLoading(false);
     }
@@ -82,8 +79,8 @@ export default function Login({ onLogin }) {
             >
               <Lock className="w-8 h-8 text-[#152821]" />
             </div>
-            <h1 className="text-3xl font-playfair font-bold text-white mb-2">Portal VIP</h1>
-            <p className="text-gray-400">Accede a tu área exclusiva</p>
+            <h1 className="text-3xl font-playfair font-bold text-white mb-2">{t('dashboard.memberPortal')}</h1>
+            <p className="text-gray-400">{t('login.subtitle')}</p>
           </div>
 
           {/* Login Form */}
@@ -91,7 +88,7 @@ export default function Login({ onLogin }) {
             {/* Email Input */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                Correo electrónico
+                {t('form.labels.email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -102,7 +99,7 @@ export default function Login({ onLogin }) {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#c1ad48] focus:border-transparent transition-all"
-                  placeholder="tu@email.com"
+                  placeholder={t('form.placeholders.email')}
                 />
               </div>
             </div>
@@ -110,7 +107,7 @@ export default function Login({ onLogin }) {
             {/* Password Input */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                Contraseña
+                {t('changePassword.newPassword')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -121,7 +118,7 @@ export default function Login({ onLogin }) {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="w-full pl-11 pr-12 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#c1ad48] focus:border-transparent transition-all"
-                  placeholder="••••••••"
+                  placeholder={t('changePassword.placeholder')}
                 />
                 <button
                   type="button"
@@ -140,14 +137,14 @@ export default function Login({ onLogin }) {
               className="w-full py-3 px-4 rounded-lg font-semibold text-[#152821] transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg hover:shadow-xl"
               style={{ background: "linear-gradient(135deg, #c1ad48 0%, #d4c165 100%)" }}
             >
-              {isLoading ? "Ingresando..." : "Ingresar al Portal"}
+              {isLoading ? t('form.buttons.processing') : t('nav.login')}
             </button>
           </form>
         </div>
 
         {/* Footer Text */}
         <p className="text-center text-gray-500 text-sm mt-6">
-          © 2025 Portal VIP. Todos los derechos reservados.
+          © 2025 {t('dashboard.memberPortal')}. {t('footer.copyright')}
         </p>
       </div>
     </div>

@@ -1,7 +1,5 @@
 // pages/MembershipPage.jsx
-import React from 'react';
 import MembershipForm from '../components/MembershipForm';
-import Footer from '../components/Footer';
 
 const MembershipPage = () => {
   return (

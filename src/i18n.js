@@ -503,6 +503,23 @@ const resources = {
       'dashboard.lockedContent': 'This content is exclusive to Gold members',
       'dashboard.upgradeNow': 'Upgrade Now',
 
+      // LOGIN ALERTS
+      'login.success': 'Login successful! 🎉',
+      'login.tempPasswordWarning': 'You must change your temporary password to continue',
+      'login.invalidCredentials': 'Invalid credentials',
+      'login.connectionError': 'Error connecting to server. Please verify the backend is running',
+      'login.backendCheck': 'Error logging in. Verify that the backend is running at',
+      'login.subtitle': 'Access your exclusive area',
+
+      // MEMBERSHIP FORM ERRORS
+      'membership.errorServerError': 'The server returned an error. Please try again.',
+      'membership.errorServerGeneric': 'Server error',
+      'membership.errorCheckout': 'Could not create payment session',
+
+      // LEAD CAPTURE
+      'lead.thankYou': 'Thank you! We will contact you soon.',
+      'lead.captured': 'Lead captured:',
+
       // CHANGE PASSWORD PAGE (First-time password change)
       'changePassword.title': 'Change Your Password',
       'changePassword.subtitle': 'For security, you must create a new password to continue',
@@ -1058,6 +1075,23 @@ const resources = {
       'dashboard.upgradeToAccess': 'Actualiza a ORO para Acceder',
       'dashboard.lockedContent': 'Este contenido es exclusivo para miembros ORO',
       'dashboard.upgradeNow': 'Actualizar Ahora',
+
+      // LOGIN ALERTS
+      'login.success': '¡Login exitoso! 🎉',
+      'login.tempPasswordWarning': 'Debes cambiar tu contraseña temporal para continuar',
+      'login.invalidCredentials': 'Credenciales inválidas',
+      'login.connectionError': 'Error al conectar con el servidor. Verifica que el backend esté corriendo',
+      'login.backendCheck': 'Error al iniciar sesión. Verifica que el backend esté corriendo en',
+      'login.subtitle': 'Accede a tu área exclusiva',
+
+      // MEMBERSHIP FORM ERRORS
+      'membership.errorServerError': 'El servidor devolvió un error. Por favor intenta nuevamente.',
+      'membership.errorServerGeneric': 'Error del servidor',
+      'membership.errorCheckout': 'No se pudo crear la sesión de pago',
+
+      // LEAD CAPTURE
+      'lead.thankYou': '¡Gracias! Te contactaremos pronto.',
+      'lead.captured': 'Lead capturado:',
 
       // PÁGINA DE CAMBIO DE CONTRASEÑA (Primer cambio de contraseña)
       'changePassword.title': 'Cambia tu Contraseña',

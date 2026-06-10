@@ -120,14 +120,14 @@ export default function ProfileSection({ token, userName, userPlan, colors, t, A
       } else {
         setPortalMessage({
           type: 'error',
-          text: data.message || t('dashboard.processingError') || 'Error al abrir el portal'
+          text: data.message || t('dashboard.processingError')
         });
       }
     } catch (error) {
       console.error('Error opening portal:', error);
       setPortalMessage({
         type: 'error',
-        text: t('dashboard.connectionError') || 'Error de conexión'
+        text: t('dashboard.connectionError')
       });
     } finally {
       setPortalLoading(false);
