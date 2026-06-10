@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import i18n from '../i18n';
 import {
   LogOut,
@@ -27,6 +28,7 @@ import ProfileSection from './dashboard/ProfileSection';
 
 export default function Dashboard({ token, onLogout }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('bienvenida');
   const [userName, setUserName] = useState('Miembro VIP');
   const [userPlan, setUserPlan] = useState('PLATA');
@@ -140,6 +142,14 @@ export default function Dashboard({ token, onLogout }) {
   useEffect(() => {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+
+      // Verificar si tiene contraseña temporal - redirigir
+      if (payload.must_change_pwd) {
+        console.warn('Usuario con contraseña temporal intentando acceder al dashboard');
+        navigate('/change-password', { replace: true });
+        return;
+      }
+
       setUserName(payload.nombre || 'Miembro VIP');
       setUserPlan(payload.plan || 'PLATA');
     } catch (err) {

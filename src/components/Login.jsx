@@ -30,7 +30,14 @@ export default function Login({ onLogin }) {
 
       if (data.success) {
         localStorage.setItem("token", data.token);
-        alert("Login exitoso! 🎉");
+
+        // Verificar si debe cambiar contraseña temporal
+        if (data.must_change_pwd) {
+          alert("⚠️ Debes cambiar tu contraseña temporal para continuar");
+        } else {
+          alert("¡Login exitoso! 🎉");
+        }
+
         onLogin(data.token);
       } else {
         alert(data.message || "Credenciales inválidas");

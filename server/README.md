@@ -95,3 +95,123 @@ npm start
 ```
 
 **Nota**: La base de datos ya está configurada. No se requieren migraciones para el deploy en Render.
+
+---
+
+## 🔐 Sistema de Cambio de Contraseña Obligatorio
+
+El backend ahora incluye un sistema que obliga a los usuarios nuevos a cambiar su contraseña temporal.
+
+### 📁 Archivos Nuevos
+
+```
+server/
+├── User.model.js          # Modelo con campo isTemporaryPassword
+├── auth.middleware.js     # Middleware con verificación de contraseña temporal
+└── auth.routes.js         # Rutas actualizadas
+```
+
+### 🔄 Flujo de Usuario con Contraseña Temporal
+
+```
+1. REGISTRO → Contraseña temporal generada + Email enviado
+2. LOGIN → Token con must_change_pwd: true
+3. REDIRECT → /change-password (frontend detecta el claim)
+4. CAMBIO → Usuario establece nueva contraseña fuerte
+5. NUEVO TOKEN → must_change_pwd: false
+6. ACCESO → Dashboard permitido
+```
+
+### 🔑 Requisitos de Nueva Contraseña
+
+- Mínimo 8 caracteres
+- Al menos una mayúscula (A-Z)
+- Al menos una minúscula (a-z)
+- Al menos un número (0-9)
+- Al menos un carácter especial (@$!%*?&)
+
+### 📊 Modelo de Datos Actualizado
+
+```javascript
+// User Schema
+{
+  email: String,
+  password: String,
+  nombre: String,
+  plan: String,
+  isTemporaryPassword: Boolean  // ← Nuevo campo
+}
+```
+
+### 🎯 JWT Payload
+
+```javascript
+{
+  sub: "userId",
+  email: "user@email.com",
+  nombre: "Nombre",
+  plan: "PLATA",
+  must_change_pwd: true/false,  // ← Claim para detectar contraseña temporal
+  iat: 1234567890,
+  exp: 1234567890
+}
+```
+
+### 🧪 Testing del Sistema
+
+```bash
+# 1. Registrar usuario (recibe contraseña temporal)
+curl -X POST https://akahlclub.onrender.com/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","nombre":"Test","plan":"ORO"}'
+
+# 2. Login con contraseña temporal
+curl -X POST https://akahlclub.onrender.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"TEMP_PASS_FROM_EMAIL"}'
+# Respuesta incluye: must_change_pwd: true
+
+# 3. Cambiar contraseña (requiere token)
+curl -X POST https://akahlclub.onrender.com/api/auth/change-password \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"newPassword":"NewSecure123@"}'
+# Devuelve NUEVO token con must_change_pwd: false
+```
+
+### ⚠️ Middleware de Protección
+
+El middleware `verifyToken` ahora bloquea accesos no autorizados:
+
+```javascript
+// Rutas permitidas con contraseña temporal:
+- /api/auth/change-password  (cambiar contraseña)
+- /api/auth/logout           (cerrar sesión)
+- /api/user/me              (ver perfil)
+
+// Cualquier otra ruta → 403 + "Debes cambiar tu contraseña temporal"
+```
+
+### 📧 Configuración de Email
+
+Las contraseñas temporales se envían por email. Configura en `.env`:
+
+```env
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_USER="your-email@gmail.com"
+EMAIL_PASS="your-app-password"  # Usa App Password de Google
+EMAIL_FROM="AKAHL Club <your-email@gmail.com>"
+```
+
+### 🔧 Migración de Usuarios Existentes
+
+Si tienes usuarios existentes, ejecuta:
+
+```javascript
+// Marcar todos los usuarios existentes como SIN contraseña temporal
+await User.updateMany(
+  { isTemporaryPassword: { $exists: false } },
+  { $set: { isTemporaryPassword: false } }
+);
+```

@@ -134,17 +134,31 @@ import ComparativePage from "./pages/ComparativePage"
 import Login from "./components/Login"
 import Dashboard from "./components/Dashboard"
 import LeadCaptureModal from "./components/LeadCaptureModal"
+import ChangePasswordPage from "./pages/ChangePasswordPage"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userToken, setUserToken] = useState(null)
   const [showLeadModal, setShowLeadModal] = useState(false)
+  const [mustChangePassword, setMustChangePassword] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
-      setUserToken(token)
-      setIsLoggedIn(true)
+      try {
+        // Decodificar token para verificar si debe cambiar contraseña
+        const payload = JSON.parse(atob(token.split('.')[1]))
+        setUserToken(token)
+        setIsLoggedIn(true)
+
+        // Verificar si tiene contraseña temporal
+        if (payload.must_change_pwd) {
+          setMustChangePassword(true)
+        }
+      } catch (err) {
+        console.error('Error al decodificar token:', err)
+        localStorage.removeItem('token')
+      }
     }
 
     // Verificar si ya mostramos el modal al usuario
@@ -158,16 +172,40 @@ function App() {
     }
   }, [])
 
+  // Callback para actualizar token después de cambiar contraseña
+  const handleTokenUpdate = (newToken) => {
+    try {
+      const payload = JSON.parse(atob(newToken.split('.')[1]))
+      localStorage.setItem('token', newToken)
+      setUserToken(newToken)
+      setMustChangePassword(payload.must_change_pwd || false)
+    } catch (err) {
+      console.error('Error al actualizar token:', err)
+    }
+  }
+
   const handleLogin = (token) => {
-    localStorage.setItem("token", token)
-    setUserToken(token)
-    setIsLoggedIn(true)
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      localStorage.setItem("token", token)
+      setUserToken(token)
+      setIsLoggedIn(true)
+      setMustChangePassword(payload.must_change_pwd || false)
+
+      // Mostrar alerta según si debe cambiar contraseña
+      if (payload.must_change_pwd) {
+        alert("⚠️ Debes cambiar tu contraseña temporal para continuar")
+      }
+    } catch (err) {
+      console.error('Error al procesar login:', err)
+    }
   }
 
   const handleLogout = () => {
     localStorage.removeItem("token")
     setUserToken(null)
     setIsLoggedIn(false)
+    setMustChangePassword(false)
   }
 
   const handleLeadSubmit = (leadData) => {
@@ -209,7 +247,7 @@ function App() {
           path="/login"
           element={
             isLoggedIn ? (
-              <Navigate to="/dashboard" />
+              <Navigate to={mustChangePassword ? "/change-password" : "/dashboard"} replace />
             ) : (
               <div className="pt-20 min-h-screen flex flex-col">
                 <div className="flex-grow">
@@ -221,14 +259,33 @@ function App() {
           }
         />
 
+        {/* Cambio de contraseña obligatorio */}
+        <Route
+          path="/change-password"
+          element={
+            !isLoggedIn ? (
+              <Navigate to="/login" replace />
+            ) : !mustChangePassword ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <ChangePasswordPage
+                token={userToken}
+                onTokenUpdate={handleTokenUpdate}
+              />
+            )
+          }
+        />
+
         {/* Dashboard protegido */}
         <Route
           path="/dashboard"
           element={
-            isLoggedIn ? (
-              <Dashboard token={userToken} onLogout={handleLogout} />
+            !isLoggedIn ? (
+              <Navigate to="/login" replace />
+            ) : mustChangePassword ? (
+              <Navigate to="/change-password" replace />
             ) : (
-              <Navigate to="/login" />
+              <Dashboard token={userToken} onLogout={handleLogout} />
             )
           }
         />
