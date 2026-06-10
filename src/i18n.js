@@ -503,7 +503,26 @@ const resources = {
       'dashboard.lockedContent': 'This content is exclusive to Gold members',
       'dashboard.upgradeNow': 'Upgrade Now',
 
-
+      // CHANGE PASSWORD PAGE (First-time password change)
+      'changePassword.title': 'Change Your Password',
+      'changePassword.subtitle': 'For security, you must create a new password to continue',
+      'changePassword.newPassword': 'New Password',
+      'changePassword.confirmPassword': 'Confirm New Password',
+      'changePassword.placeholder': '••••••••',
+      'changePassword.passwordsMatch': 'Passwords match',
+      'changePassword.passwordsNotMatch': 'Passwords do not match',
+      'changePassword.requirements': 'Password requirements',
+      'changePassword.requirementsDesc': 'The password must contain:',
+      'changePassword.minLength': 'Minimum 8 characters',
+      'changePassword.secureNotice': 'Your password is protected with encryption',
+      'changePassword.updating': 'Updating password...',
+      'changePassword.setPassword': 'Set New Password',
+      'changePassword.success': 'Password Updated!',
+      'changePassword.redirecting': 'Redirecting to dashboard...',
+      'changePassword.errorNotMatch': 'Passwords do not match',
+      'changePassword.errorTooShort': 'Password must be at least 8 characters',
+      'changePassword.errorConnection': 'Connection error. Please try again.',
+      'changePassword.errorGeneric': 'Error changing password',
 
     }
   },
@@ -1039,6 +1058,27 @@ const resources = {
       'dashboard.upgradeToAccess': 'Actualiza a ORO para Acceder',
       'dashboard.lockedContent': 'Este contenido es exclusivo para miembros ORO',
       'dashboard.upgradeNow': 'Actualizar Ahora',
+
+      // PÁGINA DE CAMBIO DE CONTRASEÑA (Primer cambio de contraseña)
+      'changePassword.title': 'Cambia tu Contraseña',
+      'changePassword.subtitle': 'Por seguridad, debes crear una nueva contraseña para continuar',
+      'changePassword.newPassword': 'Nueva Contraseña',
+      'changePassword.confirmPassword': 'Confirmar Nueva Contraseña',
+      'changePassword.placeholder': '••••••••',
+      'changePassword.passwordsMatch': 'Las contraseñas coinciden',
+      'changePassword.passwordsNotMatch': 'Las contraseñas no coinciden',
+      'changePassword.requirements': 'Requisitos de la contraseña',
+      'changePassword.requirementsDesc': 'La contraseña debe tener:',
+      'changePassword.minLength': 'Mínimo 8 caracteres',
+      'changePassword.secureNotice': 'Tu contraseña está protegida con encriptación',
+      'changePassword.updating': 'Actualizando contraseña...',
+      'changePassword.setPassword': 'Establecer Nueva Contraseña',
+      'changePassword.success': '¡Contraseña Actualizada!',
+      'changePassword.redirecting': 'Redirigiendo al dashboard...',
+      'changePassword.errorNotMatch': 'Las contraseñas no coinciden',
+      'changePassword.errorTooShort': 'La contraseña debe tener al menos 8 caracteres',
+      'changePassword.errorConnection': 'Error de conexión. Intenta nuevamente.',
+      'changePassword.errorGeneric': 'Error al cambiar la contraseña',
 
     }
   }
