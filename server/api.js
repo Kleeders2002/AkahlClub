@@ -8,8 +8,8 @@ const stripeRoutes = require('./routes/stripeRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 // 🧵 RUTAS DEL COTIZADOR (telas y precios)
-const fabricRoutes = require('../cotizador-api/routes/fabrics.prisma.js');
-const pricingRoutes = require('../cotizador-api/routes/pricing.prisma.js');
+const fabricRoutes = require('../cotizador-api/routes/fabrics.prisma.cjs');
+const pricingRoutes = require('../cotizador-api/routes/pricing.prisma.cjs');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
