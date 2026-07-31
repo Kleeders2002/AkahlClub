@@ -7,6 +7,10 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const stripeRoutes = require('./routes/stripeRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
+// 🧵 RUTAS DEL COTIZADOR (telas y precios)
+const fabricRoutes = require('../cotizador-api/routes/fabrics.prisma.js');
+const pricingRoutes = require('../cotizador-api/routes/pricing.prisma.js');
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -55,6 +59,10 @@ app.use('/api/leads', leadsRoutes); // ✅ Sin authMiddleware
 app.use('/api/usuarios', usuarioRoutes); // ✅ Rutas de usuarios
 app.use('/api/stripe', stripeRoutes); // ✅ Rutas de Stripe (públicas y webhooks)
 app.use('/api/admin', adminRoutes); // 🔐 Rutas de administración (protegidas)
+
+// 🧵 RUTAS DEL COTIZADOR (telas y precios)
+app.use('/api/fabrics', fabricRoutes);
+app.use('/api/pricing', pricingRoutes);
 
 // Servidor
 app.listen(PORT, () => {
