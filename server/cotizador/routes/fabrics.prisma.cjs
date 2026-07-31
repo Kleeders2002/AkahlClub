@@ -35,23 +35,23 @@ const authenticateToken = (req, res, next) => {
 /**
  * @route   GET /api/fabrics
  * @desc    Obtener todas las telas
- * @access  Private (requiere token)
+ * @access  Public (AKAHL Atelier usa PIN local)
  */
-router.get('/', authenticateToken, fabricController.getAllFabrics)
+router.get('/', fabricController.getAllFabrics)
 
 /**
  * @route   GET /api/fabrics/code/:code
  * @desc    Buscar tela por código
- * @access  Private (requiere token)
+ * @access  Public (AKAHL Atelier usa PIN local)
  */
-router.get('/code/:code', authenticateToken, fabricController.getFabricByCode)
+router.get('/code/:code', fabricController.getFabricByCode)
 
 /**
  * @route   GET /api/fabrics/search
  * @desc    Buscar telas por texto
- * @access  Private (requiere token)
+ * @access  Public (AKAHL Atelier usa PIN local)
  */
-router.get('/search', authenticateToken, fabricController.searchFabrics)
+router.get('/search', fabricController.searchFabrics)
 
 /**
  * @route   POST /api/fabrics

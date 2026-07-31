@@ -34,9 +34,9 @@ const authenticateToken = (req, res, next) => {
 /**
  * @route   GET /api/pricing/config
  * @desc    Obtener configuración de precios (tipos de prenda y multiplicadores)
- * @access  Private (requiere token)
+ * @access  Public (AKAHL Atelier usa PIN local)
  */
-router.get('/config', authenticateToken, pricingController.getPricingConfig)
+router.get('/config', pricingController.getPricingConfig)
 
 /**
  * @route   PUT /api/pricing/multipliers
@@ -48,9 +48,9 @@ router.put('/multipliers', authenticateToken, pricingController.updateMultiplier
 /**
  * @route   POST /api/pricing/calculate
  * @desc    Calcular precio de una prenda
- * @access  Private (requiere token)
+ * @access  Public (AKAHL Atelier usa PIN local)
  */
-router.post('/calculate', authenticateToken, pricingController.calculatePrice)
+router.post('/calculate', pricingController.calculatePrice)
 
 /**
  * @route   GET /api/pricing/quotations
