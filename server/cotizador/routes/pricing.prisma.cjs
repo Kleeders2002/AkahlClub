@@ -6,7 +6,7 @@
  */
 
 const express = require('express')
-const pricingController = require('../controllers/pricingController.prisma.js')
+const pricingController = require('../controllers/pricingController.prisma.cjs')
 
 const router = express.Router()
 

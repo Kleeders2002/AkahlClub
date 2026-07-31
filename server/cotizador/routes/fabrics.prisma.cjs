@@ -6,7 +6,7 @@
  */
 
 const express = require('express')
-const fabricController = require('../controllers/fabricController.prisma.js')
+const fabricController = require('../controllers/fabricController.prisma.cjs')
 
 const router = express.Router()
 
