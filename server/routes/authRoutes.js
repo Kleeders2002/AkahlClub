@@ -527,6 +527,86 @@ function authMiddleware(req, res, next) {
   }
 }
 
+// ============================================
+// AKAHL ATELIER - PIN AUTHENTICATION
+// Sistema de autenticación por PIN para cotizador
+// ============================================
+
+/**
+ * PINs válidos para AKAHL Atelier
+ * Estos PINs son usados localmente en el frontend
+ * pero también se validan aquí para generar JWT
+ */
+const AKAHL_PINS = {
+  '1234': { role: 'USER', name: 'Asociado', permissions: ['quotations'] },
+  '9999': { role: 'ADMIN', name: 'Administrador', permissions: ['quotations', 'admin'] }
+};
+
+// POST /api/auth/verify-pin
+// Verifica un PIN de 4 dígitos y retorna un JWT temporal
+// Este endpoint es usado por AKAHL Atelier (sistema de cotización)
+router.post("/verify-pin", async (req, res) => {
+  const { pin } = req.body;
+
+  console.log("🔐 Verificación de PIN AKAHL Atelier:", pin ? "****" : null);
+
+  // Validaciones
+  if (!pin) {
+    return res.status(400).json({
+      success: false,
+      message: "PIN es requerido"
+    });
+  }
+
+  if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+    return res.status(400).json({
+      success: false,
+      message: "PIN debe tener exactamente 4 dígitos"
+    });
+  }
+
+  // Verificar PIN
+  const pinConfig = AKAHL_PINS[pin];
+
+  if (!pinConfig) {
+    console.log("❌ PIN inválido");
+    return res.status(401).json({
+      success: false,
+      message: "PIN inválido"
+    });
+  }
+
+  // Generar JWT
+  const tokenPayload = {
+    id: `akahl-${pinConfig.role}`, // ID virtual para AKAHL Atelier
+    email: `${pinConfig.role.toLowerCase()}@akahl.local`, // Email virtual
+    nombre: pinConfig.name,
+    role: pinConfig.role,
+    plan: pinConfig.role === 'ADMIN' ? 'ORO' : 'PLATA',
+    must_change_pwd: false,
+    source: 'akahl_atelier_pin' // Marcar que viene de PIN
+  };
+
+  const token = jwt.sign(
+    tokenPayload,
+    JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  console.log("✅ PIN verificado, JWT generado para:", pinConfig.name);
+
+  res.json({
+    success: true,
+    message: "PIN verificado exitosamente",
+    token,
+    user: {
+      name: pinConfig.name,
+      role: pinConfig.role,
+      permissions: pinConfig.permissions
+    }
+  });
+});
+
 // POST /api/auth/activate-user - Endpoint para activar usuarios después del pago
 router.post("/activate-user", async (req, res) => {
   const { email, tier, idioma } = req.body;
