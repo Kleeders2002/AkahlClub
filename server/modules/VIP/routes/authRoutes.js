@@ -3,11 +3,11 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { 
-  enviarEmailBienvenidaGratis, 
+const {
+  enviarEmailBienvenidaGratis,
   enviarEmailPagoPendiente,
-  enviarEmailPagoConfirmado 
-} = require("../../services/emailService");
+  enviarEmailPagoConfirmado
+} = require("../../../services/emailService");
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
