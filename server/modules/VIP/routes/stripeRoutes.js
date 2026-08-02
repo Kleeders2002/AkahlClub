@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Stripe = require('stripe');
 const { PrismaClient } = require('@prisma/client');
-const { enviarEmailPagoConfirmado } = require('../../services/emailService');
+const { enviarEmailPagoConfirmado } = require('../../../services/emailService');
 
 const prisma = new PrismaClient();
 

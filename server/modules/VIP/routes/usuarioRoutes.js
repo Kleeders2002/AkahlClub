@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
-const { enviarEmailBienvenidaGratis } = require('../../services/emailService');
+const { enviarEmailBienvenidaGratis } = require('../../../services/emailService');
 
 const prisma = new PrismaClient();
 

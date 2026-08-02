@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const { z } = require("zod");
-const { enviarEmailBienvenidaGratis } = require('../../services/emailService');
+const { enviarEmailBienvenidaGratis } = require('../../../services/emailService');
 
 // ✅ Singleton de Prisma (reutilizable)
 const prisma = global.prisma || new PrismaClient();
