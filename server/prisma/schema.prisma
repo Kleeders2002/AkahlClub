@@ -198,6 +198,7 @@ model TipoPrenda {
   cotizaciones       Cotizacion[]
 
   @@index([codigo])
+  @@unique([codigo])
 }
 
 // 5. COTIZACIONES
