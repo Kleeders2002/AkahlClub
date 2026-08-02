@@ -9,8 +9,8 @@
 
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { validatePin } = require('../../../../config/pins');
-const { JWT_SECRET } = require('../../../../middleware/auth');
+const { validatePin } = require('../../config/pins');
+const { JWT_SECRET } = require('../../middleware/auth');
 
 const router = express.Router();
 

@@ -7,7 +7,7 @@ const {
   enviarEmailBienvenidaGratis, 
   enviarEmailPagoPendiente,
   enviarEmailPagoConfirmado 
-} = require("../services/emailService");
+} = require("../../services/emailService");
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";

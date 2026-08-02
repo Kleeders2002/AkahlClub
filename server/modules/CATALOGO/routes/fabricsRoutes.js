@@ -7,8 +7,8 @@
 
 const express = require('express');
 const fabricController = require('../controllers/fabricController');
-const { authMiddleware, adminMiddleware } = require('../../../../middleware/auth');
-const { adminMiddleware: _adminMiddleware } = require('../../../../middleware/admin');
+const { authMiddleware, adminMiddleware } = require('../../middleware/auth');
+const { adminMiddleware: _adminMiddleware } = require('../../middleware/admin');
 
 const router = express.Router();
 

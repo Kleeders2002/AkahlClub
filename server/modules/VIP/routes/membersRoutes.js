@@ -1,8 +1,8 @@
 // routes/members.js
-import express from 'express';
-import bcrypt from 'bcrypt';
-import { PrismaClient } from '@prisma/client';
-import { z } from 'zod';
+const express = require('express');
+const bcrypt = require('bcrypt');
+const { PrismaClient } = require('@prisma/client');
+const { z } = require('zod');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -16,23 +16,23 @@ const MemberSchema = z.object({
   phone: z.string().min(10, { message: 'Teléfono inválido' }),
   country: z.string().length(2, { message: 'Código país inválido' }),
   countryCode: z.string().optional(),
-  
+
   // Preferencias
   stylePreference: z.enum(['OLD_MONEY', 'CLASSIC', 'MODERN']).optional(),
   membershipPlan: z.enum(['PLATA', 'ORO']).default('PLATA'),
-  
+
   // Seguridad y términos
   password: z.string()
     .min(8, { message: 'Contraseña mínimo 8 caracteres' }),
-  
+
   confirmPassword: z.string(),
   acceptedTerms: z.boolean().refine(val => val === true, {
     message: 'Debes aceptar los términos y condiciones'
   }),
-  
+
   // Opcionales
   comments: z.string().max(500).optional(),
-  
+
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Las contraseñas no coinciden',
   path: ['confirmPassword']
@@ -42,18 +42,18 @@ const MemberSchema = z.object({
 router.post('/', async (req, res) => {
   try {
     console.log('👤 Registrando miembro:', req.body.email);
-    
+
     // Validar datos
     const validatedData = MemberSchema.parse(req.body);
-    
+
     // Verificar si el usuario ya existe
     const existingUser = await prisma.usuario.findUnique({
       where: { email: validatedData.email }
     });
-    
+
     let userToReturn;
     let isUpgrade = false;
-    
+
     if (existingUser) {
       // Si es un LEAD, actualizarlo a miembro
       if (existingUser.status === 'LEAD') {
@@ -70,7 +70,7 @@ router.post('/', async (req, res) => {
     } else {
       // Hash de la contraseña
       const hashedPassword = await bcrypt.hash(validatedData.password, 10);
-      
+
       // Crear nuevo usuario
       userToReturn = await prisma.usuario.create({
         data: {
@@ -92,16 +92,16 @@ router.post('/', async (req, res) => {
           }
         }
       });
-      
+
       console.log('✅ Miembro creado:', userToReturn.email);
     }
-    
+
     // Preparar respuesta
     const response = {
       success: true,
       user: sanitizeUser(userToReturn),
-      message: isUpgrade 
-        ? '¡Cuenta actualizada exitosamente!' 
+      message: isUpgrade
+        ? '¡Cuenta actualizada exitosamente!'
         : '¡Bienvenido a AKAHL CLUB! Tu registro está completo.',
       membership: {
         plan: validatedData.membershipPlan,
@@ -114,19 +114,19 @@ router.post('/', async (req, res) => {
         'Explora el contenido exclusivo'
       ]
     };
-    
+
     // Si el plan requiere pago en systeme.io, agregamos la URL
     if (['PLATA', 'ORO'].includes(validatedData.membershipPlan)) {
       response.paymentRequired = true;
       response.paymentRedirect = getSystemeIoUrl(validatedData.membershipPlan, userToReturn);
       response.instructions = 'Serás redirigido a systeme.io para completar el pago';
     }
-    
+
     res.status(201).json(response);
-    
+
   } catch (error) {
     console.error('❌ Error registrando miembro:', error);
-    
+
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         success: false,
@@ -137,7 +137,7 @@ router.post('/', async (req, res) => {
         }))
       });
     }
-    
+
     res.status(500).json({
       success: false,
       error: 'Error interno del servidor. Por favor, intenta más tarde.',
@@ -150,7 +150,7 @@ router.post('/', async (req, res) => {
 router.get('/check/:email', async (req, res) => {
   try {
     const { email } = req.params;
-    
+
     const user = await prisma.usuario.findUnique({
       where: { email },
       select: {
@@ -161,7 +161,7 @@ router.get('/check/:email', async (req, res) => {
         createdAt: true
       }
     });
-    
+
     res.json({
       success: true,
       exists: !!user,
@@ -175,7 +175,7 @@ router.get('/check/:email', async (req, res) => {
 // Helper: Actualizar lead a miembro
 async function upgradeLeadToMember(lead, memberData) {
   const hashedPassword = await bcrypt.hash(memberData.password, 10);
-  
+
   return await prisma.usuario.update({
     where: { id: lead.id },
     data: {
@@ -205,9 +205,9 @@ function getSystemeIoUrl(plan, user) {
     PLATA: process.env.SYSTEME_IO_PLATA_URL,
     ORO: process.env.SYSTEME_IO_ORO_URL
   };
-  
+
   let url = urls[plan] || process.env.SYSTEME_IO_DEFAULT_URL;
-  
+
   // Agregar parámetros de tracking si la URL lo permite
   if (url && user) {
     const params = new URLSearchParams({
@@ -216,10 +216,10 @@ function getSystemeIoUrl(plan, user) {
       plan: plan.toLowerCase(),
       ref: 'akahl_portal'
     });
-    
+
     url = `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
   }
-  
+
   return url;
 }
 
@@ -241,7 +241,7 @@ function getPlanFeatures(plan) {
       'Soporte VIP 24/7'
     ]
   };
-  
+
   return features[plan] || features.PLATA;
 }
 
@@ -254,4 +254,4 @@ function sanitizeUser(user) {
   };
 }
 
-export default router;
+module.exports = router;
