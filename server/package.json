@@ -1,10 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "api.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node api.js",
-    "dev": "nodemon api.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "postinstall": "prisma generate",
     "migrate": "echo 'Skipping migrations - database schema already applied'",
     "test": "echo \"Error: no test specified\" && exit 1"
