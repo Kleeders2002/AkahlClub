@@ -5,7 +5,7 @@
  * Este módulo es exclusivo del CATÁLOGO
  */
 
-const { prisma } = require('../../../../config/database');
+const { prisma } = require('../../../config/database');
 
 /**
  * Obtener configuración de precios completa

@@ -7,8 +7,8 @@
 
 const express = require('express');
 const pricingController = require('../controllers/pricingController');
-const { authMiddleware } = require('../../middleware/auth');
-const { adminMiddleware } = require('../../middleware/admin');
+const { authMiddleware } = require('../../../middleware/auth');
+const { adminMiddleware } = require('../../../middleware/admin');
 
 const router = express.Router();
 
