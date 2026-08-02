@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+enum UserStatus {
+  LEAD
+  ACTIVE
+  INACTIVE
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum MembershipTier {
+  POTENCIAL
+  PLATA
+  ORO
+}
+
+enum RegistrationSource {
+  MODAL
+  FORM
+  MANUAL
+}
+
+enum StylePreference {
+  OLD_MONEY
+  CLASSIC
+  MODERN
+}
+
+enum TipoContenido {
+  EBOOK
+  GUIA
+  VIDEO
+  TIP
+}
+
+// MODELO USUARIO
+model Usuario {
+  id                  String              @id @default(uuid())
+  email               String              @unique
+  passwordHash        String?             // Solo este campo para auth
+  isTemporaryPassword Boolean             @default(true)  // 🔐 Contraseña temporal - debe cambiar
+  createdAt           DateTime            @default(now())
+  fullName            String?
+  firstName           String?
+  lastName            String?
+  phone               String?
+  country             String?             @default("US")
+  status              UserStatus          @default(LEAD)
+  tier                MembershipTier      @default(POTENCIAL)
+  role                UserRole            @default(USER)
+  source              RegistrationSource  @default(MODAL)
+  stylePreference     StylePreference?
+  metadata            Json?
+
+  // RELACIONES
+  contenidoAccedidos UsuarioContenido[]
+
+  @@index([email])
+  @@index([status])
+  @@index([tier])
+}
+
+// MODELO CONTENIDO
+model Contenido {
+  id           String               @id @default(uuid())
+  titulo       String               @unique
+  descripcion  String
+  tipo         TipoContenido
+  url          String
+  premium      Boolean              @default(false)
+  duracion     String?
+  autor        String?
+  paginas      Int?
+  categoria    String?
+  thumbnailUrl String?
+  idioma       String              @default("es")  // 🌍 IDIOMA: "es" o "en"
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  // RELACIÓN - ESTO ES LO QUE FALTABA
+  usuariosAccedidos UsuarioContenido[]
+
+  @@index([premium])
+  @@index([idioma])  // 🌍 ÍNDICE para filtrar por idioma
+}
+
+// TABLA INTERMEDIA
+model UsuarioContenido {
+  usuarioId   String
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  contenidoId String
+  contenido   Contenido @relation(fields: [contenidoId], references: [id], onDelete: Cascade)
+  accessedAt  DateTime  @default(now())
+
+  @@id([usuarioId, contenidoId])
+  @@index([usuarioId])
+  @@index([contenidoId])
+  @@index([accessedAt])
+}

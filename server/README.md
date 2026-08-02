@@ -1,6 +1,60 @@
-# AKahl Club API - Backend
+# 🚀 PORTAL VIP + CATÁLOGO AKAHL ATELIER
 
-Servidor backend para el portal VIP de AKahl Club.
+Backend modular para:
+- 🎩 **Portal VIP** - Sistema de membresías premium
+- 🧵 **Catálogo AKAHL Atelier** - Sistema de cotización interna
+
+## 📁 ESTRUCTURA MODULAR
+
+```
+server/
+├── 📄 index.js                    ← Punto de entrada principal
+├── ⚙️ config/                     ← Configuración compartida
+│   ├── database.js               ← Cliente Prisma compartido
+│   └── pins.js                   ← Configuración de PINs del Catálogo
+├── 🔐 middleware/                 ← Middleware compartido
+│   ├── auth.js                   ← Middleware JWT
+│   └── admin.js                  ← Middleware de admin
+├── modules/
+│   ├── 🎩 VIP/                   ← Módulo de Membresías
+│   │   ├── routes/
+│   │   ├── prisma/
+│   │   │   └── schema.prisma    ← Schema VIP
+│   │   └── services/
+│   │       └── emailService.js  ← Servicio de emails
+│   └── 🧵 CATALOGO/              ← Módulo Catálogo (AKAHL Atelier)
+│       ├── routes/
+│       ├── controllers/
+│       └── prisma/
+│           └── schema.prisma    ← Schema Catálogo
+└── services/
+    └── emailService.js          ← Servicio de emails compartido
+```
+
+### 🔌 ENDPOINTS
+
+#### 🎩 MÓDULO VIP (`/api/*`):
+- Auth: `/api/auth/register`, `/api/auth/login`, `/api/auth/logout`
+- Contenido: `/api/contenido`
+- Usuarios: `/api/usuarios`
+- Pagos: `/api/stripe/*`
+- Admin: `/api/admin/*`
+- Leads: `/api/leads`
+- Members: `/api/members`
+
+#### 🧵 MÓDULO CATÁLOGO (`/api/catalogo/*`):
+- Auth: `/api/catalogo/auth/verify-pin` (PIN de 4 dígitos)
+- Telas: `/api/catalogo/fabrics/*`
+- Precios: `/api/catalogo/pricing/*`
+
+---
+
+## 🗄️ BASE DE DATOS
+
+**VIP**: `Usuario`, `Contenido`, `UsuarioContenido`
+**CATÁLOGO**: `Coleccion`, `Tela`, `TipoPrenda`, `Cotizacion`, `Multiplicador`
+
+Ambos módulos comparten la misma base de datos PostgreSQL pero tienen schemas Prisma separados.
 
 ## Stack Tecnológico
 
