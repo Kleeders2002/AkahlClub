@@ -7,7 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ENUMS
+// ============================================================
+//  ENUMS
+// ============================================================
+
 enum UserStatus {
   LEAD
   ACTIVE
@@ -44,7 +47,10 @@ enum TipoContenido {
   TIP
 }
 
-// MODELO USUARIO
+// ============================================================
+//  MODELO USUARIO
+// ============================================================
+
 model Usuario {
   id                  String              @id @default(uuid())
   email               String              @unique
@@ -71,7 +77,10 @@ model Usuario {
   @@index([tier])
 }
 
-// MODELO CONTENIDO
+// ============================================================
+//  MODELO CONTENIDO
+// ============================================================
+
 model Contenido {
   id           String               @id @default(uuid())
   titulo       String               @unique
@@ -88,14 +97,17 @@ model Contenido {
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
 
-  // RELACIÓN - ESTO ES LO QUE FALTABA
+  // RELACIÓN
   usuariosAccedidos UsuarioContenido[]
 
   @@index([premium])
-  @@index([idioma])  // 🌍 ÍNDICE para filtrar por idioma
+  @@index([idioma])
 }
 
-// TABLA INTERMEDIA
+// ============================================================
+//  TABLA INTERMEDIA
+// ============================================================
+
 model UsuarioContenido {
   usuarioId   String
   usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
@@ -107,4 +119,112 @@ model UsuarioContenido {
   @@index([usuarioId])
   @@index([contenidoId])
   @@index([accessedAt])
+}
+
+// ============================================================
+//  CATÁLOGO DE TELAS (AKAHL ATELIER)
+// ============================================================
+
+// 1. MARCAS
+model Marca {
+  id_marca      Int          @id @default(autoincrement())
+  nombre        String       @db.VarChar(100)     // "Holland & Sherry", "Dormeuil", "Scabal"
+
+  // Timestamps
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relaciones
+  colecciones   Coleccion[]
+}
+
+// 2. COLECCIONES
+model Coleccion {
+  id_coleccion      Int      @id @default(autoincrement())
+  id_marca          Int
+  nombre            String   @db.VarChar(100)     // "SUPERNOVA", "DRAGONFLY"
+  descuento_default Decimal  @default(0) @db.Decimal(5, 2) // 0.35 = 35% descuento típico
+
+  // Timestamps
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relaciones
+  marca             Marca    @relation(fields: [id_marca], references: [id_marca], onDelete: Restrict)
+  telas             Tela[]
+
+  @@index([nombre])
+  @@index([id_marca])
+}
+
+// 3. TELAS
+model Tela {
+  id_tela           Int      @id @default(autoincrement())
+  id_coleccion      Int
+  codigo            String   @db.VarChar(50)      // "1425000"
+  precio_por_yarda  Decimal  @db.Decimal(10, 2)   // Precio de lista por yarda
+  descuento         Decimal  @default(0) @db.Decimal(5, 2)  // 0.35 = 35%
+  precio_neto       Decimal  @db.Decimal(10, 2)   // Computed: precio_por_yarda * (1 - descuento)
+
+  // Timestamps
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relaciones
+  coleccion         Coleccion       @relation(fields: [id_coleccion], references: [id_coleccion], onDelete: Restrict)
+  cotizaciones      Cotizacion[]
+
+  @@index([codigo])
+}
+
+// 4. TIPOS DE PRENDA
+model TipoPrenda {
+  id_tipo_prenda     Int      @id @default(autoincrement())
+  nombre             String   @db.VarChar(50)  // "JACKET", "2 PIECES", "3 PIECES", "TROUSERS", "VEST"
+  codigo             String   @db.VarChar(20)   // Código corto: "jacket", "2-piece", etc.
+
+  // Yardaje y costos
+  yardas_requeridas  Decimal  @db.Decimal(5, 2)         // Yardas necesarias: 2.5, 4, 5, 2, 1.75
+  costo_manufactura  Decimal  @db.Decimal(10, 2)       // Costo fijo de mano de obra
+  costo_envio        Decimal  @db.Decimal(10, 2)       // Costo fijo de envío
+  costo_forro         Decimal  @default(0) @db.Decimal(10, 2)  // Costo del forro (opcional)
+  markup              Decimal  @default(3) @db.Decimal(5, 2)    // 3.0 = 300% markup
+
+  // Timestamps
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // Relaciones
+  cotizaciones       Cotizacion[]
+
+  @@index([codigo])
+}
+
+// 5. COTIZACIONES
+model Cotizacion {
+  id_cotizacion     Int      @id @default(autoincrement())
+  id_tela           Int
+  id_tipo_prenda    Int
+
+  // Datos calculados (se guardan como snapshot)
+  precio_calculado  Decimal  @db.Decimal(12, 2)
+  costo_tela        Decimal  @db.Decimal(10, 2)
+  gastos_fijos      Decimal  @db.Decimal(10, 2)
+  markup_aplicado   Decimal  @db.Decimal(5, 2)
+  yardas_usadas     Decimal  @db.Decimal(5, 2)
+
+  // Usuario que realizó la cotización (opcional si no hay auth)
+  usuario_email     String?  @db.VarChar(255)
+  usuario_nombre    String?  @db.VarChar(255)
+
+  // Timestamps
+  createdAt         DateTime @default(now())
+
+  // Relaciones
+  tela              Tela      @relation(fields: [id_tela], references: [id_tela])
+  tipo_prenda       TipoPrenda @relation(fields: [id_tipo_prenda], references: [id_tipo_prenda])
+
+  @@index([usuario_email])
+  @@index([createdAt])
+  @@index([id_tela])
 }

@@ -48,13 +48,6 @@ router.post('/', authMiddleware, _adminMiddleware, fabricController.createFabric
 router.put('/:id', authMiddleware, _adminMiddleware, fabricController.updateFabric);
 
 /**
- * @route   PATCH /api/catalogo/fabrics/:id/availability
- * @desc    Cambiar disponibilidad de tela
- * @access  Admin only
- */
-router.patch('/:id/availability', authMiddleware, _adminMiddleware, fabricController.updateAvailability);
-
-/**
  * @route   DELETE /api/catalogo/fabrics/:id
  * @desc    Eliminar tela
  * @access  Admin only

@@ -17,9 +17,8 @@ exports.getAllFabrics = async (req, res) => {
       orderBy: { codigo: 'asc' },
       include: {
         coleccion: {
-          select: {
-            nombre: true,
-            proveedor: true
+          include: {
+            marca: true
           }
         }
       }
@@ -50,7 +49,11 @@ exports.getFabricByCode = async (req, res) => {
     const tela = await prisma.tela.findFirst({
       where: { codigo: code.toUpperCase() },
       include: {
-        coleccion: true
+        coleccion: {
+          include: {
+            marca: true
+          }
+        }
       }
     })
 
@@ -93,14 +96,14 @@ exports.searchFabrics = async (req, res) => {
       SELECT
         t.*,
         c.nombre as "coleccion_nombre",
-        c.proveedor as "coleccion_proveedor"
+        m.nombre as "marca_nombre"
       FROM telas t
       LEFT JOIN colecciones c ON c.id_coleccion = t.id_coleccion
+      LEFT JOIN marcas m ON m.id_marca = c.id_marca
       WHERE
         t.codigo ILIKE ${searchTerm}
-        OR t.color ILIKE ${searchTerm}
         OR c.nombre ILIKE ${searchTerm}
-        OR c.proveedor ILIKE ${searchTerm}
+        OR m.nombre ILIKE ${searchTerm}
       ORDER BY t.codigo ASC
     `
 
@@ -127,11 +130,8 @@ exports.createFabric = async (req, res) => {
     const {
       id_coleccion,
       codigo,
-      color,
       precio_por_yarda,
-      descuento = 0,
-      disponibilidad = 'disponible',
-      visible_publico = true
+      descuento = 0
     } = req.body
 
     // Validaciones
@@ -154,35 +154,23 @@ exports.createFabric = async (req, res) => {
       })
     }
 
-    // Verificar que el código no exista en esta colección
-    const existing = await prisma.tela.findUnique({
-      where: {
-        id_coleccion_codigo: {
-          id_coleccion,
-          codigo: codigo.toUpperCase()
-        }
-      }
-    })
-
-    if (existing) {
-      return res.status(400).json({
-        success: false,
-        message: 'Fabric code already exists in this collection'
-      })
-    }
+    // Calcular precio neto
+    const precio_neto = precio_por_yarda * (1 - descuento)
 
     const tela = await prisma.tela.create({
       data: {
         id_coleccion,
         codigo: codigo.toUpperCase(),
-        color,
         precio_por_yarda,
         descuento,
-        disponibilidad,
-        visible_publico
+        precio_neto
       },
       include: {
-        coleccion: true
+        coleccion: {
+          include: {
+            marca: true
+          }
+        }
       }
     })
 
@@ -210,11 +198,8 @@ exports.updateFabric = async (req, res) => {
     const {
       id_coleccion,
       codigo,
-      color,
       precio_por_yarda,
-      descuento,
-      disponibilidad,
-      visible_publico
+      descuento
     } = req.body
 
     // Verificar que la tela existe
@@ -233,17 +218,28 @@ exports.updateFabric = async (req, res) => {
     const updateData = {}
     if (id_coleccion !== undefined) updateData.id_coleccion = id_coleccion
     if (codigo !== undefined) updateData.codigo = codigo.toUpperCase()
-    if (color !== undefined) updateData.color = color
-    if (precio_por_yarda !== undefined) updateData.precio_por_yarda = precio_por_yarda
-    if (descuento !== undefined) updateData.descuento = descuento
-    if (disponibilidad !== undefined) updateData.disponibilidad = disponibilidad
-    if (visible_publico !== undefined) updateData.visible_publico = visible_publico
+    if (precio_por_yarda !== undefined) {
+      updateData.precio_por_yarda = precio_por_yarda
+      // Recalcular precio_neto si cambia precio_por_yarda
+      const descuentoValue = descuento !== undefined ? descuento : existing.descuento
+      updateData.precio_neto = precio_por_yarda * (1 - descuentoValue)
+    }
+    if (descuento !== undefined) {
+      updateData.descuento = descuento
+      // Recalcular precio_neto si cambia descuento
+      const precioValue = precio_por_yarda !== undefined ? precio_por_yarda : existing.precio_por_yarda
+      updateData.precio_neto = precioValue * (1 - descuento)
+    }
 
     const tela = await prisma.tela.update({
       where: { id_tela: parseInt(id) },
       data: updateData,
       include: {
-        coleccion: true
+        coleccion: {
+          include: {
+            marca: true
+          }
+        }
       }
     })
 
@@ -256,51 +252,6 @@ exports.updateFabric = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error updating fabric'
-    })
-  }
-}
-
-/**
- * Cambiar disponibilidad de tela (ADMIN only)
- * @route PATCH /api/fabrics/:id/availability
- */
-exports.updateAvailability = async (req, res) => {
-  try {
-    const { id } = req.params
-    const { disponibilidad } = req.body
-
-    const validValues = ['disponible', 'agotado', 'por_pedido', 'descontinuado']
-    if (!disponibilidad || !validValues.includes(disponibilidad)) {
-      return res.status(400).json({
-        success: false,
-        message: `Invalid availability value. Must be one of: ${validValues.join(', ')}`
-      })
-    }
-
-    const tela = await prisma.tela.update({
-      where: { id_tela: parseInt(id) },
-      data: { disponibilidad },
-      include: {
-        coleccion: true
-      }
-    })
-
-    if (!tela) {
-      return res.status(404).json({
-        success: false,
-        message: 'Fabric not found'
-      })
-    }
-
-    res.json({
-      success: true,
-      data: tela
-    })
-  } catch (error) {
-    console.error('Error updating availability:', error)
-    res.status(500).json({
-      success: false,
-      message: 'Error updating availability'
     })
   }
 }

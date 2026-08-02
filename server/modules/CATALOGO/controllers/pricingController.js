@@ -18,9 +18,6 @@ exports.getPricingConfig = async (req, res) => {
       orderBy: { codigo: 'asc' }
     })
 
-    // Obtener multiplicadores personalizados (si existen)
-    const multiplicadores = await prisma.multiplicador.findMany()
-
     // Construir configuración
     const config = {
       tipos_prenda: tiposPrenda.map(t => ({
@@ -32,18 +29,7 @@ exports.getPricingConfig = async (req, res) => {
         costo_envio: parseFloat(t.costo_envio),
         costo_forro: parseFloat(t.costo_forro),
         markup: parseFloat(t.markup)
-      })),
-      multiplicadores: multiplicadores.length > 0
-        ? multiplicadores.reduce((acc, m) => {
-            const key = `${m.tipo_manufactura}_${m.tipo_prenda_codigo}`
-            acc[key] = {
-              tipo_manufactura: m.tipo_manufactura,
-              tipo_prenda_codigo: m.tipo_prenda_codigo,
-              valor: parseFloat(m.valor)
-            }
-            return acc
-          }, {})
-        : null
+      }))
     }
 
     res.json({
@@ -60,74 +46,53 @@ exports.getPricingConfig = async (req, res) => {
 }
 
 /**
- * Actualizar multiplicadores de precio (ADMIN only)
- * @route PUT /api/pricing/multipliers
+ * Actualizar tipos de prenda (ADMIN only)
+ * @route PUT /api/pricing/tipos-prenda
  */
-exports.updateMultipliers = async (req, res) => {
+exports.updateTipoPrenda = async (req, res) => {
   try {
-    const { multiplicadores } = req.body
+    const { tipos_prenda } = req.body
 
-    if (!multiplicadores || !Array.isArray(multiplicadores)) {
+    if (!tipos_prenda || !Array.isArray(tipos_prenda)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid multiplicadores structure. Expected array.'
+        message: 'Invalid tipos_prenda structure. Expected array.'
       })
     }
 
-    // Procesar cada multiplicador
     const resultados = []
-    for (const mult of multiplicadores) {
-      const { tipo_manufactura, tipo_prenda_codigo, valor } = mult
+    for (const tipo of tipos_prenda) {
+      const { id_tipo_prenda, codigo, yardas_requeridas, costo_manufactura, costo_envio, costo_forro, markup } = tipo
 
-      // Validar
-      if (!tipo_manufactura || !tipo_prenda_codigo || valor === undefined) {
+      if (!id_tipo_prenda) {
         continue
       }
 
-      // Verificar que el tipo de prenda existe
-      const tipoPrenda = await prisma.tipoPrenda.findUnique({
-        where: { codigo: tipo_prenda_codigo }
-      })
+      const updateData = {}
+      if (yardas_requeridas !== undefined) updateData.yardas_requeridas = yardas_requeridas
+      if (costo_manufactura !== undefined) updateData.costo_manufactura = costo_manufactura
+      if (costo_envio !== undefined) updateData.costo_envio = costo_envio
+      if (costo_forro !== undefined) updateData.costo_forro = costo_forro
+      if (markup !== undefined) updateData.markup = markup
 
-      if (!tipoPrenda) {
-        return res.status(400).json({
-          success: false,
-          message: `Tipo de prenda no encontrado: ${tipo_prenda_codigo}`
-        })
-      }
-
-      // Upsert del multiplicador
-      const resultado = await prisma.multiplicador.upsert({
-        where: {
-          tipo_manufactura_tipo_prenda_codigo: {
-            tipo_manufactura,
-            tipo_prenda_codigo
-          }
-        },
-        update: { valor },
-        create: {
-          tipo_manufactura,
-          tipo_prenda_codigo,
-          valor
-        }
+      const resultado = await prisma.tipoPrenda.update({
+        where: { id_tipo_prenda },
+        data: updateData
       })
 
       resultados.push(resultado)
     }
 
-    // Retornar configuración actualizada
-    const config = await getPricingConfigData()
-
     res.json({
       success: true,
-      data: config,
-      message: 'Multipliers updated successfully'
+      data: resultados,
+      message: 'Tipos de prenda actualizados exitosamente'
     })
   } catch (error) {
-    console.error('Error updating multipliers:', error)
+    console.error('Error updating tipo prenda:', error)
     res.status(500).json({
       success: false,
-      message: 'Error updating multipliers'
+      message: 'Error updating tipo prenda'
     })
   }
 }
@@ -139,7 +104,6 @@ exports.updateMultipliers = async (req, res) => {
 exports.calculatePrice = async (req, res) => {
   try {
     const {
-      tipo_manufactura = 'bespoke',
       tipo_prenda_codigo,
       id_tela,
       codigo_tela,
@@ -180,12 +144,24 @@ exports.calculatePrice = async (req, res) => {
     if (codigo_tela) {
       tela = await prisma.tela.findFirst({
         where: { codigo: codigo_tela.toUpperCase() },
-        include: { coleccion: true }
+        include: {
+          coleccion: {
+            include: {
+              marca: true
+            }
+          }
+        }
       })
     } else {
       tela = await prisma.tela.findUnique({
         where: { id_tela: parseInt(id_tela) },
-        include: { coleccion: true }
+        include: {
+          coleccion: {
+            include: {
+              marca: true
+            }
+          }
+        }
       })
     }
 
@@ -196,42 +172,13 @@ exports.calculatePrice = async (req, res) => {
       })
     }
 
-    // Verificar disponibilidad
-    if (tela.disponibilidad === 'agotado') {
-      return res.status(400).json({
-        success: false,
-        message: 'Tela agotada'
-      })
-    }
-
-    if (tela.disponibilidad === 'descontinuado') {
-      return res.status(400).json({
-        success: false,
-        message: 'Tela descontinuada'
-      })
-    }
-
     // Obtener valores base
     const yardas_requeridas = parseFloat(tipoPrenda.yardas_requeridas)
     const precio_neto = parseFloat(tela.precio_neto)
     const costo_manufactura = parseFloat(tipoPrenda.costo_manufactura)
     const costo_envio = parseFloat(tipoPrenda.costo_envio)
     const costo_forro = parseFloat(tipoPrenda.costo_forro)
-
-    // Buscar multiplicador personalizado (si existe)
-    let markup = parseFloat(tipoPrenda.markup)
-    const multiplicadorPersonalizado = await prisma.multiplicador.findUnique({
-      where: {
-        tipo_manufactura_tipo_prenda_codigo: {
-          tipo_manufactura,
-          tipo_prenda_codigo
-        }
-      }
-    })
-
-    if (multiplicadorPersonalizado) {
-      markup = parseFloat(multiplicadorPersonalizado.valor)
-    }
+    const markup = parseFloat(tipoPrenda.markup)
 
     // Calcular costos
     const costo_tela = precio_neto * yardas_requeridas
@@ -244,8 +191,9 @@ exports.calculatePrice = async (req, res) => {
       tela: {
         id_tela: tela.id_tela,
         codigo: tela.codigo,
-        color: tela.color,
+        codigo_completo: `${tela.coleccion.marca.nombre} ${tela.coleccion.nombre} ${tela.codigo}`,
         coleccion: tela.coleccion.nombre,
+        marca: tela.coleccion.marca.nombre,
         precio_por_yarda: parseFloat(tela.precio_por_yarda),
         descuento: parseFloat(tela.descuento),
         precio_neto
@@ -255,7 +203,6 @@ exports.calculatePrice = async (req, res) => {
         nombre: tipoPrenda.nombre,
         codigo: tipoPrenda.codigo
       },
-      tipo_manufactura,
       desglose: {
         costo_tela: Math.round(costo_tela * 100) / 100,
         gastos_fijos: Math.round(gastos_fijos * 100) / 100,
@@ -271,7 +218,6 @@ exports.calculatePrice = async (req, res) => {
         data: {
           id_tela: tela.id_tela,
           id_tipo_prenda: tipoPrenda.id_tipo_prenda,
-          tipo_manufactura,
           precio_calculado: resultado.precio_final,
           costo_tela: resultado.desglose.costo_tela,
           gastos_fijos: resultado.desglose.gastos_fijos,
@@ -316,7 +262,11 @@ exports.getQuotations = async (req, res) => {
       include: {
         tela: {
           include: {
-            coleccion: true
+            coleccion: {
+              include: {
+                marca: true
+              }
+            }
           }
         },
         tipo_prenda: true
@@ -375,7 +325,7 @@ exports.getInternalView = async (req, res) => {
  */
 exports.getPublicCatalog = async (req, res) => {
   try {
-    const { tipo_prenda_codigo, disponibilidad } = req.query
+    const { tipo_prenda_codigo } = req.query
 
     let whereClauses = []
     let paramCount = 0
@@ -385,16 +335,6 @@ exports.getPublicCatalog = async (req, res) => {
       whereClauses.push(`tipo_prenda_codigo = $${paramCount}`)
     }
 
-    if (disponibilidad) {
-      // 'disponible' incluye 'disponible' y 'por_pedido'
-      if (disponibilidad === 'disponible') {
-        whereClauses.push(`estado IN ('Disponible', 'Disponible por pedido')`)
-      } else {
-        paramCount++
-        whereClauses.push(`estado = $${paramCount}`)
-      }
-    }
-
     const whereSQL = whereClauses.length > 0
       ? `WHERE ${whereClauses.join(' AND ')}`
       : ''
@@ -402,18 +342,13 @@ exports.getPublicCatalog = async (req, res) => {
     const query = `
       SELECT * FROM vista_publica_catalogo
       ${whereSQL}
-      ORDER BY coleccion, color, tipo_prenda
+      ORDER BY coleccion, codigo, tipo_prenda
     `
 
     let vista
-    if (tipo_prenda_codigo || disponibilidad) {
+    if (tipo_prenda_codigo) {
       const params = []
       if (tipo_prenda_codigo) params.push(tipo_prenda_codigo)
-      if (disponibilidad && disponibilidad !== 'disponible') {
-        if (disponibilidad === 'Agotado') params.push('Agotado')
-        else if (disponibilidad === 'Disponible por pedido') params.push('Disponible por pedido')
-        else if (disponibilidad === 'Ya no disponible') params.push('Ya no disponible')
-      }
 
       vista = await prisma.$queryRawUnsafe(query, params)
     } else {
@@ -431,36 +366,5 @@ exports.getPublicCatalog = async (req, res) => {
       success: false,
       message: 'Error fetching public catalog'
     })
-  }
-}
-
-// Helper function para obtener configuración
-async function getPricingConfigData() {
-  const tiposPrenda = await prisma.tipoPrenda.findMany({
-    orderBy: { codigo: 'asc' }
-  })
-
-  const multiplicadores = await prisma.multiplicador.findMany()
-
-  return {
-    tipos_prenda: tiposPrenda.map(t => ({
-      id: t.id_tipo_prenda,
-      nombre: t.nombre,
-      codigo: t.codigo,
-      yardas_requeridas: parseFloat(t.yardas_requeridas),
-      costo_manufactura: parseFloat(t.costo_manufactura),
-      costo_envio: parseFloat(t.costo_envio),
-      costo_forro: parseFloat(t.costo_forro),
-      markup: parseFloat(t.markup)
-    })),
-    multiplicadores: multiplicadores.reduce((acc, m) => {
-      const key = `${m.tipo_manufactura}_${m.tipo_prenda_codigo}`
-      acc[key] = {
-        tipo_manufactura: m.tipo_manufactura,
-        tipo_prenda_codigo: m.tipo_prenda_codigo,
-        valor: parseFloat(m.valor)
-      }
-      return acc
-    }, {})
   }
 }

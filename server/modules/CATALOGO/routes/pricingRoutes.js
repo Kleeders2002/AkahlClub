@@ -14,17 +14,17 @@ const router = express.Router();
 
 /**
  * @route   GET /api/pricing/config
- * @desc    Obtener configuración de precios (tipos de prenda y multiplicadores)
+ * @desc    Obtener configuración de precios (tipos de prenda)
  * @access  Public (AKAHL Atelier usa PIN local)
  */
 router.get('/config', pricingController.getPricingConfig)
 
 /**
- * @route   PUT /api/pricing/multipliers
- * @desc    Actualizar multiplicadores de precio
+ * @route   PUT /api/pricing/tipos-prenda
+ * @desc    Actualizar tipos de prenda (costos y yardas)
  * @access  Admin only
  */
-router.put('/multipliers', authMiddleware, adminMiddleware, pricingController.updateMultipliers)
+router.put('/tipos-prenda', authMiddleware, adminMiddleware, pricingController.updateTipoPrenda)
 
 /**
  * @route   POST /api/pricing/calculate
