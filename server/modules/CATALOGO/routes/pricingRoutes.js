@@ -34,6 +34,13 @@ router.put('/tipos-prenda', authMiddleware, adminMiddleware, pricingController.u
 router.post('/calculate', pricingController.calculatePrice)
 
 /**
+ * @route   POST /api/pricing/calculate-all
+ * @desc    Calcular precios para TODOS los tipos de prenda de una vez
+ * @access  Public (AKAHL Atelier usa PIN local)
+ */
+router.post('/calculate-all', pricingController.calculateAllPrices)
+
+/**
  * @route   GET /api/pricing/quotations
  * @desc    Obtener historial de cotizaciones
  * @access  Admin only

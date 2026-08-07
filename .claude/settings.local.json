@@ -33,7 +33,26 @@
       "Bash(echo:*)",
       "Bash(tee:*)",
       "Bash(apt-get:*)",
-      "Bash(apt-get install:*)"
+      "Bash(apt-get install:*)",
+      "Bash(grep -r \"require.*\\\\.\\\\./\\\\.\\\\.\" server/modules/VIP/routes/ --include=\"*.js\")",
+      "Bash(grep -r \"require.*\\\\.\\\\./\\\\.\\\\.\" server/modules/CATALOGO/ --include=\"*.js\")",
+      "Bash(npx prisma *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'refactor: Unificar schema Prisma y simplificar modelo de catálogo de telas *)",
+      "Bash(git push *)",
+      "Bash(node prisma/seed.js)",
+      "Bash(node -e ' *)",
+      "Bash(git commit -m 'feat: Agregar unique constraint a TipoPrenda.codigo y seed del catálogo *)",
+      "Bash(curl -X POST http://localhost:3000/api/pricing/calculate -H \"Content-Type: application/json\" -d '{\"tipo_prenda_codigo\": \"jacket\", \"codigo_tela\": \"1425000\"}')",
+      "Bash(npm start *)",
+      "Bash(curl -X POST http://localhost:4000/api/pricing/calculate -H \"Content-Type: application/json\" -d '{\"tipo_prenda_codigo\": \"jacket\", \"codigo_tela\": \"1425000\"}')",
+      "Bash(\"/c/Program Files/Git/bin/git.exe\" status)",
+      "Bash(\"/usr/bin/git\" status *)",
+      "Bash(\"/c/Program Files/Git/bin/git.exe\" add server/prisma/seed.js)",
+      "Bash(\"/c/Program Files/Git/bin/git.exe\" commit -m \"fix: Actualizar costo_envio de JACKET de 200 a 150 en seed.js\")",
+      "Bash(\"/c/Program Files/Git/bin/git.exe\" push)",
+      "Bash(\"/c/Program Files/Git/bin/git.exe\" add -A)",
+      "Bash('/c/Program Files/Git/bin/git.exe' commit -m 'feat: Agregar endpoint calculate-all para calcular todos los precios de una vez *)"
     ]
   }
 }

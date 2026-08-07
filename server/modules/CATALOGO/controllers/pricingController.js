@@ -320,6 +320,116 @@ exports.getInternalView = async (req, res) => {
 }
 
 /**
+ * Calcular precios para TODOS los tipos de prenda de una sola vez
+ * @route POST /api/pricing/calculate-all
+ * ⚡ SUPER EFICIENTE: 2 queries únicos, todo el cálculo en memoria
+ */
+exports.calculateAllPrices = async (req, res) => {
+  try {
+    const { codigo_tela, id_tela } = req.body
+
+    // Validación
+    if (!codigo_tela && !id_tela) {
+      return res.status(400).json({
+        success: false,
+        message: 'Either codigo_tela or id_tela is required'
+      })
+    }
+
+    // ⚡ OPTIMIZACIÓN: Un solo query para obtener la tela con sus relaciones
+    let tela
+    if (codigo_tela) {
+      tela = await prisma.tela.findFirst({
+        where: { codigo: codigo_tela.toUpperCase() },
+        include: {
+          coleccion: {
+            include: {
+              marca: true
+            }
+          }
+        }
+      })
+    } else {
+      tela = await prisma.tela.findUnique({
+        where: { id_tela: parseInt(id_tela) },
+        include: {
+          coleccion: {
+            include: {
+              marca: true
+            }
+          }
+        }
+      })
+    }
+
+    if (!tela) {
+      return res.status(404).json({
+        success: false,
+        message: 'Tela no encontrada'
+      })
+    }
+
+    // ⚡ OPTIMIZACIÓN: Un solo query para obtener TODOS los tipos de prenda
+    const tiposPrenda = await prisma.tipoPrenda.findMany({
+      orderBy: { codigo: 'asc' }
+    })
+
+    const precio_neto = parseFloat(tela.precio_neto)
+
+    // ⚡ CÁLCULO EN MEMORIA: Super rápido, sin queries adicionales
+    const precios = tiposPrenda.map(tipo => {
+      const yardas_requeridas = parseFloat(tipo.yardas_requeridas)
+      const costo_manufactura = parseFloat(tipo.costo_manufactura)
+      const costo_envio = parseFloat(tipo.costo_envio)
+      const costo_forro = parseFloat(tipo.costo_forro)
+      const markup = parseFloat(tipo.markup)
+
+      // Cálculos
+      const costo_tela = precio_neto * yardas_requeridas
+      const gastos_fijos = costo_manufactura + costo_envio + costo_forro
+      const costo_total = costo_tela + gastos_fijos
+      const precio_final = costo_total * markup
+
+      return {
+        tipo_prenda: tipo.nombre,
+        codigo: tipo.codigo,
+        precio_final: Math.round(precio_final * 100) / 100,
+        desglose: {
+          costo_tela: Math.round(costo_tela * 100) / 100,
+          gastos_fijos: Math.round(gastos_fijos * 100) / 100,
+          costo_total: Math.round(costo_total * 100) / 100,
+          markup: Math.round(markup * 100) / 100,
+          yardas_requeridas
+        }
+      }
+    })
+
+    res.json({
+      success: true,
+      data: {
+        tela: {
+          id_tela: tela.id_tela,
+          codigo: tela.codigo,
+          codigo_completo: `${tela.coleccion.marca.nombre} ${tela.coleccion.nombre} ${tela.codigo}`,
+          coleccion: tela.coleccion.nombre,
+          marca: tela.coleccion.marca.nombre,
+          precio_por_yarda: parseFloat(tela.precio_por_yarda),
+          descuento: parseFloat(tela.descuento),
+          precio_neto
+        },
+        precios
+      }
+    })
+  } catch (error) {
+    console.error('Error calculating all prices:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Error calculating prices'
+    })
+  }
+}
+
+/**
  * Obtener vista pública del catálogo
  * @route GET /api/pricing/public-catalog
  */
