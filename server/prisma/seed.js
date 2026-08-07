@@ -173,7 +173,7 @@ async function main() {
       codigo: "jacket",
       yardas_requeridas: 2.5,
       costo_manufactura: 350,
-      costo_envio: 200,
+      costo_envio: 150,
       costo_forro: 125,
       markup: 3
     },
